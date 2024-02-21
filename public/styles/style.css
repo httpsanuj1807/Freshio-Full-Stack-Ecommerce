@@ -1183,35 +1183,73 @@ align-items: center;
     }
     .style-item-5{
         grid-column-start:1;
-       /* grid-column-end: 3; */
        grid-row-start: 3;
        grid-row-end: 4;
     }
 
-    
-    .style-item-text-div2{
-        position: absolute;
-        left: 15%;
-        top: 10%;
-        /* border: 2px solid green; */
-        height: 100px;
-        width: 200px;
-    }
     .style-item-text-div4{
-        position: absolute;
         left: 20%;
         top: 0px;
-        /* border: 2px solid green; */
-        height: 120px;
-        width: 100px;
     }
     .style-item-text-div5{
-        position: absolute;
         left: 20%;
         top: 0px;
-        /* border: 2px solid green; */
-        height: 100px;
-        width: 120px;
+    }
+
+    .banner-container{
+        height: 400px;
+    }
+
+    .freshAndTasty{
+        font-family: "Greatest Richmond";
+        color: #a8b324;
+        font-size: 1rem;
+    }
+    .farmMarket{
+        font-family: "MazzardH-Medium";
+        color: #0a472e;
+        font-weight: 700;
+        font-size: 1.4rem;
+    }
+    
+    .item-one-inner .freshAndTasty{
+        padding-bottom: 10px;
+    }
+    .item-one-inner{
+        padding-left: 20px;
+        
+    }
+
+    .item-one-inner{
+        background-color: #f9f1e4;
+        height: 100%;
+        position: relative;
+        border-radius: 5px;
+        padding-top: 30px;
+        background-image: 
+        url(/public/images/Homepage/h3_leaf-1.png),
+        url(/public/images/Homepage/h3_leaf-2.png),
+        url(/public/images/Homepage/h3_leaf-3.png),
+        url(/public/images/Homepage/h3_leaf-4.png),
+        url(/public/images/Homepage/rev-slider_h2_img2.png), 
+        url(/public/images/Homepage/rev-slider_h2_img3.png);
+        background-repeat: no-repeat;
+        background-position:
+        top 110px left 240px,  /* leaf 1*/
+        top 130px left 160px,  /* leaf 2*/
+        top 320px left 120px,  /* leaf 3*/
+        top 150px left 40px,   /* leaf 4*/
+        /* top 45px left 350px,    main 1 */
+        /* top 390px left -200px;   main 2 */
+        top 150px left 100px,    /* main 1*/
+        top 200px left -150px;  
+        background-size: 50%,
+        40%,
+        30%,
+        30%,
+        90%,
+        90%
+        ;
     }
 }
 
