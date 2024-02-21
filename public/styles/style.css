@@ -800,6 +800,7 @@ align-items: center;
     text-align: center;
     color: #fff;
     font-size: 1.2rem;
+    /* background-color: red; */
 }
 
 .banner-div-2{
@@ -828,18 +829,20 @@ align-items: center;
    background-size: 120%;
    transition: all ease 0.4s;
 }
+
+
+.style-item-4{
+    position: relative;
+    background-image: url(/public/images/Homepage/packagefoods.jpg);
+    border-radius: 5px;
+    background-size: 120%;
+    transition: all ease 0.4s;
+}
 .style-item-3{
     position: relative;
     grid-row-start: 1;
     grid-row-end: 3;
     background-image: url(/public/images/Homepage/healthandwellness.jpg);
-    border-radius: 5px;
-    background-size: 120%;
-    transition: all ease 0.4s;
-}
-.style-item-4{
-    position: relative;
-    background-image: url(/public/images/Homepage/packagefoods.jpg);
     border-radius: 5px;
     background-size: 120%;
     transition: all ease 0.4s;
@@ -1023,6 +1026,11 @@ align-items: center;
             row-gap: 30px;
             
         }
+
+        .banner-div-2{
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
         .feature-products{
             display: flex;
             flex-direction:column ;
@@ -1030,16 +1038,115 @@ align-items: center;
             align-items: center;
             height: 70px;
         }
+
+        .banner-container-2{
+            height: 450px;
+        }
+
+        .style-item-1{
+            grid-row-start: 1;
+            grid-row-end: 3;
+            /* background-position: center; */
+        }
+        .style-item-2{
+           grid-column-start:2;
+           grid-column-end: 4;
+           grid-row-start: 1;
+        }
+        .style-item-3{
+            display: none;
+            visibility: hidden;
+        }
+        
+    }
+    @media (min-width: 1285px) and (max-width: 1400px){
+
+        .banner-div-2{
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .banner-container-2{
+            height: 500px;
+        }
+
+        .style-item-1{
+            grid-row-start: 1;
+            grid-row-end: 3;
+            /* background-position: center; */
+        }
+        .style-item-2{
+           grid-column-start:2;
+           grid-column-end: 4;
+           grid-row-start: 1;
+        }
+        .style-item-3{
+            display: none;
+            visibility: hidden;
+        }
         
     }
     
+
+    @media(max-width:980px){
+        .banner-container-2{
+            height: 400px;
+        }
+    }
+
+   
+    
+   
+
+    @media  (max-width: 890px){
+
+        .banner-div-2{
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .banner-container-2{
+            height: 480px;
+        }
+
+        .style-item-1{
+            display: none;
+            /* background-position: center; */
+        }
+        .style-item-2{
+           grid-column-start:1;
+           grid-column-end: 3;
+           grid-row-start: 1;
+        }
+        .style-item-3{
+            display: none;
+            visibility: hidden;
+        }
+        .style-item-4{
+            grid-column-start:1;
+           grid-column-end: 2;
+           grid-row-start: 2;
+        }
+        .style-item-5{
+            grid-column-start:2;
+           grid-column-end: 3;
+           grid-row-start: 2;
+        }
+        
+    }
+
     @media (max-width:680px){
         .products-grid{
             row-gap: 30px;
             grid-template-columns: 1fr;
         } 
+        .banner-container-2{
+            height: 430px;
+        }
+
     }
 
+    
 
     
     
