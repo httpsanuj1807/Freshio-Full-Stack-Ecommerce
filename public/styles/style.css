@@ -674,7 +674,6 @@ align-items: center;
     position: relative;
     /* border: 5px solid pink; */
     overflow: hidden;
-
 }
 .product-img{
     width: 100%;
@@ -998,8 +997,22 @@ align-items: center;
 @media(max-width:1285px){
     .products-grid{
         grid-template-columns: 1fr 1fr ;
-        row-gap: 30px;
-        
+        row-gap: 30px;  
+    }
+
+    .img-div{
+        height: 200px;
+        width: 200px;
+    }
+
+    .hidden-features{
+        bottom: -25%;
+        left: 18%;
+    }
+
+    .div-item:hover .hidden-features{
+        left: 18%;
+        bottom: 5%;
     }
 
     .banner-div-2{
