@@ -959,10 +959,79 @@ align-items: center;
 
 
 
+.testimonial-container{
+    height: 400px;
+    padding: 0 30px;
+    margin-top: 65px;
+}
 
+.testimonial-div{
+    height: 100%;
+    display: flex;
+    
+}
 
+.testimonial-img-div{
+    height: 100%;
+    width: 50%;
+    padding-left: 20px;
+}
+.testimonial-img-div img{
+    border-radius: 4px;
+    object-fit: contain;
+    height: 100%;
+    
+}
+.testimonial-content-div{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 100px;
+}
 
+.testimonial-text-div{
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+.testimonial-text-div h2{
+    color: #0a472e;
+    font-family: "MazzardH-Medium";
+    font-weight: 600;
+    font-size: 2rem;
+    padding:  20px 0;
+    font-weight: 900;
+}
+.testimonial-text-div p{
+    color: #555;
+    line-height: 1.5;
+    font-family: 
+    "MazzardH-Medium";
+    padding: 15px 0;
+}
+.testimonial-text-div span{
+    color:  #a8b324 ;
+    font-family: "MazzardH-Medium";
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 30px;
+}
 
+.testimonial-text-div span a{
+    position: relative;
+}
+.store-location-link:after{
+    content: '';
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    border-width: 0 0 1px;
+    border-style: solid;
+}
 
 
 
