@@ -428,6 +428,7 @@ main{
 .vitamins{
     padding: 20px 0;
     color: #ffffff;
+    text-align: center;
 }
 
 .freshAndTasty{
@@ -652,6 +653,12 @@ align-items: center;
 
 .products-container{
     margin-top: 20px;
+    width: 100%;
+    padding: 0px 30px 30px 30px;
+   
+}
+.products-container-2{
+    margin-top: 65px;
     width: 100%;
     padding: 0px 30px 30px 30px;
    
