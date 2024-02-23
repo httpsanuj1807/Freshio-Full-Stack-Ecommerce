@@ -1036,6 +1036,45 @@ align-items: center;
     border-style: solid;
 }
 
+.eco-friendly-container{
+    margin-top: 65px;
+    height: 220px;
+    padding: 0 30px;
+}
+
+
+
+
+.eco-friendly-div{
+    height: 100%;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    /* border: 2px solid green; */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.slide{
+    width: 16%;
+    /* border: 2px solid orange; */
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slide svg{
+    height: 50%;
+    opacity: 0.3;
+}
+
+.slide svg:hover{
+    opacity: 1;
+    cursor: pointer;
+    fill: #0a472e;
+}
+
 
 
 
@@ -1194,6 +1233,16 @@ align-items: center;
     .banner-container-2{
         height: 400px;
     }
+    
+    .slide svg{
+        height: 60%;
+        opacity: 0.3;
+    }
+
+    .eco-friendly-container{
+        height: 150px;
+        /* background-color: green; */
+    }
 }
 
 @media  (max-width: 890px){
@@ -1291,6 +1340,17 @@ align-items: center;
         
         padding-right: 0;
     }
+
+    
+    .slide svg{
+        height: 50%;
+        opacity: 0.3;
+    }
+
+    .eco-friendly-container{
+        height: 150px;
+        /* background-color: orange; */
+    }
    
 }
 
@@ -1302,6 +1362,7 @@ align-items: center;
     .banner-container-2{
         height: 430px;
     }
+    
 
 
 }
@@ -1404,6 +1465,15 @@ align-items: center;
     .testimonial-div{
         flex-direction:column ;
         padding: 0 0;
+    }
+
+    .eco-friendly-container{
+        height: 120px;
+        /* background-color: red; */
+    }
+    .slide svg{
+        height: 50%;
+        opacity: 0.3;
     }
 }
 
