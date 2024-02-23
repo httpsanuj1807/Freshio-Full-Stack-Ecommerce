@@ -968,7 +968,6 @@ align-items: center;
 .testimonial-div{
     height: 100%;
     display: flex;
-    
 }
 
 .testimonial-img-div{
@@ -977,6 +976,7 @@ align-items: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; 
 }
 .testimonial-img-div img{
     border-radius: 4px;
@@ -1037,13 +1037,6 @@ align-items: center;
 }
 
 
-.live-a-natural{
-    position: relative;
-    height:380px;
-    width: 300px;
-    bottom: 280px;
-    left: 400px;
-}
 
 
 
