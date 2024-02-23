@@ -1310,14 +1310,6 @@ align-items: center;
         height: 430px;
     }
 
-    .testimonial-container{
-        height: 550px;
-    }
-
-    .testimonial-div{
-        flex-direction:column ;
-        padding: 0 0%;
-    }
 
 }
 @media (max-width:590px){
@@ -1410,6 +1402,15 @@ align-items: center;
         90%,
         90%
         ;
+    }
+    
+    .testimonial-container{
+        height: 550px;
+    }
+
+    .testimonial-div{
+        flex-direction:column ;
+        padding: 0 0;
     }
 }
 
