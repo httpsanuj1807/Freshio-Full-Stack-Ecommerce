@@ -1080,12 +1080,12 @@ align-items: center;
 
 .support-div{
     height: 100%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
 .contact-div{
-    width: 70%;
     height: 100%;
     width: 49%;
     display: flex;
@@ -1115,7 +1115,7 @@ align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding:0 0px 0 50px;
+    padding:0 0px 0 5%;
     line-height: 1.5;
     font-family: "MazzardH-Medium";
 }
@@ -1143,6 +1143,7 @@ align-items: center;
     margin-bottom: 20px;
 }
 .contact-text input{
+    width: 90%;
     height: 40px;
     padding: 4px 20px;
     border-radius: 30px;
@@ -1391,6 +1392,26 @@ align-items: center;
     .testimonial-text-div p{
         padding: 5px 0;
     }
+
+    .support-container{
+        height: 350px;
+        /* border: 5px solid black; */
+    }
+    
+    .support-div{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .contact-div{
+        width: 100%;
+        padding:0 10%;
+        display: flex;
+        border: none;
+    }
     
 
 }
@@ -1447,6 +1468,7 @@ align-items: center;
     .banner-container-2{
         height: 430px;
     }
+
     
 
 
@@ -1560,6 +1582,30 @@ align-items: center;
         height: 50%;
         opacity: 0.3;
     }
+
+    .support-container{
+        height: 350px;
+        /* border: 5px solid red; */
+    }
+    
+    .support-div{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .contact-div{
+        width: 100%;
+        padding:0 10%;
+        display: flex;
+        border: none;
+    }
+    .contact-text h1{
+        font-size: 1.2rem;
+    }
+    
 }
 
 
