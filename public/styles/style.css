@@ -79,7 +79,7 @@ Utility classes
     color:#a8b324
 }
 main{
-    height: 10000px;
+    /* height: 10000px; */
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
@@ -1147,9 +1147,19 @@ align-items: center;
     height: 40px;
     padding: 4px 20px;
     border-radius: 30px;
+    position: relative;
     font-size: 1.2rem;
     border: 1px solid #555555;
     outline: none;
+}
+.contact-text input::before{
+    content: '';
+    height: 200%;
+    width: 100%;
+    position: absolute;
+    background-color: black;
+    top: -100%;
+    left: 50px;
 }
 .contact-text input:focus-within{
     border: 2px solid #a8b324;
@@ -1220,6 +1230,24 @@ align-items: center;
     height: 25px;
     margin-right:10px;
     margin-top: 0;
+}
+
+.footer-container{
+    height: 100px;
+}
+.footer-div{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "MazzardH-Medium"; 
+}
+
+.footer-div a{
+    text-decoration: none;
+    color: #a8b324;
+    cursor: pointer;
 }
 
 
