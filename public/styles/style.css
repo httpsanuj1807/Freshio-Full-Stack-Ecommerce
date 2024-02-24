@@ -1170,16 +1170,17 @@ align-items: center;
 .links-div{
     height: 100%;
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     font-family: "MazzardH-Medium";
-    padding: 20px 0;
+    column-gap: 15px;
+    padding: 20px;
 }
 .links-flex-item{
-    width: 20%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding:0 3% ;
+    padding:0 15% ;
 }
 .links-flex-item h5{
     font-size: 0.75rem;
@@ -1392,24 +1393,10 @@ align-items: center;
     .feature-grid{
         grid-template-columns: 1fr 1fr;
     }
-    .links-div{
-        flex-direction: column;
-        align-items: center;
-    }
-    .links-flex-item{
-        width: 70%;
-        text-align: center;
-        margin-bottom: 50px;
-    }
-    .links-flex-item img{
-        object-fit: contain;
-        margin: 0 auto;
-        margin-bottom: 30px;
-    }
-    .social-div{
-        width: 50%;
-        margin: 0 auto;
-    }
+    /* .links-div{
+        grid-template-columns: 1;
+    } */
+
    
 }
 @media (min-width:1000px){
@@ -1462,6 +1449,11 @@ align-items: center;
 }
 
 @media(max-width:980px){
+
+    .links-div{
+        grid-template-columns: 1fr 1fr;
+        row-gap: 80px;
+    }
     .banner-container-2{
         height: 400px;
     }
@@ -1750,6 +1742,15 @@ align-items: center;
     }
     .contact-text h1{
         font-size: 1.2rem;
+    }
+    .links-div{
+        column-gap: 0;
+    }
+    .links-flex-item{
+        padding:0 5% ;
+    }
+    .specific-padding{
+        padding-left:20%;
     }
     
 }
