@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freshio</title>
-    <link rel="stylesheet" href="../public/styles/style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,100,0,0" />
     <link href="https://db.onlinewebfonts.com/c/875fffdfa62169a0f131e90f37f1faf4?family=MazzardH-Medium" rel="stylesheet" type="text/css"/>
 
@@ -12,9 +12,9 @@
 <body>
     <div class="small-navbar-container">
         <div class="small-navbar-div">
-            <div><img class="small-navbar-menu" src="/public/images/Homepage/menu64.png"></div>
-            <div><img  class="small-navbar-logo" src="/public/images/Homepage/logo.svg"></div>
-            <div><img class="icon-img-small-navbar" src="/public/images/Homepage/basket.png"></div>
+            <div><img class="small-navbar-menu" src="images/Homepage/menu64.png"></div>
+            <div><img  class="small-navbar-logo" src="images/Homepage/logo.svg"></div>
+            <div><img class="icon-img-small-navbar" src="images/Homepage/basket.png"></div>
         </div>
     </div>
     <nav class="navbar-container">
@@ -32,62 +32,7 @@
 
     <main class="main-container">
 
-        <div class="upper-header-container">
-
-            <div class="upper-header">
-                <div class="upper-left">
-                        <img class="logo-img" src="/public/images/Homepage/logo.svg">       
-                </div>
-                <div class="upper-right">
-                    <div class="search-container">
-                        <div class="search-icon-div">
-                            <img class="search-icon" src="/public/images/Homepage/search.png">
-                        </div>
-                        <input class="search-box" type="search" placeholder="Search products..">
-                        <div class="search-text">
-                           <span> Search</span>
-                        </div>
-                    </div>
-                   <div class="icons-div-container">
-                    <div class="icons-div">
-                        <div class="icon profile"><img class="icon-img" src="/public/images/Homepage/profile.png"></div>
-                        <div class="icon heart"><img class="icon-img" src="/public/images/Homepage/heart.png"></div>
-                        <div class="icon basket"><img class="icon-img" src="/public/images/Homepage/basket.png"></div>
-                        <span>£0.00</span>
-                    </div>
-                   </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="below-header-container">
-            <div class="content-div">
-                <div class="left-content">
-                    <div class="left-shop-dept">
-                        <button class="shop-dept-button">
-                            <div class="menu-icon-div">
-                                <img class="menu-icon" src="/public/images/Homepage/menu64.png">
-                            </div>
-                            <p>Shop by Department</p>
-                        </button>
-                    </div>
-                    <div style="border: 1px solid rgb(158, 156, 156); height: 60%;"></div>
-                    <div class="left-nav">
-                        <span class="left-nav-text" style="color: #a8b324;">Home <img class="down-arrow" src="/public/images/Homepage/down-arrow.png"></span>
-                        <span class="left-nav-text">Shop <img class="down-arrow" src="/public/images/Homepage/down-arrow.png"></span>
-                        <span class="left-nav-text">Page <img class="down-arrow" src="/public/images/Homepage/down-arrow.png"></span>
-                        <span class="left-nav-text">Blog <img class="down-arrow" src="/public/images/Homepage/down-arrow.png"></span>
-                        <span class="left-nav-text contact-nav-text">Contact</span>
-                    </div>
-                </div>
-
-                <div class="right-content">
-                    <img class="headphone" src="/public/images/Homepage/headphones.png">
-                    (1800)-88-66-991
-                </div>
-            </div>
-        </div>
+        <%- include('partials/header.ejs'); -%>
 
         <div class="banner-container">
             <div class="banner-div">
@@ -133,7 +78,7 @@
                 <div class="feature-item feature-item-1">
                     <div class="main-item">
                         <div class="item-img">
-                            <img src="/public/images/Homepage/curated-products.jpg">
+                            <img src="images/Homepage/curated-products.jpg">
                         </div>
                         <div class="item-text">
                             <div class="item-heading">Curated Products</div>
@@ -144,7 +89,7 @@
                 <div class="feature-item">
                     <div class="main-item">
                         <div class="item-img">
-                            <img src="/public/images/Homepage/handmade.jpg">
+                            <img src="images/Homepage/handmade.jpg">
                         </div>
                         <div class="item-text">
                             <div class="item-heading">Handmade</div>
@@ -157,7 +102,7 @@
                 <div class="feature-item">
                     <div class="main-item">
                         <div class="item-img">
-                            <img src="/public/images/Homepage/natural.jpg">
+                            <img src="images/Homepage/natural.jpg">
                         </div>
                         <div class="item-text">
                             <div class="item-heading">100% Natural</div>
@@ -168,7 +113,7 @@
                 <div class="feature-item">
                     <div class="main-item">
                         <div class="item-img">
-                            <img src="/public/images/Homepage/shipping.jpg">
+                            <img src="images/Homepage/shipping.jpg">
                         </div>
                         <div class="item-text">
                             <div class="item-heading">Shipping</div>
@@ -194,11 +139,11 @@
             <div class="products-grid">
                 <div class="div-item">
                    <div class="img-div">
-                    <img class="product-img" src="/public/images/Homepage/linsed-product.jpg">
+                    <img class="product-img" src="images/Homepage/linsed-product.jpg">
                     <div class="hidden-features">
-                        <p><img class="feature-icon" src="/public/images/Homepage/filledheart.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/shuffle.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/eye.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
                     </div>
                    </div>
                    <div class="product-text-div">
@@ -211,11 +156,11 @@
                 </div>
                 <div class="div-item">
                    <div class="img-div">
-                    <img class="product-img" src="/public/images/Homepage/hemp-seeds.jpg">
+                    <img class="product-img" src="images/Homepage/hemp-seeds.jpg">
                     <div class="hidden-features">
-                        <p><img class="feature-icon" src="/public/images/Homepage/filledheart.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/shuffle.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/eye.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
                     </div>
                    </div>
                    <div class="product-text-div">
@@ -228,11 +173,11 @@
                 </div>
                 <div class="div-item">
                    <div class="img-div">
-                    <img class="product-img" src="/public/images/Homepage/lupin-beans.jpg">
+                    <img class="product-img" src="images/Homepage/lupin-beans.jpg">
                     <div class="hidden-features">
-                        <p><img class="feature-icon" src="/public/images/Homepage/filledheart.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/shuffle.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/eye.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
                     </div>
                    </div>
                    <div class="product-text-div">
@@ -245,11 +190,11 @@
                 </div>
                 <div class="div-item">
                    <div class="img-div">
-                    <img class="product-img" src="/public/images/Homepage/plum-halves.jpg">
+                    <img class="product-img" src="images/Homepage/plum-halves.jpg">
                     <div class="hidden-features">
-                        <p><img class="feature-icon" src="/public/images/Homepage/filledheart.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/shuffle.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/eye.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
                     </div>
                    </div>
                    <div class="product-text-div">
@@ -325,11 +270,11 @@
             <div class="products-grid">
                 <div class="div-item">
                    <div class="img-div">
-                    <img class="product-img" src="/public/images/Homepage/baked-gaints-beans.jpg">
+                    <img class="product-img" src="images/Homepage/baked-gaints-beans.jpg">
                     <div class="hidden-features">
-                        <p><img class="feature-icon" src="/public/images/Homepage/filledheart.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/shuffle.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/eye.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
                     </div>
                    </div>
                    <div class="product-text-div">
@@ -342,11 +287,11 @@
                 </div>
                 <div class="div-item">
                    <div class="img-div">
-                    <img class="product-img" src="/public/images/Homepage/hemp-seeds.jpg">
+                    <img class="product-img" src="images/Homepage/hemp-seeds.jpg">
                     <div class="hidden-features">
-                        <p><img class="feature-icon" src="/public/images/Homepage/filledheart.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/shuffle.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/eye.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
                     </div>
                    </div>
                    <div class="product-text-div">
@@ -359,11 +304,11 @@
                 </div>
                 <div class="div-item">
                    <div class="img-div">
-                    <img class="product-img" src="/public/images/Homepage/biona-green.jpg">
+                    <img class="product-img" src="images/Homepage/biona-green.jpg">
                     <div class="hidden-features">
-                        <p><img class="feature-icon" src="/public/images/Homepage/filledheart.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/shuffle.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/eye.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
                     </div>
                    </div>
                    <div class="product-text-div">
@@ -376,11 +321,11 @@
                 </div>
                 <div class="div-item">
                    <div class="img-div">
-                    <img class="product-img" src="/public/images/Homepage/plum-halves.jpg">
+                    <img class="product-img" src="images/Homepage/plum-halves.jpg">
                     <div class="hidden-features">
-                        <p><img class="feature-icon" src="/public/images/Homepage/filledheart.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/shuffle.png"></p>
-                        <p><img class="feature-icon" src="/public/images/Homepage/eye.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+                        <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
                     </div>
                    </div>
                    <div class="product-text-div">
@@ -398,9 +343,9 @@
         <div class="testimonial-container">
             <div class="testimonial-div">
                 <div style="padding:0 20px;"  class="testimonial-img-div">
-                    <img src="/public/images/Homepage/image3-h2.jpg">
+                    <img src="images/Homepage/image3-h2.jpg">
                     <img style="position: absolute;
-                    height: 45%; width: 45%; object-fit: contain; left: 60%;top:55%; " class="live-a-natural" src="/public/images/Homepage/live-a-natural.png">
+                    height: 45%; width: 45%; object-fit: contain; left: 60%;top:55%; " class="live-a-natural" src="images/Homepage/live-a-natural.png">
                 </div>
                 <div class="testimonial-content-div">
                     <div class="testimonial-text-div">
@@ -424,8 +369,8 @@
                     </div>
                 </div>
                 <div style="padding:0 20px;"  class="testimonial-img-div">
-                    <img src="/public/images/Homepage/image4-h2.jpg">
-                    <img style="position: absolute; object-fit: contain; height: 30%; width: 30%; top: 5%; left: 3%;" src="/public/images/Homepage/qualityassured.png">
+                    <img src="images/Homepage/image4-h2.jpg">
+                    <img style="position: absolute; object-fit: contain; height: 30%; width: 30%; top: 5%; left: 3%;" src="images/Homepage/qualityassured.png">
                 </div>
             </div>
         </div>
@@ -481,7 +426,7 @@
             <div class="support-div">
                 <div class="contact-div">
                     <div class="contact-img">
-                        <img src="/public/images/Homepage/headphonenew.jpg">
+                        <img src="images/Homepage/headphonenew.jpg">
                     </div>
                     <div class="contact-text">
                         <p class="phone-support">Phone Support</p>
@@ -492,7 +437,7 @@
                 </div>
                 <div class="contact-div another-contact-div">
                     <div class="contact-img">
-                        <img src="/public/images/Homepage/envelope.jpg">
+                        <img src="images/Homepage/envelope.jpg">
                     </div>
                     <div class="contact-text">
                         <p class="phone-support">Daily Updates</p>
@@ -504,53 +449,9 @@
             </div>
         </div>
 
-        <div class="links-container">
-            <div class="links-div">
-                <div class="links-flex-item">
-                    <h5>STORE LOCATION</h5>
-                    <p>9006 Green Lake Drive C hevy Chase, MD 20815</p >
-                    <p>Monday - Saturday</p>
-                    <h3>8:00 am - 4:00 pm</h3>
-                    <p>Sunday</p>
-                    <h3>9:00 am - 5:00 pm</h3>
-                    
-                </div>
-                <div class="links-flex-item specific-padding">
-                    <h5>INFORMATION</h5>
-                    <p class="link">About us</p>
-                    <p class="link">Blog</p>
-                    <p class="link">Check out</p>
-                    <p class="link">Contact</p>
-                    <p class="link">Service</p>
-                </div>
-                <div class="links-flex-item">
-                    <h5>CATEGORIES</h5>
-                    <p class="link">Fruits & Vegetables</p>
-                    <p class="link">Dairy Products</p>
-                    <p class="link">Package Foods</p>
-                    <p class="link">Beverages</p>
-                    <p class="link">Health & Wellness</p>
-                </div>
+        <%- include('partials/footer.ejs'); -%>
 
-                <div class="links-flex-item specific-padding">
-                    <h5>ACCEPT PAYMENT</h5>
-                    <img src="/public/images/Homepage/payment_2.png">
-                    <h5>Follow Us</h5>
-                    <div class="social-div">
-                        <img class="link" src="/public/images/Homepage/facebook.png">
-                        <img class="link" src="/public/images/Homepage/youtube.png">
-                        <img class="link" src="/public/images/Homepage/twitter.png">
-                        <img class="link" src="/public/images/Homepage/instagram.png"> 
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-container">
-            <div class="footer-div">
-                <div>Copyright © 2024 <a href="#">Freshio.</a> All Rights Reserved.</div>
-            </div>
-        </div>
     </main>
+    <script src="index.js"></script>
 </body>
 </html>

@@ -8,6 +8,9 @@
     url("https://db.onlinewebfonts.com/t/a936aab4eb7204d4704bf80fd0235618.svg#Greatest Richmond")format("svg");
 }
 
+/* otp field css */
+
+
 *{
     margin: 0;
     padding: 0;
@@ -17,10 +20,10 @@
 body{
     height: 100%;
     width: 100%;
-    font-family: arial;  
+    font-family: "MazzardH-Medium";
     padding:0 6%;
     background-position-x:-180px;
-    background-image: url(/public/images/Homepage/top-header-bg.jpg);
+    background-image: url(images/Homepage/top-header-bg.jpg);
 }
 
 
@@ -199,7 +202,70 @@ main{
 }
 
 
-.icon{
+
+.dropdown
+{
+    position: relative;
+}
+.dropdown-content
+{
+    display: none;
+    background-color: rgb(253, 255, 249);
+    border-top:3px solid  #a8b324;
+    position: absolute;
+    width: 450px;
+    /* height: 140px; */
+    padding: 30px 20px;
+    right: 0;
+    top: 125%;
+    z-index: 11;
+    font-family: "MazzardH-Medium";
+    box-shadow: 2px 2px 10px #5d5d5d;
+}
+.dropdown-content h2
+{
+    color: #0a472e;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.dropdown-content p
+{
+    font-size: 1.2rem;
+    color: #0a472e;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+.login
+{
+    /* width: 60%; */
+    font-size: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 10px 6px;
+    text-align: center;
+}
+.login:hover
+{
+    cursor: pointer;
+    border: 2px solid #a8b324;
+}
+.login a
+{
+    
+    text-decoration: none;
+    color: #a8b324;
+
+}
+.show
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+
+
+.icon {
     height: 100%;
     width: 45px;
     display: flex;
@@ -225,9 +291,11 @@ main{
     cursor: pointer;
 }
 
-.icon-img{
+.icon-img {
     height: 40%;
 }
+
+
 
 .below-header-container{
     height: 65px;
@@ -314,7 +382,7 @@ main{
     color: white;
     font-weight: bold;
     font-size: 0.9rem;
-    width: 160px;
+    width: 170px;
     height: 100%;
     padding-right: 20px;
     display: flex;
@@ -359,12 +427,12 @@ main{
     border-radius: 5px;
     padding-top: 110px;
     background-image: 
-    url(/public/images/Homepage/h3_leaf-1.png),
-    url(/public/images/Homepage/h3_leaf-2.png),
-    url(/public/images/Homepage/h3_leaf-3.png),
-    url(/public/images/Homepage/h3_leaf-4.png),
-    url(/public/images/Homepage/rev-slider_h2_img2.png), 
-    url(/public/images/Homepage/rev-slider_h2_img3.png);
+    url('images/Homepage/h3_leaf-1.png'),
+    url('images/Homepage/h3_leaf-2.png'),
+    url('images/Homepage/h3_leaf-3.png'),
+    url('images/Homepage/h3_leaf-4.png'),
+    url('images/Homepage/rev-slider_h2_img2.png'), 
+    url('images/Homepage/rev-slider_h2_img3.png');
     background-repeat: no-repeat;
     background-position:
     top 130px left 280px,  /* leaf 1*/
@@ -379,7 +447,7 @@ main{
 }
 .item-two-first-inner{
     height: 100%;
-    background-image: url(/public/images/Homepage/image1-h2.jpg);
+    background-image: url('images/Homepage/image1-h2.jpg');
     background-size: cover;
     background-size: 120%;
     padding-left: 50px;
@@ -394,7 +462,7 @@ main{
 }
 .item-two-inner{
     height: 100%;
-    background-image: url(/public/images/Homepage/image2-h2.jpg);
+    background-image: url('images/Homepage/image2-h2.jpg');
     display: flex;
     padding: 0 45px;
     align-items: center;
@@ -835,7 +903,7 @@ align-items: center;
     position: relative;
     grid-row-start: 1;
     grid-row-end: 3;
-    background-image: url(/public/images/Homepage/fruits&vegetables.jpg);
+    background-image: url('images/Homepage/fruits&vegetables.jpg');
     border-radius: 5px;
     background-size: 120%;
     transition: all ease 0.4s;
@@ -845,7 +913,7 @@ align-items: center;
    grid-column-start:2;
    grid-column-end: 4;
    grid-row-start: 1;
-   background-image: url(/public/images/Homepage/dailybread.jpg);
+   background-image: url('images/Homepage/dailybread.jpg');
    border-radius: 5px;
    background-size: 120%;
    transition: all ease 0.4s;
@@ -854,7 +922,7 @@ align-items: center;
 
 .style-item-4{
     position: relative;
-    background-image: url(/public/images/Homepage/packagefoods.jpg);
+    background-image: url('images/Homepage/packagefoods.jpg');
     border-radius: 5px;
     background-size: 120%;
     transition: all ease 0.4s;
@@ -863,7 +931,7 @@ align-items: center;
     position: relative;
     grid-row-start: 1;
     grid-row-end: 3;
-    background-image: url(/public/images/Homepage/healthandwellness.jpg);
+    background-image: url('images/Homepage/healthandwellness.jpg');
     border-radius: 5px;
     background-size: 120%;
     transition: all ease 0.4s;
@@ -871,7 +939,7 @@ align-items: center;
 
 .style-item-5{
     position: relative;
-    background-image: url(/public/images/Homepage/beverages.jpg);
+    background-image: url('images/Homepage/beverages.jpg');
     border-radius: 5px;
     background-size: 120%;
     transition: all ease 0.4s;
@@ -1164,7 +1232,8 @@ align-items: center;
 
 .links-container{
     margin-top: 65px;
-    border-bottom:1px solid #e5d7d7 ;
+    border-bottom:1px solid #e5d7d7;
+    font-family: "MazzardH-Medium";
 }
 
 .links-div{
@@ -1276,7 +1345,69 @@ align-items: center;
     object-fit: contain;
 }
 
+.login-container {
+    /* font-family: "MazzardH-Medium"; */
+    margin: 5% auto;
+    width: 470px;
+    background-color: #f6f6f6;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
+.otp-container input{
+    font-size: 1.5rem;
+    font-family: "MazzardH-Medium";
+    color: #909896;
+}
+
+.otp-container input:focus-within{
+    border: 1px solid #a8b324;
+    outline: none;
+}
+
+.input-container label {
+    display: block;
+    margin-bottom: 10px;
+    color:#0a472e;
+}
+
+.login-container h2 {
+    color: #0a472e;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.login-form input {
+    width: 100%;
+    height: 55px;
+    padding: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-form button {
+    width: 100%;
+    height: 45px;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #a8b324;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.login-form button:hover {
+    background-color: #98a31a;
+}
+
+.star
+{
+    color: red;
+}
 
 
 

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+   
+  <body>
+    <div class="small-navbar-container">
+      <div class="small-navbar-div">
+        <div>
+          <img class="small-navbar-menu" src="images/Homepage/menu64.png" />
+        </div>
+        <div>
+          <img class="small-navbar-logo" src="images/Homepage/logo.svg" />
+        </div>
+        <div>
+          <img class="icon-img-small-navbar" src="images/Homepage/basket.png" />
+        </div>
+      </div>
+    </div>
+    <nav class="navbar-container">
+      <div class="navbar">
+        <div class="navbar-left">
+          <p>FREE express international delivery + EASY returns</p>
+        </div>
+        <div class="navbar-right">
+          <span>ABOUT</span>
+          <span>FAQ</span>
+          <span>CONTACT US</span>
+        </div>
+      </div>
+    </nav>
+    <main class="main-container">
+      <%- include('partials/header.ejs'); -%>
+
+      <div class="login-container">
+        <h2>Sign Up / Register</h2>
+        <form class="login-form" action="<% if(locals.disabled == true) { %> /verifyEmail <% } else { %> /verifyRegisterUser <% } %>" method="POST">
+
+          <div class="input-container">
+
+
+            <% if (locals.disabled == false ) { %>
+            <label for="username"
+              >Username or email address <span class="star">*</span></label
+            >
+            <input style="margin-bottom: 6px" type="email" required id="email" value="<%= emailId %>" name="email" />
+            <!-- // create a otp field below which is styled  -->
+            <div class="heading-feature">
+              <p style="color: #0a472e; margin-top: 8px; text-align: right">
+                <p style="color: #a8b324; font-size: 1.1rem"
+                  ><%= message %></p
+                >
+              </p>
+            </div>
+            
+            <div style="height: 60px; width: 100%; display: flex; margin-top: 6px;margin-bottom: 10px; justify-content: space-between; " class="otp-container">
+
+                <input style="width: 20%; border: 1px solid #a8b324; text-align: center;" type="text" class="otp-input" required minlength="1" maxlength="1" name="firstDigit" autocomplete="off">
+                <input style="width: 20%; border: 1px solid #a8b324; text-align: center;" type="text" class="otp-input" required minlength="1" maxlength="1" name="secondDigit" autocomplete="off">
+                <input style="width: 20%; border: 1px solid #a8b324; text-align: center;" type="text" class="otp-input" required minlength="1" maxlength="1" name="thirdDigit" autocomplete="off">
+                <input style="width: 20%; border: 1px solid #a8b324; text-align: center;" type="text" class="otp-input" required minlength="1" maxlength="1" name="fourthDigit" autocomplete="off">
+            </div>
+            <div class="input-container">
+                <label for="password">Password <span class="star">*</span></label>
+                <input
+                  type="password"
+                  required
+                  autocomplete="off"
+                  minlength="8"
+                  maxlength="16"
+                  id="password"
+                  name="password"
+                />
+              </div>
+    
+            <% } %>
+
+
+            <% if (locals.disabled == true) { %>
+            <label for="username"
+              >Username or email address <span class="star">*</span></label
+            >
+            <input
+              style="margin-bottom: 4px"
+              type="email"
+              required
+              id="email"
+              name="email"
+            />
+            
+            <% if (locals.message != 'User already registered.' && locals.message != 'Invalid OTP. Try again.' ) { %>
+                <div class="heading-feature">
+                    <p style="color: #0a472e; margin-top: 2px; text-align: right">
+                      <button style="color:#a8b324;font-weight: 100; text-decoration: underline; padding: 0; text-align: right; background-color: transparent; font-size: 0.95rem; font-size: 1.1rem; width:35%; " type="submit"
+                        >Verify Email</button
+                      >
+                    </p>
+                  </div>
+                <% } %>
+
+            
+
+
+            <div class="input-container">
+                <label for="password">Password <span class="star">*</span></label>
+                <input
+                  type="password"
+                  required
+                  disabled
+                  autocomplete="off"
+                  minlength="8"
+                  maxlength="16"
+                  id="password"
+                  name="password"
+                />
+              </div>
+    
+            <% } %>
+
+          </div>
+
+         
+          <button type="submit" <% if (locals.disabled) { %>
+            disabled <% } %> style="opacity: <% if (locals.disabled) { %> 0.5 <%
+            } %>">Sign Up with Freshio
+          </button>
+
+          <% if (locals.message == 'User already registered.' ) { %>
+          <div class="heading-feature">
+            <p style="color: #0a472e; margin-top: 10px">
+              <%= message %>
+              <a style="color: #a8b324; font-size: 1.1rem" href="/login"
+                >Login Here</a
+              >
+            </p>
+          </div>
+          <% } %>
+        </form>
+      </div>
+
+      <%- include('partials/footer.ejs'); -%>
+    </main>
+    <script>
+    
+
+
+    // move focus to next page
+    var elts = document.getElementsByClassName('otp-input');
+    Array.from(elts).forEach(function(elt, index, array) {
+    elt.addEventListener("input", function(event) {
+        
+        if (elt.value.length === 1 && index < array.length - 1) {
+            
+            array[index + 1].focus();
+        } else if (elt.value.length === 0 && index > 0) {
+            
+            array[index - 1].focus();
+        }
+    });
+});
+
+
+
+
+
+    
+
+
+
+
+ 
+
+    </script>
+  </body>
+</html>
