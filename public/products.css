@@ -76,8 +76,12 @@ hr
     grid-template-columns:  1fr 1fr 1fr;
 }
 .toggle
-{
+{   
+    font-size: 1.2rem;
     display: none;
+}
+.toggle:hover{
+    color: #a8b324;
 }
 .close-btn {
     display: none;

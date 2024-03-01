@@ -191,3 +191,26 @@ button:hover
         margin-top: 50px;
     }
 }
+
+
+@media (max-width:  600px)
+{
+    .buttons-container{
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .update-container{
+        margin-bottom: 30px;
+        width: 100%;
+    }
+    .update-btn{
+        width: 100%;
+    }
+    .delete-btn{
+        height: 15px;
+        width: 15px;
+    }
+    
+}
+
