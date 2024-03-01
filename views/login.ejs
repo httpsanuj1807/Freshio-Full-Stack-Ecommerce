@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
     <div class="small-navbar-container">
         <div class="small-navbar-div">
             <div><img class="small-navbar-menu" src="images/Homepage/menu64.png"></div>
@@ -41,6 +40,18 @@
                 <input type="password" autocomplete="off"  required id="password" name="password" >
             </div>
             <button type="submit">LOG IN</button>
+        </form>
+        <form method="post" action="/google/auth">
+          <button type="submit" class="google-container">
+            <div class="blue-div"><img src="images/Homepage/google_logo.png" alt=""></div>
+            <div class="white-div">
+              <p>Login with Google</p>
+            </div>
+          </button>
+        </form>
+           
+            
+            
 
 
            
@@ -67,7 +78,8 @@
         <% } %>
 
          
-        </form>
+        
+        
     </div>
 
     <%- include('partials/footer.ejs'); -%>
@@ -75,3 +87,5 @@
 </main>
 </body>
 </html>
+
+
