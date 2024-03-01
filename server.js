@@ -147,7 +147,7 @@ app.post("/verifyEmail", async (req, res) => {
     if (result.rows.length > 0) {
       res.redirect("/alreadyRegisteredRedirect");
     } else {
-      otp = Math.random().toString(36).substring(2, 6).toUpperCase();
+      otp = Math.random().toString(36).substring(2, 6).toLowerCase();
       console.log(otp);
       // sending otp using nodemailer
       try {
@@ -170,7 +170,7 @@ app.post("/verifyEmail", async (req, res) => {
                   <h1 style="color: #0a472e; margin: 0;">Welcome to Freshio!</h1>
               </header>
               <!-- Content -->
-              <section style="padding: 20px; color: #0a472e;">
+              <section style="padding: 20px; text-align:center; color: #0a472e;">
                   <p style="margin-bottom: 10px;">Dear User,</p>
                   <p style="margin-bottom: 10px;">Your OTP for verification is: <strong>${otp}</strong></p>
                   <p>Please use this OTP to complete your registration process.</p>
@@ -208,7 +208,18 @@ app.post("/verifyEmail", async (req, res) => {
   }
 });
 
+// anshika routes 
+app.get("/products", (req, res) => {
+  res.render('products.ejs');
+});
 
+app.get("/checkout", (req, res) => {
+  res.render('checkout.ejs');
+});
+
+app.get("/contact", (req, res) => {
+  res.render('contact.ejs');
+});
 
 
 app.listen(port, () => {

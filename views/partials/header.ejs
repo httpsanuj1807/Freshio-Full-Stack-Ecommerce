@@ -9,6 +9,13 @@
     <link href="https://db.onlinewebfonts.com/c/875fffdfa62169a0f131e90f37f1faf4?family=MazzardH-Medium" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+    <div class="small-navbar-container">
+        <div class="small-navbar-div">
+            <div><img class="small-navbar-menu" src="images/Homepage/menu64.png"></div>
+            <div><img  class="small-navbar-logo" src="images/Homepage/logo.svg"></div>
+            <div><img class="icon-img-small-navbar" src="images/Homepage/basket.png"></div>
+        </div>
+    </div>
     <div class="upper-header-container">
 
         <div class="upper-header">
@@ -38,7 +45,7 @@
                     </div>
 
                     <div class="icon heart"><img class="icon-img" src="images/Homepage/heart.png"></div>
-                    <div class="icon basket"><img class="icon-img" src="images/Homepage/basket.png"></div>
+                    <a class="icon" href="/checkout"><div class="icon basket"><img class="icon-img" src="images/Homepage/basket.png"></div></a>
                     <span>£0.00</span>
                 </div>
                </div>
@@ -47,8 +54,8 @@
 
     </div>
 
-    <div class="below-header-container">
-        <div class="content-div">
+    <div style="padding: 0;" class="below-header-container">
+        <div style="border-radius: 0;" class="content-div">
             <div class="left-content">
                 <div class="left-shop-dept">
                     <button class="shop-dept-button">
@@ -60,11 +67,11 @@
                 </div>
                 <div style="border: 1px solid rgb(158, 156, 156); height: 60%;"></div>
                 <div class="left-nav">
-                    <span class="left-nav-text" style="color: #a8b324;">Home <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                    <span class="left-nav-text">Shop <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                    <span class="left-nav-text" style="color: #a8b324;"><a href="/">Home</a><img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                    <span class="left-nav-text"><a href="/products">Shop</a> <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
                     <span class="left-nav-text">Page <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
                     <span class="left-nav-text">Blog <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                    <span class="left-nav-text contact-nav-text">Contact</span>
+                    <span class="left-nav-text contact-nav-text"><a href="/contact">Contact</a></span>
                 </div>
             </div>
 

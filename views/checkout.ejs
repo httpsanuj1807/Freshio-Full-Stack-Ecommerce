@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="checkout.css">
+    <title>Document</title>
+</head>
+<body style="height: 100%; width: 100%; background-image: none; padding: 0; font-family: MazzardH-Medium">
+    
+   <main class="main-container">
+
+    <%- include('partials/header.ejs'); -%>
+    <div class="contact-snippet">
+        <img src="images/Homepage/cart-snippet.jpeg">
+    </div>
+    <div class="main-box-container">
+        <div class="order-container">
+            <table>
+                <tr class="table-headings">
+                    <td></td>
+                    <td></td>
+                    <td>PRODUCT</td>
+                    <td>PRICE</td>
+                    <td>QUANTITY</td>
+                    <td>SUBTOTAL</td>
+                </tr>
+                <tbody class="table-data">
+                    
+                </tbody> 
+            </table>
+            <div class="buttons-container">
+                <div class="coupon-container">
+                    <input type="text" placeholder="Coupon code">
+                    <button class="coupon-btn">Apply coupon</button>
+                </div>
+                <div class="update-container">
+                    <button class="update-btn">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="payment-container">
+            <div class="payment-heading"><p>CART TOTALS</p></div>
+            <hr>
+            <div class="subtotal">
+                <div class="subtotal-heading"><p>Subtotal</p></div>
+                <div class="subtotal-price"><p>£1,401.50</p></div>
+            </div>
+            <hr>
+            <div class="total">
+                <div class="total-heading"><p>Total</p></div>
+                <div class="total-price"><p>£1,401.50</p></div>
+            </div>
+            <button class="checkout-btn">Proceed to checkout</button>
+        </div>
+    </div>
+    </main>
+
+    <%- include('partials/footer.ejs'); -%>
+
+    <script type="module" src="scripts/checkout.js"></script>
+</body>
+</html>

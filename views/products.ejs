@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="products.css">
+    
+</head>
+<body style="height: 100%; width: 100%; background-image: none; padding: 0; font-family: MazzardH-Medium">
+
+    
+   <main class="main-container">
+
+    <%- include('partials/header.ejs'); -%>
+    <div class="contact-snippet">
+        <img src="images/Homepage/cart-snippet.jpeg">
+    </div>
+    <div class="toggle"><img src="images/Homepage/setting.jpeg">Filter</div>
+    <div class="main-box-container">
+        
+        <div class="filter-container">
+            <button class="close-btn">Close</button>
+            <p class="filter-heading">Explore</p>
+            <hr>
+            <div class="filter">
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Alliums<span class="filter-quantity"> (5)</span></p>
+                    </div>
+                </div>
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Beverages<span class="filter-quantity"> (5)</span></p>
+                    </div>
+                </div>
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Dairy Bread & Eggs<span class="filter-quantity"> (6)</span></p>
+                    </div>
+                </div>
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Fruits & Vegetables<span class="filter-quantity"> (7)</span></p>
+                    </div>
+                </div>
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Grocery & Staples<span class="filter-quantity"> (7)</span></p>
+                    </div>
+                </div>
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Health & Wellness<span class="filter-quantity"> (3)</span></p>
+                    </div>
+                </div>
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Leafy Green<span class="filter-quantity"> (4)</span></p>
+                    </div>
+                </div>
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Package Foods<span class="filter-quantity"> (5)</span></p>
+                    </div>
+                </div>
+                <div class="filter-items">
+                    <div class="triangle"><p>&#128898</p></div>
+                    <div class="filter-text"><p>Uncategorized<span class="filter-quantity"> (5)</span></p>
+                    </div>
+                </div>
+
+
+                <p class="filter-heading">Product tags</p>
+                <hr>
+                <div class="product-tag">
+                    <div class="tag-text">bread</div>
+                    <div class="tag-text">fruits</div>
+                    <div class="tag-text">healthy</div>
+                    <div class="tag-text">juices</div>
+                    <div class="tag-text">meat</div>
+                    <div class="tag-text">natural</div>
+                    <div class="tag-text">organic</div>
+                    <div class="tag-text">tomato</div>
+                    <div class="tag-text">vegetables</div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="products-container">
+            <div class="products2-grid">
+               
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('partials/footer.ejs'); -%>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const toggleButton = document.querySelector('.toggle');
+    const filterContainer = document.querySelector('.filter-container');
+    const closeButton = document.querySelector('.close-btn');
+
+    toggleButton.addEventListener('click', function() {
+        filterContainer.classList.toggle('show');
+        toggleButton.classList.toggle('show-filter');
+    });
+
+    closeButton.addEventListener('click', function() {
+        filterContainer.classList.remove('show');
+        toggleButton.classList.remove('show-filter');
+    });
+
+    // Show the toggle button at 1100px width
+    function handleResize() {
+        if (window.innerWidth <= 1100) {
+            toggleButton.style.display = 'block';
+        } else {
+            toggleButton.style.display = 'none';
+            // Close filter if open when resizing
+            filterContainer.classList.remove('show');
+            toggleButton.classList.remove('show-filter');
+        }
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Call initially to set the initial state
+});
+
+    </script>
+    <script type="module" src="scripts/generateProducts.js"></script>
+</body>
+</html>

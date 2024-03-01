@@ -32,7 +32,71 @@
 
     <main class="main-container">
 
-        <%- include('partials/header.ejs'); -%>
+        <div class="upper-header-container">
+
+            <div class="upper-header">
+                <div class="upper-left">
+                        <img class="logo-img" src="images/Homepage/logo.svg">       
+                </div>
+                <div class="upper-right">
+                    <div class="search-container">
+                        <div class="search-icon-div">
+                            <img class="search-icon" src="images/Homepage/search.png">
+                        </div>
+                        <input class="search-box" type="search" placeholder="Search products..">
+                        <div class="search-text">
+                           <span> Search</span>
+                        </div>
+                    </div>
+                   <div class="icons-div-container">
+                    <div class="icons-div">
+                        
+                        <div class="icon profile dropdown">
+                            <img class="icon-img dropbtn" src="images/Homepage/profile.png">
+                            <div class="dropdown-content">
+                                <h2>Welcome</h2>
+                                <p>To access account and manage orders</p>
+                                <div class="login"><a href="/login">LOGIN / SIGNUP</a></div>
+                            </div>
+                        </div>
+    
+                        <div class="icon heart"><img class="icon-img" src="images/Homepage/heart.png"></div>
+                        <a class="icon" href="/checkout"><div class="icon basket"><img class="icon-img" src="images/Homepage/basket.png"></div></a>
+                        <span>£0.00</span>
+                    </div>
+                   </div>
+                </div>
+            </div>
+    
+        </div>
+    
+        <div class="below-header-container">
+            <div class="content-div">
+                <div class="left-content">
+                    <div class="left-shop-dept">
+                        <button class="shop-dept-button">
+                            <div class="menu-icon-div">
+                                <img class="menu-icon" src="images/Homepage/menu64.png">
+                            </div>
+                            <p>Shop by Department</p>
+                        </button>
+                    </div>
+                    <div style="border: 1px solid rgb(158, 156, 156); height: 60%;"></div>
+                    <div class="left-nav">
+                        <span class="left-nav-text" style="color: #a8b324;"><a href="/">Home</a>  <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                        <span class="left-nav-text"><a href="/products">Shop</a> <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                        <span class="left-nav-text">Page <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                        <span class="left-nav-text">Blog <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                        <span class="left-nav-text contact-nav-text"><a href="/contact">Contact</a></span>
+                    </div>
+                </div>
+    
+                <div class="right-content">
+                    <img class="headphone" src="images/Homepage/headphones.png">
+                    (1800)-88-66-991
+                </div>
+            </div>
+        </div>
 
         <div class="banner-container">
             <div class="banner-div">
@@ -43,7 +107,7 @@
                             <p class="farmMarket">Farm Market</p>
                             <p class="farmMarket">Organic Shop</p>
                         </p>
-                        <a class="shop-now" href="#">Shop now &gt;&gt;</a>
+                        <a class="shop-now" href="/products">Shop now &gt;&gt;</a>
                         <div class="banner-move">
                             <div class="move-circle">&larr;</div>
                             <div class="move-circle">&rarr;</div>
@@ -449,9 +513,55 @@
             </div>
         </div>
 
-        <%- include('partials/footer.ejs'); -%>
+        <div class="links-container">
+            <div class="links-div">
+                <div class="links-flex-item">
+                    <h5>STORE LOCATION</h5>
+                    <p>9006 Green Lake Drive C hevy Chase, MD 20815</p >
+                    <p>Monday - Saturday</p>
+                    <h3>8:00 am - 4:00 pm</h3>
+                    <p>Sunday</p>
+                    <h3>9:00 am - 5:00 pm</h3>
+                    
+                </div>
+                <div class="links-flex-item specific-padding">
+                    <h5>INFORMATION</h5>
+                    <p class="link">About us</p>
+                    <p class="link">Blog</p>
+                    <p class="link">Check out</p>
+                    <p class="link">Contact</p>
+                    <p class="link">Service</p>
+                </div>
+                <div class="links-flex-item">
+                    <h5>CATEGORIES</h5>
+                    <p class="link">Fruits & Vegetables</p>
+                    <p class="link">Dairy Products</p>
+                    <p class="link">Package Foods</p>
+                    <p class="link">Beverages</p>
+                    <p class="link">Health & Wellness</p>
+                </div>
+    
+                <div class="links-flex-item specific-padding">
+                    <h5>ACCEPT PAYMENT</h5>
+                    <img src="images/Homepage/payment_2.png">
+                    <h5>Follow Us</h5>
+                    <div class="social-div">
+                        <img class="link" src="images/Homepage/facebook.png">
+                        <img class="link" src="images/Homepage/youtube.png">
+                        <img class="link" src="images/Homepage/twitter.png">
+                        <img class="link" src="images/Homepage/instagram.png"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="footer-container">
+            <div class="footer-div">
+                <div>Copyright © 2024 <a href="#">Freshio.</a> All Rights Reserved.</div>
+            </div>
+        </div>
 
     </main>
-    <script src="index.js"></script>
+    <script type="module" src="scripts/index.js"></script>
 </body>
 </html>
