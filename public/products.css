@@ -63,7 +63,7 @@ hr
 
 
 
-.products-container{
+.products-page-container{
     margin-top: 20px;
     width: 100%;
     padding: 0px 30px 30px 30px;
@@ -108,14 +108,14 @@ hr
 
 @media (max-width: 1100px) {
     .toggle {
+        margin-top: 10px;
         display: block;
-        /* background-color: #d42828; */
-        padding: 10px 20px;
+        padding: 10px 5%;
         cursor: pointer;
-        position: absolute;
-        top: 320px;
-        left: 20px;
         border-radius: 5px;
+    }
+    .main-box-container{
+        margin-top: 0px;
     }
     .filter-container.show::-webkit-scrollbar {
         width: 8px;
@@ -157,3 +157,15 @@ hr
         grid-template-columns: 1fr 1fr;
     }
 }
+@media (max-width:600px) {
+    .products-page-container{
+        padding:0px;
+    }
+    .main-box-container{
+        padding: 0 10px;
+    }
+    /* .contact-snippet{
+        height: 200px;
+    } */
+}
+
