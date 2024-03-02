@@ -234,10 +234,13 @@ main{
     font-weight: 500;
     margin-bottom: 30px;
 }
+
+.dropdown-content a{
+    text-decoration: none;
+    color: #a8b324;
+}
 .login
 {
-    /* width: 60%; */
-    font-size: 20px;
     border: 2px solid #e0e0e0;
     border-radius: 5px;
     padding: 10px 6px;
@@ -248,13 +251,7 @@ main{
     cursor: pointer;
     border: 2px solid #a8b324;
 }
-.login a
-{
-    
-    text-decoration: none;
-    color: #a8b324;
 
-}
 .show
 {
     display: flex;

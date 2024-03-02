@@ -64,7 +64,7 @@ app.get("/", (req, res) => {
   if(req.isAuthenticated()){
     res.redirect('/home')
   }else{
-    res.render('index.ejs', {message: "notAuth"});
+    res.render('index.ejs', {auth: "notAuth", activePage : "home"});
   }
 });
 
@@ -72,7 +72,7 @@ app.get("/", (req, res) => {
 app.get('/home', (req, res) => {
   console.log(req.user);
   if (req.isAuthenticated()) {
-    res.render('index.ejs', { message: "auth" });
+    res.render('index.ejs', { auth: "auth" , activePage : "home"});
   } else {
     res.redirect('/login');
   }
@@ -85,7 +85,7 @@ app.get("/logout", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.redirect("/");
+      res.redirect("/login");
     }
   });
 });
@@ -98,14 +98,20 @@ app.get("/logout", (req, res) => {
 
 //route for login.ejs
 app.get("/login", (req, res) => {
-  res.render("login.ejs", { message: "freshLogin" });
+  res.render("login.ejs", { message: "freshLogin",
+  auth: "notAuth",
+ });
 });
 
 app.get("/notRegisteredRedirect", (req, res) => {
-  res.render("login.ejs", { message: "User not found." });
+  res.render("login.ejs", { message: "User not found.",
+  auth: "notAuth",
+});
 });
 app.get("/invalidUserPassRedirect", (req, res) => {
-  res.render("login.ejs", { message: "Invalid email or password. Try again" });
+  res.render("login.ejs", { message: "Invalid email or password. Try again",
+  auth: "notAuth",
+});
 });
 
 
@@ -118,6 +124,7 @@ app.get("/register", (req, res) => {
   res.render("register.ejs", {
     message: "",
     disabled: true,
+    auth: "notAuth",
   });
 });
 
@@ -125,6 +132,7 @@ app.get("/alreadyRegisteredRedirect", (req, res) => {
   res.render("register.ejs", {
     message: "User already registered.",
     disabled: true,
+    auth: "notAuth",
   });
 });
 
@@ -261,25 +269,25 @@ app.post("/verifyEmail", async (req, res) => {
 // anshika routes 
 app.get("/products", (req, res) => {
   if(req.isAuthenticated()){
-    res.render('products.ejs', {message: "auth"});
+    res.render('products.ejs', {auth: "auth", activePage : "products"});
   }else{
-    res.render('products.ejs', {message: "notAuth"});
+    res.render('products.ejs', {auth: "notAuth", activePage : "products"});
   }
 });
 
 app.get("/checkout", (req, res) => {
   if(req.isAuthenticated()){
-    res.render('checkout.ejs', {message: "auth"});
+    res.render('checkout.ejs', {auth: "auth", activePage : "checkout"});
   }else{
-    res.render('checkout.ejs', {message: "notAuth"});
+    res.render('checkout.ejs', {auth: "notAuth", activePage : "checkout"});
   }
 });
 
 app.get("/contact", (req, res) => {
   if(req.isAuthenticated()){
-    res.render('contact.ejs', {message: "auth"});
+    res.render('contact.ejs', {auth: "auth", activePage : "contact"});
   }else{
-    res.render('contact.ejs', {message: "notAuth"});
+    res.render('contact.ejs', {auth: "notAuth", activePage : "contact"});
   }
 });
 

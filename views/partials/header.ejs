@@ -38,13 +38,13 @@
                     <div class="icon profile dropdown">
                         <img class="icon-img dropbtn" src="images/Homepage/profile.png">
                         <div class="dropdown-content"> 
-                            <% if (locals.message == 'notAuth') { %>
+                            <% if (locals.auth == 'notAuth') { %>
                                 <h2>Welcome</h2>
                                 <p>To access account and manage orders</p>
-                                <div class="login"><a href="/login">LOGIN / SIGNUP</a></div>
+                                <a href="/login"><div class="login"><span >LOGIN / SIGNUP</span></div></a>
                             <% } else { %>
                                 <h2>Welcome</h2>
-                                <div class="login"><a href="/logout">Logout</a></div>
+                                <a href="/logout"><div class="login"><span >LOGOUT</span></div></a>
                             <% } %>
                         </div>
                     </div> 
@@ -72,11 +72,12 @@
                 </div>
                 <div style="border: 1px solid rgb(158, 156, 156); height: 60%;"></div>
                 <div class="left-nav">
-                    <span class="left-nav-text" style="color: #a8b324;"><a href="/">Home</a><img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                    <span class="left-nav-text"><a href="/products">Shop</a> <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                    <span class="left-nav-text">Page <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                    <span class="left-nav-text">Blog <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                    <span class="left-nav-text contact-nav-text"><a href="/contact">Contact</a></span>
+                    <span class="left-nav-text"><a <% if (locals.activePage === 'home') { %>style="color: #a8b324;"<% } %> href="/">Home</a>
+                        <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                    <span class="left-nav-text"><a <% if (locals.activePage === 'products') { %>style="color: #a8b324;"<% } %>  href="/products">Shop</a> <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                    <span class="left-nav-text"><a href="/page">Page</a> <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                    <span class="left-nav-text"><a href="/blog">Blog</a><img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                    <span class="left-nav-text contact-nav-text"><a <% if (locals.activePage === 'contact') { %>style="color: #a8b324;"<% } %>  href="/contact">Contact</a></span>
                 </div>
             </div>
 
