@@ -7,6 +7,8 @@ import env from "dotenv";
 import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
+import GoogleStrategy from "passport-google-oauth2";
+
 
 
 
@@ -74,6 +76,16 @@ app.get("/", (req, res) => {
   } else {
     res.redirect('/login');
   }
+});
+
+app.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/");
+    }
+  });
 });
 
 
@@ -259,6 +271,24 @@ app.get("/contact", (req, res) => {
 });
 
 
+// google auth routes
+
+
+
+app.get('/auth/google', 
+passport.authenticate('google', {
+   scope: ['profile', 'email'],
+}));
+
+app.get(
+  "/auth/google/home",
+  passport.authenticate("google", {
+   successRedirect: "/home",
+    failureRedirect: "/login",
+  })
+);
+
+
 // local strategy for passport
 
 passport.use("local", new Strategy(async function(username, password, done) {
@@ -279,6 +309,41 @@ passport.use("local", new Strategy(async function(username, password, done) {
     return done(err);
   }
 }));
+
+
+// google strategy
+
+passport.use(
+  "google",
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/auth/google/home", // to redirect after auth
+      userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo", // the endpoint from where info will be collected. It is fixed, basically a API
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      console.log(profile);
+      try {
+        const result = await db.query("SELECT * from users WHERE email = $1", [
+          profile.email,
+        ]);
+        if (result.rows.length === 0) {
+          const newUser = await db.query(
+            "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
+            [profile.email, "googleUser"]
+          );
+          cb(null, newUser.rows[0]); // null is that no error
+        } else {
+          // user already exists
+          cb(null, result.rows[0]);
+        }
+      } catch (err) {
+        cb(err);
+      }
+    }
+  )
+);
 
 
 

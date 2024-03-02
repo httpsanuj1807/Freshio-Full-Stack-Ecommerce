@@ -104,6 +104,12 @@
             disabled <% } %> style="opacity: <% if (locals.disabled) { %> 0.5 <%
             } %>">Sign Up with Freshio
           </button>
+          <a style="text-decoration: none;" href="/auth/google"> <div class="google-container">
+            <div class="blue-div"><img src="images/Homepage/google_logo.png" alt=""></div>
+            <div class="white-div">
+              <p>Sign Up with Google</p>
+            </div>
+          </div></a>
 
           <% if (locals.message == 'User already registered.' ) { %>
           <div class="heading-feature">

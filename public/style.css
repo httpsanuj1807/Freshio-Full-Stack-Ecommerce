@@ -8,45 +8,6 @@
     url("https://db.onlinewebfonts.com/t/a936aab4eb7204d4704bf80fd0235618.svg#Greatest Richmond")format("svg");
 }
 
-/* google btn classes */
-
-.google-container{
-    width: 100%;
-    padding: 0 80px;
-    height: 35px;
-    cursor: pointer;
-    display: flex;
-    margin-top: 15px;
-    background-color:#f2f2f2;
-    border: 1px solid #e5e5e5;
-}
-.google-container .blue-div{
-    width: 20%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.google-container .white-div{
-    width: 80%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.blue-div img{
-    height: 50%;
-}
-
-.white-div p{
-    font-size: 0.8rem;
-    color: #555;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-}
 
 
 *{
@@ -1581,6 +1542,47 @@ hr
 {
     cursor: pointer;
     background-color: rgb(128,137,27);
+}
+
+
+/* google btn classes */
+
+.google-container{
+    width: 100%;
+    padding: 0 80px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    margin-top: 15px;
+    background-color:#f2f2f2;
+    border: 1px solid #e5e5e5;
+}
+.google-container .blue-div{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.google-container .white-div{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blue-div img{
+    height: 50%;
+}
+
+.white-div p{
+    font-size: 0.8rem;
+    color: #555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
 }
 
 
