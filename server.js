@@ -69,7 +69,11 @@ app.get('/home', (req, res) => {
 );
 
 app.get("/", (req, res) => {
-  res.render("index.ejs");
+  if (req.isAuthenticated()) {
+    res.redirect('/home');
+  } else {
+    res.redirect('/login');
+  }
 });
 
 
@@ -114,10 +118,10 @@ app.get("/alreadyRegisteredRedirect", (req, res) => {
 // verification routes
 app.post('/verifyLogIn', (req, res) => {
   passport.authenticate('local', (err, user, info) => {
+    console.log(user);
     if (err) {
       console.log(err);
     }
-    console.log(info.message);
     if (!user) {
       if (info.message == "User not found.") {
         res.redirect('/notRegisteredRedirect');
@@ -138,7 +142,7 @@ app.post('/verifyLogIn', (req, res) => {
 
 app.post("/verifyRegisterUser", async (req, res) => {
   console.log(req.body);
-  const { email, password, firstDigit, secondDigit, thirdDigit, fourthDigit } =
+  const { username, password, firstDigit, secondDigit, thirdDigit, fourthDigit } =
     req.body;
 
   const otpEntered = firstDigit + secondDigit + thirdDigit + fourthDigit;
@@ -149,7 +153,7 @@ app.post("/verifyRegisterUser", async (req, res) => {
       bcrypt.hash(password, saltRounds, async(err, hash) => { 
         const result = await db.query(
           "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
-          [email, hash]
+          [username, hash]
         );
         const user = result.rows[0];
         req.login(user,(err)=>{
@@ -175,9 +179,8 @@ app.post("/verifyEmail", async (req, res) => {
   // verify email is already registered or not
   try {
     const result = await db.query("SELECT * FROM users WHERE email = $1", [
-      req.body.email,
+      req.body.username,
     ]);
-    console.log(result.rows);
     if (result.rows.length > 0) {
       res.redirect("/alreadyRegisteredRedirect");
     } else {
@@ -187,7 +190,7 @@ app.post("/verifyEmail", async (req, res) => {
       try {
         const mailOptions = {
           from: '"Team Freshio" <anuj2002kumar@gmail.com>',
-          to: req.body.email,
+          to: req.body.username,
           subject: "Verify your Freshio OTP",
           text: `Your OTP is ${otp}.`,
           html: `
@@ -204,15 +207,15 @@ app.post("/verifyEmail", async (req, res) => {
                   <h1 style="color: #0a472e; margin: 0;">Welcome to Freshio!</h1>
               </header>
               <!-- Content -->
-              <section style="padding: 20px; text-align:center; color: #0a472e;">
+              <section style="padding: 20px;  color: #0a472e;">
                   <p style="margin-bottom: 10px;">Dear User,</p>
                   <p style="margin-bottom: 10px;">Your OTP for verification is: <strong>${otp}</strong></p>
                   <p>Please use this OTP to complete your registration process.</p>
               </section>
               <!-- Footer -->
               <footer style="background-color: #f5f5f5; padding: 20px; text-align: center;">
-                  <p style="margin-bottom: 5px; color: #0a472e;">Freshio Inc.</p>
-                  <p style="margin-bottom: 5px; color: #0a472e;">MG Park Street, Bengaluru, India</p>
+                  <p style="margin-bottom: 1px; color: #0a472e;">Freshio Inc.</p>
+                  <p style="margin-bottom: 1px; color: #0a472e;">MG Park Street, Bengaluru, India</p>
                   <p style="margin-bottom: 0; color: #0a472e;">Email: anuj2002kumar@gmail.com | Phone: +1 (123) 456-7890</p>
               </footer>
           </body>
@@ -229,7 +232,7 @@ app.post("/verifyEmail", async (req, res) => {
             res.render("register.ejs", {
               message: "Enter OTP sent to your email.",
               disabled: false,
-              emailId: req.body.email,
+              emailId: req.body.username,
             });
           }
         });
@@ -280,11 +283,11 @@ passport.use("local", new Strategy(async function(username, password, done) {
 
 
 passport.serializeUser((user, cb) => {  
-  cb(null, user.email);
+  cb(null, user.email); // Serialize using the user's email
 });
 
-passport.deserializeUser((user, cb) => {
-  cb(null, user.email);
+passport.deserializeUser((email, cb) => { // Deserialize using the email
+  cb(null, email);
 });
 
 app.listen(port, () => {
