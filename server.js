@@ -60,23 +60,25 @@ const transporter = nodemailer.createTransport({
 
 
 
-// redirection based on session is active
+app.get("/", (req, res) => {
+  if(req.isAuthenticated()){
+    res.redirect('/home')
+  }else{
+    res.render('index.ejs', {message: "notAuth"});
+  }
+});
+
+
 app.get('/home', (req, res) => {
+  console.log(req.user);
   if (req.isAuthenticated()) {
-    res.render('index.ejs');
+    res.render('index.ejs', { message: "auth" });
   } else {
     res.redirect('/login');
   }
 }
 );
 
-app.get("/", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.redirect('/home');
-  } else {
-    res.redirect('/login');
-  }
-});
 
 app.get("/logout", (req, res) => {
   req.logout((err) => {
@@ -153,7 +155,6 @@ app.post('/verifyLogIn', (req, res) => {
 
 
 app.post("/verifyRegisterUser", async (req, res) => {
-  console.log(req.body);
   const { username, password, firstDigit, secondDigit, thirdDigit, fourthDigit } =
     req.body;
 
@@ -182,7 +183,7 @@ app.post("/verifyRegisterUser", async (req, res) => {
     res.render("register.ejs", {
       message: "Invalid OTP. Try again.",
       disabled: false,
-      emailId: email,
+      emailId: username,
     });
   }
 });
@@ -259,15 +260,27 @@ app.post("/verifyEmail", async (req, res) => {
 
 // anshika routes 
 app.get("/products", (req, res) => {
-  res.render('products.ejs');
+  if(req.isAuthenticated()){
+    res.render('products.ejs', {message: "auth"});
+  }else{
+    res.render('products.ejs', {message: "notAuth"});
+  }
 });
 
 app.get("/checkout", (req, res) => {
-  res.render('checkout.ejs');
+  if(req.isAuthenticated()){
+    res.render('checkout.ejs', {message: "auth"});
+  }else{
+    res.render('checkout.ejs', {message: "notAuth"});
+  }
 });
 
 app.get("/contact", (req, res) => {
-  res.render('contact.ejs');
+  if(req.isAuthenticated()){
+    res.render('contact.ejs', {message: "auth"});
+  }else{
+    res.render('contact.ejs', {message: "notAuth"});
+  }
 });
 
 

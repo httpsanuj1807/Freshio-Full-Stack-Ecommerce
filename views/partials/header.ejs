@@ -37,12 +37,17 @@
                     
                     <div class="icon profile dropdown">
                         <img class="icon-img dropbtn" src="images/Homepage/profile.png">
-                        <div class="dropdown-content">
-                            <h2>Welcome</h2>
-                            <p>To access account and manage orders</p>
-                            <div class="login"><a href="/login">LOGIN / SIGNUP</a></div>
+                        <div class="dropdown-content"> 
+                            <% if (locals.message == 'notAuth') { %>
+                                <h2>Welcome</h2>
+                                <p>To access account and manage orders</p>
+                                <div class="login"><a href="/login">LOGIN / SIGNUP</a></div>
+                            <% } else { %>
+                                <h2>Welcome</h2>
+                                <div class="login"><a href="/logout">Logout</a></div>
+                            <% } %>
                         </div>
-                    </div>
+                    </div> 
 
                     <div class="icon heart"><img class="icon-img" src="images/Homepage/heart.png"></div>
                     <a class="icon" href="/checkout"><div class="icon basket"><img class="icon-img" src="images/Homepage/basket.png"></div></a>
