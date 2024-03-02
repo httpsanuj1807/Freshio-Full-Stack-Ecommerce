@@ -7,25 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="small-navbar-container">
-        <div class="small-navbar-div">
-            <div><img class="small-navbar-menu" src="images/Homepage/menu64.png"></div>
-            <div><img  class="small-navbar-logo" src="images/Homepage/logo.svg"></div>
-            <div><img class="icon-img-small-navbar" src="images/Homepage/basket.png"></div>
-        </div>
-    </div>
-    <nav class="navbar-container">
-        <div class="navbar">
-            <div class="navbar-left">
-                <p>FREE express international delivery + EASY returns</p>
-            </div>
-            <div class="navbar-right">
-                <span>ABOUT</span>
-                <span>FAQ</span>
-                <span>CONTACT US</span>
-            </div>
-        </div>
-    </nav>
+  
    <main class="main-container">
     <%- include('partials/header.ejs'); -%>
     <div class="login-container">
@@ -33,7 +15,7 @@
         <form class="login-form" action="/verifyLogIn" method="POST">
             <div class="input-container">
                 <label for="username">Username or email address <span class="star">*</span></label>
-                <input type="email" required id="email" name="email" >
+                <input type="email" required id="email" name="username" >
             </div>
             <div class="input-container">
                 <label for="password">Password <span class="star">*</span></label>
@@ -67,6 +49,9 @@
         ) { %>
             <div class="heading-feature">
                 <p style="color: #0a472e; margin-top: 10px;"><%= message %></p>            
+            </div>
+            <div class="heading-feature">
+                <p style="color: #0a472e; margin-top: 8px;">Don't have an account? <a style="color: #a8b324; font-size: 1.1rem;" href="/register">Register here</a></p>            
             </div>
         <% } %>
 

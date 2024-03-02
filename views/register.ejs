@@ -7,31 +7,8 @@
     <link rel="stylesheet" href="style.css" />
    
   <body>
-    <div class="small-navbar-container">
-      <div class="small-navbar-div">
-        <div>
-          <img class="small-navbar-menu" src="images/Homepage/menu64.png" />
-        </div>
-        <div>
-          <img class="small-navbar-logo" src="images/Homepage/logo.svg" />
-        </div>
-        <div>
-          <img class="icon-img-small-navbar" src="images/Homepage/basket.png" />
-        </div>
-      </div>
-    </div>
-    <nav class="navbar-container">
-      <div class="navbar">
-        <div class="navbar-left">
-          <p>FREE express international delivery + EASY returns</p>
-        </div>
-        <div class="navbar-right">
-          <span>ABOUT</span>
-          <span>FAQ</span>
-          <span>CONTACT US</span>
-        </div>
-      </div>
-    </nav>
+   
+    
     <main class="main-container">
       <%- include('partials/header.ejs'); -%>
 
@@ -46,7 +23,7 @@
             <label for="username"
               >Username or email address <span class="star">*</span></label
             >
-            <input style="margin-bottom: 6px" type="email" required id="email" value="<%= emailId %>" name="email" />
+            <input style="margin-bottom: 6px" type="email" required id="email" value="<%= emailId %>" name="username" />
             <!-- // create a otp field below which is styled  -->
             <div class="heading-feature">
               <p style="color: #0a472e; margin-top: 8px; text-align: right">
@@ -88,7 +65,7 @@
               type="email"
               required
               id="email"
-              name="email"
+              name="username"
             />
             
             <% if (locals.message != 'User already registered.' && locals.message != 'Invalid OTP. Try again.' ) { %>

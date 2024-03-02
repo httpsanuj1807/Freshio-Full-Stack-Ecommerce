@@ -4,6 +4,11 @@ import pg from "pg";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import env from "dotenv";
+import session from "express-session";
+import passport from "passport";
+import { Strategy } from "passport-local";
+
+
 
 
 
@@ -16,6 +21,20 @@ let otp = undefined;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+app.use(session
+  ({
+    secret: process.env.SESSION_SECRET,
+    resave
+    : false,
+    saveUninitialized: true,
+    session: { maxAge: 1000 * 60 * 60 * 24 },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 const db = new pg.Client({
   host: process.env.PG_HOST,
@@ -39,14 +58,21 @@ const transporter = nodemailer.createTransport({
 
 
 
+// redirection based on session is active
+app.get('/home', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render('index.ejs');
+  } else {
+    res.redirect('/login');
+  }
+}
+);
 
 app.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
-app.get("/home", (req, res) => {
-  res.render("index.ejs");
-});
+
 
 
 
@@ -57,7 +83,7 @@ app.get("/login", (req, res) => {
   res.render("login.ejs", { message: "freshLogin" });
 });
 
-app.get("/notRegistedRedirect", (req, res) => {
+app.get("/notRegisteredRedirect", (req, res) => {
   res.render("login.ejs", { message: "User not found." });
 });
 app.get("/invalidUserPassRedirect", (req, res) => {
@@ -86,27 +112,29 @@ app.get("/alreadyRegisteredRedirect", (req, res) => {
 
 
 // verification routes
-app.post("/verifyLogIn", (req, res) => {
-  console.log(req.body);
-  const { email, password } = req.body;
-  try {
-    db.query("SELECT * FROM users WHERE email = $1", [email], (err, result) => {
-      if (result.rows.length > 0) {
-        bcrypt.compare(password, result.rows[0].password, (err, response) => {
-          if (response) {
-            res.redirect("/home");
-          } else {
-            res.redirect("/invalidUserPassRedirect");
-          }
-        });
+app.post('/verifyLogIn', (req, res) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(info.message);
+    if (!user) {
+      if (info.message == "User not found.") {
+        res.redirect('/notRegisteredRedirect');
       } else {
-        res.redirect("/notRegistedRedirect");
+        res.redirect('/invalidUserPassRedirect');
       }
-    });
-  } catch (err) {
-    console.log(err);
-  }
+    } else {
+      req.login(user, (err) => {
+        if (err) {
+          console.log(err);
+        }
+        res.redirect('/home');
+      });
+    }
+  })(req, res);
 });
+
 
 app.post("/verifyRegisterUser", async (req, res) => {
   console.log(req.body);
@@ -120,10 +148,16 @@ app.post("/verifyRegisterUser", async (req, res) => {
     try {
       bcrypt.hash(password, saltRounds, async(err, hash) => { 
         const result = await db.query(
-          "INSERT INTO users (email, password) VALUES ($1, $2)",
+          "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
           [email, hash]
         );
-        res.redirect("/home");
+        const user = result.rows[0];
+        req.login(user,(err)=>{
+          if(err){
+            console.log(err);
+          }
+          res.redirect('/home');
+        });
       });
     } catch (err) {
       console.log(err);
@@ -221,6 +255,37 @@ app.get("/contact", (req, res) => {
   res.render('contact.ejs');
 });
 
+
+// local strategy for passport
+
+passport.use("local", new Strategy(async function(username, password, done) {
+  try {
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [username]);
+    if (result.rows.length > 0) {
+      bcrypt.compare(password, result.rows[0].password, (err, response) => {
+        if (response) {
+          return done(null, result.rows[0]);   // correct password
+        } else {
+          return done(null, false, { message: "Invalid email or password. Try again" });  // invalid password
+        }
+      });
+    } else {
+      return done(null, false, { message: "User not found." });  // user not found in db
+    }
+  } catch (err) {
+    return done(err);
+  }
+}));
+
+
+
+passport.serializeUser((user, cb) => {  
+  cb(null, user.email);
+});
+
+passport.deserializeUser((user, cb) => {
+  cb(null, user.email);
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}.`);
