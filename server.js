@@ -67,9 +67,13 @@ app.get("/", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${(product.price / 100).toFixed(2)}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(
+             2
+           )}</div>
            <div class="product-status-container">
-               <div class="product-status">ADD TO CART &gt;&gt; </div>
+               <a href="/addToCart/${
+                 product.id
+               }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
       </div>
    </div>`;
@@ -91,9 +95,13 @@ app.get("/", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${(product.price / 100).toFixed(2)}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(
+             2
+           )}</div>
            <div class="product-status-container">
-               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           <a href="/addToCart/${
+             product.id
+           }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
       </div>
    </div>`;
@@ -106,8 +114,8 @@ app.get("/", async (req, res) => {
         activePage: "home",
         htmlBest: htmlBest,
         htmlFeature: htmlFeature,
-        wishlistCount : 0,
-        cartCount : 0,
+        wishlistCount: 0,
+        cartCount: 0,
       });
     }
   } catch (err) {
@@ -133,9 +141,13 @@ app.get("/home", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${(product.price / 100).toFixed(2)}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(
+             2
+           )}</div>
            <div class="product-status-container">
-               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           <a href="/addToCart/${
+             product.id
+           }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
       </div>
    </div>`;
@@ -157,9 +169,13 @@ app.get("/home", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${(product.price / 100).toFixed(2)}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(
+             2
+           )}</div>
            <div class="product-status-container">
-               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           <a href="/addToCart/${
+             product.id
+           }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
       </div>
    </div>`;
@@ -171,8 +187,8 @@ app.get("/home", async (req, res) => {
         activePage: "home",
         htmlFeature: htmlFeature,
         htmlBest: htmlBest,
-        wishlistCount : wishlistCount,
-        cartCount : cartCount,
+        wishlistCount: 0,
+        cartCount: 0,
       });
     } else {
       res.redirect("/login");
@@ -195,20 +211,28 @@ app.get("/logout", (req, res) => {
 
 //route for login.ejs
 app.get("/login", (req, res) => {
-  res.render("login.ejs", { message: "freshLogin", auth: "notAuth", wishlistCount : 0,
-  cartCount : 0, });
+  res.render("login.ejs", {
+    message: "freshLogin",
+    auth: "notAuth",
+    wishlistCount: 0,
+    cartCount: 0,
+  });
 });
 
 app.get("/notRegisteredRedirect", (req, res) => {
-  res.render("login.ejs", { message: "User not found.", auth: "notAuth", wishlistCount : 0,
-  cartCount : 0, });
+  res.render("login.ejs", {
+    message: "User not found.",
+    auth: "notAuth",
+    wishlistCount: 0,
+    cartCount: 0,
+  });
 });
 app.get("/invalidUserPassRedirect", (req, res) => {
   res.render("login.ejs", {
     message: "Invalid email or password. Try again",
     auth: "notAuth",
-    wishlistCount : 0,
-    cartCount : 0,
+    wishlistCount: 0,
+    cartCount: 0,
   });
 });
 
@@ -218,8 +242,8 @@ app.get("/register", (req, res) => {
     message: "",
     disabled: true,
     auth: "notAuth",
-    wishlistCount : 0,
-    cartCount : 0,
+    wishlistCount: 0,
+    cartCount: 0,
   });
 });
 
@@ -228,15 +252,14 @@ app.get("/alreadyRegisteredRedirect", (req, res) => {
     message: "User already registered.",
     disabled: true,
     auth: "notAuth",
-    wishlistCount : 0,
-    cartCount : 0,
+    wishlistCount: 0,
+    cartCount: 0,
   });
 });
 
 // verification routes
 app.post("/verifyLogIn", (req, res) => {
   passport.authenticate("local", (err, user, info) => {
-    console.log(user);
     if (err) {
       console.log(err);
     }
@@ -292,15 +315,14 @@ app.post("/verifyRegisterUser", async (req, res) => {
     res.render("register.ejs", {
       message: "Invalid OTP. Try again.",
       disabled: false,
-      auth : "notAuth",
+      auth: "notAuth",
       emailId: username,
-      wishlistCount : 0,
-      cartCount : 0,
+      wishlistCount: 0,
+      cartCount: 0,
     });
   }
 });
 app.post("/verifyEmail", async (req, res) => {
-  console.log(req.body);
   // verify email is already registered or not
   try {
     const result = await db.query("SELECT * FROM users WHERE email = $1", [
@@ -358,9 +380,9 @@ app.post("/verifyEmail", async (req, res) => {
               message: "Enter OTP sent to your email.",
               disabled: false,
               emailId: req.body.username,
-              auth : "notAuth",
-              wishlistCount : 0,
-              cartCount : 0,
+              auth: "notAuth",
+              wishlistCount: 0,
+              cartCount: 0,
             });
           }
         });
@@ -405,16 +427,16 @@ app.get("/products", async (req, res) => {
         auth: "auth",
         activePage: "products",
         productHtml: html,
-        wishlistCount : wishlistCount,
-        cartCount : cartCount,
+        wishlistCount: 0,
+        cartCount: 0,
       });
     } else {
       res.render("products.ejs", {
         auth: "notAuth",
         activePage: "products",
         productHtml: html,
-        wishlistCount : 0,
-        cartCount : 0,
+        wishlistCount: 0,
+        cartCount: 0,
       });
     }
   } catch (err) {
@@ -425,23 +447,78 @@ app.get("/products", async (req, res) => {
 
 app.get("/checkout", (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("checkout.ejs", { auth: "auth", activePage: "checkout", wishlistCount : wishlistCount,
-    cartCount : cartCount,});
+    res.render("checkout.ejs", {
+      auth: "auth",
+      activePage: "checkout",
+      wishlistCount: 0,
+      cartCount: 0,
+    });
   } else {
-    res.render("checkout.ejs", { auth: "notAuth", activePage: "checkout", wishlistCount : 0,
-    cartCount : 0, });
+    res.render("checkout.ejs", {
+      auth: "notAuth",
+      activePage: "checkout",
+      wishlistCount: 0,
+      cartCount: 0,
+    });
   }
 });
 
 app.get("/contact", (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("contact.ejs", { auth: "auth", activePage: "contact", wishlistCount : wishlistCount,
-    cartCount : cartCount, });
+    res.render("contact.ejs", {
+      auth: "auth",
+      activePage: "contact",
+      wishlistCount: 0,
+      cartCount: 0,
+    });
   } else {
-    res.render("contact.ejs", { auth: "notAuth", activePage: "contact", wishlistCount : 0,
-    cartCount : 0, });
+    res.render("contact.ejs", {
+      auth: "notAuth",
+      activePage: "contact",
+      wishlistCount: 0,
+      cartCount: 0,
+    });
   }
 });
+
+// add to cart routes
+// req.user has email of login person in case of google
+//  req.user has user_id, email in case of local 
+app.get("/addToCart/:productId", async (req, res) => {
+  if(req.user){
+    console.log(req.user);
+  }
+  if (req.isAuthenticated()) {
+    try {
+      const ifExists = await db.query(
+        "SELECT * FROM cart WHERE user_id = $1 AND product_id = $2",
+        [req.user.user_id, req.params.productId]
+      );
+      if (ifExists.rows.length > 0) {
+        // updating the quantity
+        const result = await db.query(
+          "UPDATE cart SET quantity = quantity + 1 WHERE user_id = $1 AND product_id = $2",
+          [req.user.user_id, req.params.productId]
+        );
+      } else {
+        // fresh insert
+        const result = await db.query(
+          "INSERT INTO cart (user_id, product_id,quantity) VALUES ($1, $2,1)",
+          [req.user.user_id, req.params.productId]
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error adding to cart");
+    }
+  } else {
+    res.redirect("/login");
+  }
+});
+
+
+
+
 
 // google auth routes
 
@@ -500,10 +577,9 @@ passport.use(
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo", // the endpoint from where info will be collected. It is fixed, basically a API
     },
     async (accessToken, refreshToken, profile, cb) => {
-      console.log(profile);
       try {
         const result = await db.query("SELECT * from users WHERE email = $1", [
-          profile.email,
+          profile.email,  
         ]);
         if (result.rows.length === 0) {
           const newUser = await db.query(
@@ -514,7 +590,7 @@ passport.use(
         } else {
           // user already exists
           cb(null, result.rows[0]);
-        }
+        } 
       } catch (err) {
         cb(err);
       }
@@ -523,12 +599,12 @@ passport.use(
 );
 
 passport.serializeUser((user, cb) => {
-  cb(null, user.email); // Serialize using the user's email
+  cb(null, user); // Serialize using the user's email
 });
 
-passport.deserializeUser((email, cb) => {
+passport.deserializeUser((user, cb) => {
   // Deserialize using the email
-  cb(null, email);
+  cb(null, user);
 });
 
 app.listen(port, () => {
