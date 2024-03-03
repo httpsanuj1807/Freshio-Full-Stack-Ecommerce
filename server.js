@@ -9,11 +9,6 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import GoogleStrategy from "passport-google-oauth2";
 
-
-
-
-
-
 const app = express();
 const port = 3000;
 const saltRounds = 10;
@@ -24,11 +19,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use(session
-  ({
+app.use(
+  session({
     secret: process.env.SESSION_SECRET,
-    resave
-    : false,
+    resave: false,
     saveUninitialized: true,
     session: { maxAge: 1000 * 60 * 60 * 24 },
   })
@@ -36,7 +30,6 @@ app.use(session
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 const db = new pg.Client({
   host: process.env.PG_HOST,
@@ -48,7 +41,6 @@ const db = new pg.Client({
 
 db.connect();
 
-
 // setting up nodemailer
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -58,27 +50,22 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-
-
 app.get("/", (req, res) => {
-  if(req.isAuthenticated()){
-    res.redirect('/home')
-  }else{
-    res.render('index.ejs', {auth: "notAuth", activePage : "home"});
+  if (req.isAuthenticated()) {
+    res.redirect("/home");
+  } else {
+    res.render("index.ejs", { auth: "notAuth", activePage: "home" });
   }
 });
 
-
-app.get('/home', (req, res) => {
+app.get("/home", (req, res) => {
   console.log(req.user);
   if (req.isAuthenticated()) {
-    res.render('index.ejs', { auth: "auth" , activePage : "home"});
+    res.render("index.ejs", { auth: "auth", activePage: "home" });
   } else {
-    res.redirect('/login');
+    res.redirect("/login");
   }
-}
-);
-
+});
 
 app.get("/logout", (req, res) => {
   req.logout((err) => {
@@ -90,34 +77,20 @@ app.get("/logout", (req, res) => {
   });
 });
 
-
-
-
-
-
-
 //route for login.ejs
 app.get("/login", (req, res) => {
-  res.render("login.ejs", { message: "freshLogin",
-  auth: "notAuth",
- });
+  res.render("login.ejs", { message: "freshLogin", auth: "notAuth" });
 });
 
 app.get("/notRegisteredRedirect", (req, res) => {
-  res.render("login.ejs", { message: "User not found.",
-  auth: "notAuth",
-});
+  res.render("login.ejs", { message: "User not found.", auth: "notAuth" });
 });
 app.get("/invalidUserPassRedirect", (req, res) => {
-  res.render("login.ejs", { message: "Invalid email or password. Try again",
-  auth: "notAuth",
+  res.render("login.ejs", {
+    message: "Invalid email or password. Try again",
+    auth: "notAuth",
+  });
 });
-});
-
-
-
-
-
 
 // routes for register.ejs
 app.get("/register", (req, res) => {
@@ -136,52 +109,56 @@ app.get("/alreadyRegisteredRedirect", (req, res) => {
   });
 });
 
-
 // verification routes
-app.post('/verifyLogIn', (req, res) => {
-  passport.authenticate('local', (err, user, info) => {
+app.post("/verifyLogIn", (req, res) => {
+  passport.authenticate("local", (err, user, info) => {
     console.log(user);
     if (err) {
       console.log(err);
     }
     if (!user) {
       if (info.message == "User not found.") {
-        res.redirect('/notRegisteredRedirect');
+        res.redirect("/notRegisteredRedirect");
       } else {
-        res.redirect('/invalidUserPassRedirect');
+        res.redirect("/invalidUserPassRedirect");
       }
     } else {
       req.login(user, (err) => {
         if (err) {
           console.log(err);
         }
-        res.redirect('/home');
+        res.redirect("/home");
       });
     }
   })(req, res);
 });
 
-
 app.post("/verifyRegisterUser", async (req, res) => {
-  const { username, password, firstDigit, secondDigit, thirdDigit, fourthDigit } =
-    req.body;
+  const {
+    username,
+    password,
+    firstDigit,
+    secondDigit,
+    thirdDigit,
+    fourthDigit,
+  } = req.body;
 
   const otpEntered = firstDigit + secondDigit + thirdDigit + fourthDigit;
   console.log("Otp entered", otpEntered);
   console.log("Otp sended", otp);
   if (otpEntered === otp) {
     try {
-      bcrypt.hash(password, saltRounds, async(err, hash) => { 
+      bcrypt.hash(password, saltRounds, async (err, hash) => {
         const result = await db.query(
           "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
           [username, hash]
         );
         const user = result.rows[0];
-        req.login(user,(err)=>{
-          if(err){
+        req.login(user, (err) => {
+          if (err) {
             console.log(err);
           }
-          res.redirect('/home');
+          res.redirect("/home");
         });
       });
     } catch (err) {
@@ -266,71 +243,114 @@ app.post("/verifyEmail", async (req, res) => {
   }
 });
 
-// anshika routes 
-app.get("/products", (req, res) => {
-  if(req.isAuthenticated()){
-    res.render('products.ejs', {auth: "auth", activePage : "products"});
-  }else{
-    res.render('products.ejs', {auth: "notAuth", activePage : "products"});
+// anshika routes
+app.get("/products", async (req, res) => {
+  try {
+    const productsResult = await db.query("SELECT * FROM products");
+    let html = ``;
+    const products = productsResult.rows;
+    products.forEach((product) => {
+      html += `<div class="div-item">
+      <div class="img-div">
+       <img class="product-img" src="${product.image}">
+       <div class="hidden-features">
+           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+       </div>
+      </div>
+      <div class="product-text-div">
+           <div class="product-name">${product.name}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(
+             2
+           )}</div>
+           <div class="product-status-container">
+               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           </div>
+      </div>
+   </div>`;
+    });
+    
+    if (req.isAuthenticated()) {
+      res.render("products.ejs", {
+        auth: "auth",
+        activePage: "products",
+        productHtml: html,
+      });
+    } else {
+      res.render("products.ejs", {
+        auth: "notAuth",
+        activePage: "products",
+        productHtml: html,
+      });
+    }
+  } catch (err) {
+    console.log("Error fetching data", err);
+    res.status(500).send("Error fetching data");
   }
 });
 
+
 app.get("/checkout", (req, res) => {
-  if(req.isAuthenticated()){
-    res.render('checkout.ejs', {auth: "auth", activePage : "checkout"});
-  }else{
-    res.render('checkout.ejs', {auth: "notAuth", activePage : "checkout"});
+  if (req.isAuthenticated()) {
+    res.render("checkout.ejs", { auth: "auth", activePage: "checkout" });
+  } else {
+    res.render("checkout.ejs", { auth: "notAuth", activePage: "checkout" });
   }
 });
 
 app.get("/contact", (req, res) => {
-  if(req.isAuthenticated()){
-    res.render('contact.ejs', {auth: "auth", activePage : "contact"});
-  }else{
-    res.render('contact.ejs', {auth: "notAuth", activePage : "contact"});
+  if (req.isAuthenticated()) {
+    res.render("contact.ejs", { auth: "auth", activePage: "contact" });
+  } else {
+    res.render("contact.ejs", { auth: "notAuth", activePage: "contact" });
   }
 });
 
-
 // google auth routes
 
-
-
-app.get('/auth/google', 
-passport.authenticate('google', {
-   scope: ['profile', 'email'],
-}));
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
 
 app.get(
   "/auth/google/home",
   passport.authenticate("google", {
-   successRedirect: "/home",
+    successRedirect: "/home",
     failureRedirect: "/login",
   })
 );
 
-
 // local strategy for passport
 
-passport.use("local", new Strategy(async function(username, password, done) {
-  try {
-    const result = await db.query("SELECT * FROM users WHERE email = $1", [username]);
-    if (result.rows.length > 0) {
-      bcrypt.compare(password, result.rows[0].password, (err, response) => {
-        if (response) {
-          return done(null, result.rows[0]);   // correct password
-        } else {
-          return done(null, false, { message: "Invalid email or password. Try again" });  // invalid password
-        }
-      });
-    } else {
-      return done(null, false, { message: "User not found." });  // user not found in db
+passport.use(
+  "local",
+  new Strategy(async function (username, password, done) {
+    try {
+      const result = await db.query("SELECT * FROM users WHERE email = $1", [
+        username,
+      ]);
+      if (result.rows.length > 0) {
+        bcrypt.compare(password, result.rows[0].password, (err, response) => {
+          if (response) {
+            return done(null, result.rows[0]); // correct password
+          } else {
+            return done(null, false, {
+              message: "Invalid email or password. Try again",
+            }); // invalid password
+          }
+        });
+      } else {
+        return done(null, false, { message: "User not found." }); // user not found in db
+      }
+    } catch (err) {
+      return done(err);
     }
-  } catch (err) {
-    return done(err);
-  }
-}));
-
+  })
+);
 
 // google strategy
 
@@ -366,13 +386,12 @@ passport.use(
   )
 );
 
-
-
-passport.serializeUser((user, cb) => {  
+passport.serializeUser((user, cb) => {
   cb(null, user.email); // Serialize using the user's email
 });
 
-passport.deserializeUser((email, cb) => { // Deserialize using the email
+passport.deserializeUser((email, cb) => {
+  // Deserialize using the email
   cb(null, email);
 });
 
