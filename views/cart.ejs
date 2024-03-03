@@ -1,85 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="cart.css" />
     <title>Document</title>
-</head>
-<body style="
-        height: 100%;
-        width: 100%;
-        background-image: none;
-        padding: 0;
-        font-family: MazzardH-Medium;
-    ">
-<main class="main-container">
-    <%- include('partials/header.ejs'); -%>
-    <div class="contact-snippet">
+  </head>
+  <body
+    style="
+      height: 100%;
+      width: 100%;
+      background-image: none;
+      padding: 0;
+      font-family: MazzardH-Medium;
+    "
+  >
+    <main class="main-container">
+      <%- include('partials/header.ejs'); -%>
+      <div class="contact-snippet">
         <img src="images/Homepage/cart-snippet.jpeg" />
-    </div>
-    <div class="main-box-container">
+      </div>
+      <div class="main-box-container">
         <div class="order-container">
-            <% if (locals.auth === "notAuth") { %>
-                <div style="text-align: center">
-                    <div><img src="images/Homepage/emptyproject.png" alt="" /></div>
-                    <p style="padding: 30px 0">Your cart is current empty. Login to shop</p>
-                    <button class="go-to-shop"><a href="/login">Login</a></button>
-                </div>
-            
-            <% } %>
-            <% if (locals.auth === "auth") { %> 
-                <% if (locals.paymentPrice > 0) { %>
-                    <table>
-                        <tr class="table-headings">
-                            <td></td>
-                            <td></td>
-                            <td>PRODUCT</td>
-                            <td>PRICE</td>
-                            <td>QUANTITY</td>
-                            <td>SUBTOTAL</td>
-                        </tr>
-                        <tbody class="table-data">
-                            <% if (locals.cartHTML) { %>
-                                <%- cartHTML %>
-                            <% } %>
-                        </tbody>
-                    </table>
-                    <div class="buttons-container">
-                        <div class="coupon-container">
-                            <input type="text" placeholder="Coupon code" />
-                            <button class="coupon-btn">Apply coupon</button>
-                        </div>
-                        <div class="update-container">
-                            <button class="update-btn">Update</button>
-                        </div>
-                    </div>
-                <% } else { %>
-                    <div style="text-align: center">
-                        <div><img src="images/Homepage/emptyproject.png" alt="" /></div>
-                        <p style="padding: 30px 0">Your cart is current empty.</p>
-                        <button class="go-to-shop"><a href="/products">Go to shop</a></button>
-                    </div>
-                <% } %>
-            <% } %>
+          <% if (locals.auth === "notAuth") { %>
+          <div style="text-align: center">
+            <div><img src="images/Homepage/emptyproject.png" alt="" /></div>
+            <p style="padding: 30px 0">
+              Your cart is current empty. Login to shop
+            </p>
+            <button class="go-to-shop"><a href="/login">Login</a></button>
+          </div>
+
+          <% } %>
+
+            <% if (locals.auth === "auth") { %> <% if (locals.paymentPrice
+          > 0) { %>
+          <table>
+            <tr class="table-headings">
+              <td></td>
+              <td></td>
+              <td>PRODUCT</td>
+              <td>PRICE</td>
+              <td>QUANTITY</td>
+              <td>SUBTOTAL</td>
+            </tr>
+            <tbody class="table-data">
+              <% if (locals.cartHTML) { %> <%- cartHTML %> <% } %>
+            </tbody>
+          </table>
+          <div class="buttons-container">
+            <div class="coupon-container">
+              <input type="text" placeholder="Coupon code" />
+              <button class="coupon-btn">Apply coupon</button>
+            </div>
+            <div class="update-container">
+              <button class="update-btn">Update</button>
+            </div>
+          </div>
+
+          <% } else { %>
+          <div style="text-align: center">
+            <div><img src="images/Homepage/emptyproject.png" alt="" /></div>
+            <p style="padding: 30px 0">Your cart is current empty.</p>
+            <button class="go-to-shop">
+              <a href="/products">Go to shop</a>
+            </button>
+          </div>
+          <% } %> <% } %>
         </div>
+        <% if (locals.auth === "notAuth") { %>
         <div class="payment-container">
-            <div class="payment-heading"><p>CART TOTALS</p></div>
-            <hr />
-            <div class="subtotal">
-                <div class="subtotal-heading"><p>Subtotal</p></div>
-                <div class="subtotal-price"><p>£<%= paymentPrice %></p></div>
-            </div>
-            <hr />
-            <div class="total">
-                <div class="total-heading"><p>Total</p></div>
-                <div class="total-price"><p>£<%= paymentPrice %></p></div>
-            </div>
-            <button class="checkout-btn">Proceed to checkout</button>
+          <div class="payment-heading"><p>CART TOTALS</p></div>
+          <hr />
+          <div class="subtotal">
+            <div class="subtotal-heading"><p>Subtotal</p></div>
+            <div class="subtotal-price"><p>£<%= paymentPrice %></p></div>
+          </div>
+          <hr />
+          <div class="total">
+            <div class="total-heading"><p>Total</p></div>
+            <div class="total-price"><p>£<%= paymentPrice %></p></div>
+          </div>
+          <button disabled style="cursor: not-allowed" class="checkout-btn">
+            Proceed to checkout
+          </button>
         </div>
-    </div>
-</main>
-<%- include('partials/footer.ejs'); -%>
-<script type="module" src="scripts/checkout.js"></script>
-</body>
+        <% } %> 
+
+        <% if (locals.auth === "auth") { %> <%if(locals.paymentPrice ==
+        0){ %>
+        <div class="payment-container">
+          <div class="payment-heading"><p>CART TOTALS</p></div>
+          <hr />
+          <div class="subtotal">
+            <div class="subtotal-heading"><p>Subtotal</p></div>
+            <div class="subtotal-price"><p>£<%= paymentPrice %></p></div>
+          </div>
+          <hr />
+          <div class="total">
+            <div class="total-heading"><p>Total</p></div>
+            <div class="total-price"><p>£<%= paymentPrice %></p></div>
+          </div>
+          <button disabled class="checkout-btn" style="cursor: not-allowed">
+            Proceed to checkout
+          </button>
+        </div>
+        <%}%> <% } %>
+        <% if (locals.auth === "auth") { %> <%if(locals.paymentPrice >
+        0){ %>
+        <div class="payment-container">
+          <div class="payment-heading"><p>CART TOTALS</p></div>
+          <hr />
+          <div class="subtotal">
+            <div class="subtotal-heading"><p>Subtotal</p></div>
+            <div class="subtotal-price"><p>£<%= paymentPrice %></p></div>
+          </div>
+          <hr />
+          <div class="total">
+            <div class="total-heading"><p>Total</p></div>
+            <div class="total-price"><p>£<%= paymentPrice %></p></div>
+          </div>
+          <button  class="checkout-btn" >
+            Proceed to checkout
+          </button>
+        </div>
+        <%}%> <% } %>
+
+      </div>
+    </main>
+    <%- include('partials/footer.ejs'); -%>
+    <script type="module" src="scripts/checkout.js"></script>
+  </body>
 </html>
+
+
+

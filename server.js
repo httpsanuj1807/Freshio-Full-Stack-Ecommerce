@@ -488,7 +488,9 @@ app.get("/goToCart", async(req, res) => {
         paymentPrice += subtotal;
         cartHTML += `
         <tr class="cart-item">
-            <td style="padding:0;"><div class="delete-btn"><img src="images/Homepage/bin.png"></div></td>
+            <td style="padding:0;"><a href="/deleteFromCart/${
+              item.product_id
+            }"><div class="delete-btn"><img src="images/Homepage/bin.png"></div></a></td>
             <td class="table-img"><img src="${matchingItem.image}" alt=""></td>
             <td>${matchingItem.name}</td>
             <td>£${(matchingItem.price / 100).toFixed(2)}</td>
@@ -540,8 +542,7 @@ app.get("/contact", (req, res) => {
 });
 
 // add to cart routes
-// req.user has email of login person in case of google
-//  req.user has user_id, email in case of local 
+
 app.get("/addToCart/:productId", async (req, res) => {
   if (req.isAuthenticated()) {
     try {
@@ -576,6 +577,24 @@ app.get("/addToCart/:productId", async (req, res) => {
     } catch (err) {
       console.log(err);
       res.status(500).send("Error adding to cart");
+    }
+  } else {
+    res.redirect("/login");
+  }
+});
+
+// delete from cart
+app.get("/deleteFromCart/:productId", async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      const result = await db.query(
+        "DELETE FROM cart WHERE user_id = $1 AND product_id = $2",
+        [req.user.user_id, req.params.productId]
+      );
+      res.redirect("/goToCart");
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error deleting from cart");
     }
   } else {
     res.redirect("/login");
