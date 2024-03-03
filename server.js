@@ -67,7 +67,7 @@ app.get("/", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${product.price}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(2)}</div>
            <div class="product-status-container">
                <div class="product-status">ADD TO CART &gt;&gt; </div>
            </div>
@@ -91,7 +91,7 @@ app.get("/", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${product.price}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(2)}</div>
            <div class="product-status-container">
                <div class="product-status">ADD TO CART &gt;&gt; </div>
            </div>
@@ -106,6 +106,8 @@ app.get("/", async (req, res) => {
         activePage: "home",
         htmlBest: htmlBest,
         htmlFeature: htmlFeature,
+        wishlistCount : 0,
+        cartCount : 0,
       });
     }
   } catch (err) {
@@ -131,7 +133,7 @@ app.get("/home", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${product.price}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(2)}</div>
            <div class="product-status-container">
                <div class="product-status">ADD TO CART &gt;&gt; </div>
            </div>
@@ -155,7 +157,7 @@ app.get("/home", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${product.price}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(2)}</div>
            <div class="product-status-container">
                <div class="product-status">ADD TO CART &gt;&gt; </div>
            </div>
@@ -169,6 +171,8 @@ app.get("/home", async (req, res) => {
         activePage: "home",
         htmlFeature: htmlFeature,
         htmlBest: htmlBest,
+        wishlistCount : wishlistCount,
+        cartCount : cartCount,
       });
     } else {
       res.redirect("/login");
@@ -191,16 +195,20 @@ app.get("/logout", (req, res) => {
 
 //route for login.ejs
 app.get("/login", (req, res) => {
-  res.render("login.ejs", { message: "freshLogin", auth: "notAuth" });
+  res.render("login.ejs", { message: "freshLogin", auth: "notAuth", wishlistCount : 0,
+  cartCount : 0, });
 });
 
 app.get("/notRegisteredRedirect", (req, res) => {
-  res.render("login.ejs", { message: "User not found.", auth: "notAuth" });
+  res.render("login.ejs", { message: "User not found.", auth: "notAuth", wishlistCount : 0,
+  cartCount : 0, });
 });
 app.get("/invalidUserPassRedirect", (req, res) => {
   res.render("login.ejs", {
     message: "Invalid email or password. Try again",
     auth: "notAuth",
+    wishlistCount : 0,
+    cartCount : 0,
   });
 });
 
@@ -210,6 +218,8 @@ app.get("/register", (req, res) => {
     message: "",
     disabled: true,
     auth: "notAuth",
+    wishlistCount : 0,
+    cartCount : 0,
   });
 });
 
@@ -218,6 +228,8 @@ app.get("/alreadyRegisteredRedirect", (req, res) => {
     message: "User already registered.",
     disabled: true,
     auth: "notAuth",
+    wishlistCount : 0,
+    cartCount : 0,
   });
 });
 
@@ -280,7 +292,10 @@ app.post("/verifyRegisterUser", async (req, res) => {
     res.render("register.ejs", {
       message: "Invalid OTP. Try again.",
       disabled: false,
+      auth : "notAuth",
       emailId: username,
+      wishlistCount : 0,
+      cartCount : 0,
     });
   }
 });
@@ -343,6 +358,9 @@ app.post("/verifyEmail", async (req, res) => {
               message: "Enter OTP sent to your email.",
               disabled: false,
               emailId: req.body.username,
+              auth : "notAuth",
+              wishlistCount : 0,
+              cartCount : 0,
             });
           }
         });
@@ -373,9 +391,8 @@ app.get("/products", async (req, res) => {
       </div>
       <div class="product-text-div">
            <div class="product-name">${product.name}</div>
-           <div class="product-price">From £${(product.price / 100).toFixed(
-             2
-           )}</div>
+           <div class="product-price">From £${(product.price / 100).toFixed(2)}
+           </div>
            <div class="product-status-container">
                <div class="product-status">ADD TO CART &gt;&gt; </div>
            </div>
@@ -388,12 +405,16 @@ app.get("/products", async (req, res) => {
         auth: "auth",
         activePage: "products",
         productHtml: html,
+        wishlistCount : wishlistCount,
+        cartCount : cartCount,
       });
     } else {
       res.render("products.ejs", {
         auth: "notAuth",
         activePage: "products",
         productHtml: html,
+        wishlistCount : 0,
+        cartCount : 0,
       });
     }
   } catch (err) {
@@ -404,17 +425,21 @@ app.get("/products", async (req, res) => {
 
 app.get("/checkout", (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("checkout.ejs", { auth: "auth", activePage: "checkout" });
+    res.render("checkout.ejs", { auth: "auth", activePage: "checkout", wishlistCount : wishlistCount,
+    cartCount : cartCount,});
   } else {
-    res.render("checkout.ejs", { auth: "notAuth", activePage: "checkout" });
+    res.render("checkout.ejs", { auth: "notAuth", activePage: "checkout", wishlistCount : 0,
+    cartCount : 0, });
   }
 });
 
 app.get("/contact", (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("contact.ejs", { auth: "auth", activePage: "contact" });
+    res.render("contact.ejs", { auth: "auth", activePage: "contact", wishlistCount : wishlistCount,
+    cartCount : cartCount, });
   } else {
-    res.render("contact.ejs", { auth: "notAuth", activePage: "contact" });
+    res.render("contact.ejs", { auth: "notAuth", activePage: "contact", wishlistCount : 0,
+    cartCount : 0, });
   }
 });
 
