@@ -468,20 +468,57 @@ app.get("/products", async (req, res) => {
   }
 });
 
-app.get("/checkout", (req, res) => {
+app.get("/checkout", async(req, res) => {
   if (req.isAuthenticated()) {
-    res.render("checkout.ejs", {
-      auth: "auth",
-      activePage: "checkout",
-      wishlistCount: 0,
-      cartCount: req.cartQuantity,
-    });
+    try{
+      const orderData = await db.query("SELECT * FROM cart WHERE user_id = $1", [req.user.user_id]);
+      const productsData = await db.query("SELECT * FROM products");
+      let cartHTML = ``;
+      let paymentPrice = 0;
+      const orderDataResult = orderData.rows;
+      const productsDataResult = productsData.rows;
+      orderDataResult.forEach((item) => {
+        let matchingItem;
+        productsDataResult.forEach((product) => {
+          if (item.product_id === product.id) {
+            matchingItem = product;
+          }
+        });
+        const subtotal = matchingItem.price * item.quantity / 100;
+        paymentPrice += subtotal;
+        cartHTML += `
+        <tr class="cart-item">
+            <td style="padding:0;"><div class="delete-btn"><img src="images/Homepage/bin.png"></div></td>
+            <td class="table-img"><img src="${matchingItem.image}" alt=""></td>
+            <td>${matchingItem.name}</td>
+            <td>£${(matchingItem.price / 100).toFixed(2)}</td>
+            <td>${item.quantity}</td>
+            <td>£${(matchingItem.price * item.quantity / 100).toFixed(2)}</td>
+        </tr>`;
+      });
+      paymentPrice = paymentPrice.toFixed(2);
+      res.render("checkout.ejs", {
+        auth: "auth",
+        activePage: "checkout",
+        wishlistCount: 0,
+        cartCount: req.cartQuantity,
+        cartHTML: cartHTML,
+        paymentPrice : paymentPrice,
+      });
+    }
+    catch(err){
+      console.log(err);
+      res.status(500).send("Error fetching data");
+    }
   } else {
+    let paymentPrice = 0;
+    paymentPrice = paymentPrice.toFixed(2);
     res.render("checkout.ejs", {
       auth: "notAuth",
       activePage: "checkout",
       wishlistCount: 0,
       cartCount: 0,
+      paymentPrice : paymentPrice,
     });
   }
 });

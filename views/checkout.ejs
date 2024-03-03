@@ -26,30 +26,49 @@
                     <td>SUBTOTAL</td>
                 </tr>
                 <tbody class="table-data">
-                    
+                    <!-- insert data from server here -->
+                    <%if(locals.cartHTML){%>
+                        <%- cartHTML %>
+                    <% } %>
                 </tbody> 
+              
             </table>
-            <div class="buttons-container">
-                <div class="coupon-container">
-                    <input type="text" placeholder="Coupon code">
-                    <button class="coupon-btn">Apply coupon</button>
+            <%if(locals.auth === "notAuth"){%>
+                <div style="text-align: center;padding: 60px 0;">No products to show. <a href="/login" style="text-decoration: none; color: #a8b324;">Login</a> and try adding.</div>
+                <div class="buttons-container">
+                    <div class="coupon-container">
+                        <input type="text" placeholder="Coupon code">
+                        <button style="cursor: not-allowed;" disabled class="coupon-btn">Apply coupon</button>
+                    </div>
+                    <div class="update-container">
+                        <button style="cursor: not-allowed;" disabled class="update-btn">Update</button>
+                    </div>
                 </div>
-                <div class="update-container">
-                    <button class="update-btn">Update</button>
+            <% } %>
+            <%if(locals.auth === "auth"){%>
+                <div class="buttons-container">
+                    <div class="coupon-container">
+                        <input type="text" placeholder="Coupon code">
+                        <button class="coupon-btn">Apply coupon</button>
+                    </div>
+                    <div class="update-container">
+                        <button class="update-btn">Update</button>
+                    </div>
                 </div>
-            </div>
+            <% } %>
+            
         </div>
         <div class="payment-container">
             <div class="payment-heading"><p>CART TOTALS</p></div>
             <hr>
             <div class="subtotal">
                 <div class="subtotal-heading"><p>Subtotal</p></div>
-                <div class="subtotal-price"><p>£1,401.50</p></div>
+                <div class="subtotal-price"><p>£<%= paymentPrice %></p></div>
             </div>
             <hr>
             <div class="total">
                 <div class="total-heading"><p>Total</p></div>
-                <div class="total-price"><p>£1,401.50</p></div>
+                <div class="total-price"><p>£<%= paymentPrice %></p></div>
             </div>
             <button class="checkout-btn">Proceed to checkout</button>
         </div>
