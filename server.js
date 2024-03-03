@@ -50,20 +50,132 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.get("/", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.redirect("/home");
-  } else {
-    res.render("index.ejs", { auth: "notAuth", activePage: "home" });
+app.get("/", async (req, res) => {
+  try {
+    const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
+    let htmlFeature = ``;
+    const featureProductResult = featureProducts.rows;
+    featureProductResult.forEach((product) => {
+      htmlFeature += ` <div class="div-item">
+      <div class="img-div">
+       <img class="product-img" src=${product.image}>
+       <div class="hidden-features">
+           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+       </div>
+      </div>
+      <div class="product-text-div">
+           <div class="product-name">${product.name}</div>
+           <div class="product-price">From £${product.price}</div>
+           <div class="product-status-container">
+               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           </div>
+      </div>
+   </div>`;
+    });
+    const bestProducts = await db.query(
+      "SELECT * FROM products ORDER BY rating_stars DESC, rating_count DESC LIMIT 4"
+    );
+    let htmlBest = ``;
+    const bestProductResult = bestProducts.rows;
+    bestProductResult.forEach((product) => {
+      htmlBest += ` <div class="div-item">
+      <div class="img-div">
+       <img class="product-img" src=${product.image}>
+       <div class="hidden-features">
+           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+       </div>
+      </div>
+      <div class="product-text-div">
+           <div class="product-name">${product.name}</div>
+           <div class="product-price">From £${product.price}</div>
+           <div class="product-status-container">
+               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           </div>
+      </div>
+   </div>`;
+    });
+    if (req.isAuthenticated()) {
+      res.redirect("/home");
+    } else {
+      res.render("index.ejs", {
+        auth: "notAuth",
+        activePage: "home",
+        htmlBest: htmlBest,
+        htmlFeature: htmlFeature,
+      });
+    }
+  } catch (err) {
+    console.log("Error fetching data", err);
+    res.status(500).send("Error fetching data");
   }
 });
 
-app.get("/home", (req, res) => {
-  console.log(req.user);
-  if (req.isAuthenticated()) {
-    res.render("index.ejs", { auth: "auth", activePage: "home" });
-  } else {
-    res.redirect("/login");
+app.get("/home", async (req, res) => {
+  try {
+    const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
+    let htmlFeature = ``;
+    const featureProductResult = featureProducts.rows;
+    featureProductResult.forEach((product) => {
+      htmlFeature += ` <div class="div-item">
+      <div class="img-div">
+       <img class="product-img" src=${product.image}>
+       <div class="hidden-features">
+           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+       </div>
+      </div>
+      <div class="product-text-div">
+           <div class="product-name">${product.name}</div>
+           <div class="product-price">From £${product.price}</div>
+           <div class="product-status-container">
+               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           </div>
+      </div>
+   </div>`;
+    });
+    const bestProducts = await db.query(
+      "SELECT * FROM products ORDER BY rating_stars DESC, rating_count DESC LIMIT 4"
+    );
+    let htmlBest = ``;
+    const bestProductResult = bestProducts.rows;
+    bestProductResult.forEach((product) => {
+      htmlBest += ` <div class="div-item">
+      <div class="img-div">
+       <img class="product-img" src=${product.image}>
+       <div class="hidden-features">
+           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+       </div>
+      </div>
+      <div class="product-text-div">
+           <div class="product-name">${product.name}</div>
+           <div class="product-price">From £${product.price}</div>
+           <div class="product-status-container">
+               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           </div>
+      </div>
+   </div>`;
+    });
+
+    if (req.isAuthenticated()) {
+      res.render("index.ejs", {
+        auth: "auth",
+        activePage: "home",
+        htmlFeature: htmlFeature,
+        htmlBest: htmlBest,
+      });
+    } else {
+      res.redirect("/login");
+    }
+  } catch (err) {
+    console.log("Error fetching data", err);
+    res.status(500).send("Error fetching data");
   }
 });
 
@@ -270,7 +382,7 @@ app.get("/products", async (req, res) => {
       </div>
    </div>`;
     });
-    
+
     if (req.isAuthenticated()) {
       res.render("products.ejs", {
         auth: "auth",
@@ -289,7 +401,6 @@ app.get("/products", async (req, res) => {
     res.status(500).send("Error fetching data");
   }
 });
-
 
 app.get("/checkout", (req, res) => {
   if (req.isAuthenticated()) {
