@@ -95,7 +95,7 @@ table
     color: #262626;
     /* padding-left: 10px; */
 }
-.buttons-container button
+.buttons-container button, .go-to-shop
 {
     color: white;
     font-weight: 700;
@@ -105,6 +105,12 @@ table
     border: none;
     border-radius: 3px;
     background-color: #a8b324;
+    text-decoration: none;
+}
+
+.go-to-shop a{
+    text-decoration: none;
+    color: white;
 }
 
 .payment-container
@@ -172,6 +178,7 @@ button:hover
 {
     display: flex;
 }
+
 
 
 

@@ -468,7 +468,7 @@ app.get("/products", async (req, res) => {
   }
 });
 
-app.get("/checkout", async(req, res) => {
+app.get("/goToCart", async(req, res) => {
   if (req.isAuthenticated()) {
     try{
       const orderData = await db.query("SELECT * FROM cart WHERE user_id = $1", [req.user.user_id]);
@@ -497,9 +497,8 @@ app.get("/checkout", async(req, res) => {
         </tr>`;
       });
       paymentPrice = paymentPrice.toFixed(2);
-      res.render("checkout.ejs", {
+      res.render("cart.ejs", {
         auth: "auth",
-        activePage: "checkout",
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         cartHTML: cartHTML,
@@ -513,9 +512,8 @@ app.get("/checkout", async(req, res) => {
   } else {
     let paymentPrice = 0;
     paymentPrice = paymentPrice.toFixed(2);
-    res.render("checkout.ejs", {
+    res.render("cart.ejs", {
       auth: "notAuth",
-      activePage: "checkout",
       wishlistCount: 0,
       cartCount: 0,
       paymentPrice : paymentPrice,
