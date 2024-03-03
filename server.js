@@ -31,6 +31,29 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// calculate cartQuantity Middleware
+
+const calculateCartQuantity = async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    try {
+      const cartQuantityResult = await db.query(
+        "SELECT SUM(quantity) AS total_quantity FROM cart WHERE user_id = $1",
+        [req.user.user_id]
+      );
+      const cartQuantity = cartQuantityResult.rows[0].total_quantity || 0;
+      req.cartQuantity = cartQuantity;
+      next();
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error fetching data");
+    }
+  } else {
+    next();
+  }
+}
+app.use(calculateCartQuantity);
+
+
 const db = new pg.Client({
   host: process.env.PG_HOST,
   user: process.env.PG_USER,
@@ -188,7 +211,7 @@ app.get("/home", async (req, res) => {
         htmlFeature: htmlFeature,
         htmlBest: htmlBest,
         wishlistCount: 0,
-        cartCount: 0,
+        cartCount: req.cartQuantity,
       });
     } else {
       res.redirect("/login");
@@ -428,7 +451,7 @@ app.get("/products", async (req, res) => {
         activePage: "products",
         productHtml: html,
         wishlistCount: 0,
-        cartCount: 0,
+        cartCount: req.cartQuantity,
       });
     } else {
       res.render("products.ejs", {
@@ -451,7 +474,7 @@ app.get("/checkout", (req, res) => {
       auth: "auth",
       activePage: "checkout",
       wishlistCount: 0,
-      cartCount: 0,
+      cartCount: req.cartQuantity,
     });
   } else {
     res.render("checkout.ejs", {
@@ -469,7 +492,7 @@ app.get("/contact", (req, res) => {
       auth: "auth",
       activePage: "contact",
       wishlistCount: 0,
-      cartCount: 0,
+      cartCount: req.cartQuantity,
     });
   } else {
     res.render("contact.ejs", {
@@ -485,9 +508,6 @@ app.get("/contact", (req, res) => {
 // req.user has email of login person in case of google
 //  req.user has user_id, email in case of local 
 app.get("/addToCart/:productId", async (req, res) => {
-  if(req.user){
-    console.log(req.user);
-  }
   if (req.isAuthenticated()) {
     try {
       const ifExists = await db.query(
@@ -507,6 +527,17 @@ app.get("/addToCart/:productId", async (req, res) => {
           [req.user.user_id, req.params.productId]
         );
       }
+
+      // Fetch updated cart quantity
+      const cartQuantityResult = await db.query(
+        "SELECT SUM(quantity) AS total_quantity FROM cart WHERE user_id = $1",
+        [req.user.user_id]
+      );
+      const cartQuantity = cartQuantityResult.rows[0].total_quantity;
+
+      // Send response with updated cart quantity
+      res.redirect("/home");
+
     } catch (err) {
       console.log(err);
       res.status(500).send("Error adding to cart");

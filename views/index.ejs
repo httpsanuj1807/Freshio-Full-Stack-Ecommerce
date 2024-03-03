@@ -51,7 +51,7 @@
                    <div class="icons-div-container">
                     <div class="icons-div">
                         
-                        <div class="icon profile dropdown">
+                        <div class="icon profile dropdown" <% if (locals.auth === 'auth') { %>style="background-color: #a8b324;"<% } %>>
                             <img class="icon-img dropbtn" src="images/Homepage/profile.png">
                             <div class="dropdown-content"> 
                                 <% if (locals.auth == 'notAuth') { %>
