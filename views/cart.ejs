@@ -33,29 +33,30 @@
 
           <% } %> <% if (locals.auth === "auth") { %> <% if (locals.paymentPrice
           > 0) { %>
-          <table>
-            <tr class="table-headings">
-              <td></td>
-              <td></td>
-              <td>PRODUCT</td>
-              <td>PRICE</td>
-              <td>QUANTITY</td>
-              <td>SUBTOTAL</td>
-            </tr>
-            <tbody class="table-data">
-              <% if (locals.cartHTML) { %> <%- cartHTML %> <% } %>
-            </tbody>
-          </table>
-          <div class="buttons-container">
-            <div class="coupon-container">
-              <input type="text" placeholder="Coupon code" />
-              <button class="coupon-btn">Apply coupon</button>
+          <form method="post" action="/updateCart">
+            <table>
+              <tr class="table-headings">
+                <td></td>
+                <td></td>
+                <td>PRODUCT</td>
+                <td>PRICE</td>
+                <td>QUANTITY</td>
+                <td>SUBTOTAL</td>
+              </tr>
+              <tbody class="table-data">
+                <% if (locals.cartHTML) { %> <%- cartHTML %> <% } %>
+              </tbody>
+            </table>
+            <div class="buttons-container">
+              <div class="coupon-container">
+                <input type="text" placeholder="Coupon code" />
+                <button class="coupon-btn">Apply coupon</button>
+              </div>
+              <div class="update-container">
+                <button type="submit" class="update-btn">Update</button>
+              </div>
             </div>
-            <div class="update-container">
-              <a href="/updateCart"
-                ><button class="update-btn">Update</button></a>
-            </div>
-          </div>
+          </form>
 
           <% } else { %>
           <div style="text-align: center">

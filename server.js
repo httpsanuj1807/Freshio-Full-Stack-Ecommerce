@@ -497,7 +497,7 @@ app.get("/goToCart", async (req, res) => {
             <td>${matchingItem.name}</td>
             <td>£${(matchingItem.price / 100).toFixed(2)}</td>
             <td>
-            <input class="input-item-quantity" type="number" placeholder="${
+            <input class="input-item-quantity" name=${item.product_id} type="number" placeholder="${
                  item.quantity
                  }" value="${item.quantity}" min="1" max="10">
             </td>
@@ -546,9 +546,28 @@ app.get("/contact", (req, res) => {
   }
 });
 
-// update cart quantity
+// update cart quantity  
 
-app.get("/updateCart", async (req, res) => {});
+app.post("/updateCart", async (req, res) => {
+  console.log(req.body);
+  if (req.isAuthenticated()) {
+    try {
+      Object.keys(req.body).forEach(async (productId) => {
+        const result = await db.query(
+          "UPDATE cart SET quantity = $1 WHERE user_id = $2 AND product_id = $3",
+          [req.body[productId], req.user.user_id, productId]
+        );
+      });
+      res.redirect("/goToCart");
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error updating cart");
+    }
+  } else {
+    res.redirect("/login");
+  }
+  
+});
 
 // add to cart routes
 
