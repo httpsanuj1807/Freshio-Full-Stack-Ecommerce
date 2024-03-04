@@ -18,7 +18,7 @@
     <main class="main-container">
       <%- include('partials/header.ejs'); -%>
       <div class="contact-snippet">
-        <img src="images/Homepage/cart-snippet.jpeg" />
+        <img src="images/Homepage/checkout-page-snippet.jpg" />
       </div>
 
       <div class="main-box-container">
@@ -28,11 +28,11 @@
             <div class="user-name">
               <div style="width:48%;" class="flex-down">
                 <label for="fName" class="required">First name</label>
-                <input  type="text" name="fName" id="fName">
+                <input required maxlength="8" type="text" name="fName" id="fName">
               </div>
               <div style="width:48%;" class="flex-down">
                 <label for="lName" class="required">Last name</label>
-                <input type="text" name="lName" id="lName">
+                <input max="10" required type="text" name="lName" id="lName">
               </div>
             </div>
             <div class="flex-down">
@@ -40,8 +40,8 @@
               <input type="text" name="company-name" id="company-name">
             </div>
             <div class="flex-down">
-              <label for="country-name" class="required">Country / Region (optional)</label>
-              <select id="country-name" name="country-name">
+              <label for="country-name" class="required">Country / Region</label>
+              <select required id="country-name" name="country-name">
                 <option value="India">India</option>
                 <option value="UAE">United Arab Emirates</option>
                 <option value="UK">United Kingdom (UK)</option>
@@ -55,15 +55,15 @@
             </div>
             <div class="flex-down">
               <label for="town" class="required">Town / City</label>
-              <input type="text" name="town" id="town">
+              <input required type="text" name="town" id="town">
             </div>
             <div class="flex-down">
               <label for="postcode" class="required">Postcode</label>
-              <input type="text" name="postcode" id="postcode">
+              <input required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
             </div>
             <div class="flex-down">
               <label for="Phone" class="required">Phone</label>
-              <input type="text" name="Phone" id="Phone">
+              <input required type="text" maxlength="10" name="Phone" id="Phone">
             </div>
             <h2 style="padding-top: 15px;">Additional information</h2>
             <div class="flex-down">
@@ -71,31 +71,31 @@
               <textarea style="resize: none;" placeholder="Notes about your order, e.g. special notes for delivery" name="order-notes" id="order-notes" rows="3" ></textarea>
             </div>
           </div>
-          
+
           <div class="summary-container">
             <h2>Your order</h2>
             <div class="order-table">
               <table>
                 <tr>
-                  <td>Product</td>
-                  <td>Subtotal</td>
+                  <td class="dark">Product</td>
+                  <td class="dark">Subtotal</td>
                 </tr>
                 <tbody>
 
                   <!--dynamic content add here -->
                   <tr>
                     <td>Gorgeous Steel Wallet 1</td>
-                    <td>₹ 1,000.00</td>
+                    <td class="dark">1000.00</td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td>Subtotal</td>
-                    <td>10000</td>
+                    <td class="dark">Subtotal</td>
+                    <td class="dark">10000</td>
                   </tr>
-                  <tr>
-                    <td>Total</td>
-                    <td>10000</td>
+                  <tr >
+                    <td style="border: none;" class="dark">Total</td>
+                    <td style="border: none;"  class="main-price">10000</td>
                   </tr>
                 </tfoot>
               </table>
@@ -103,10 +103,10 @@
             <div class="payment-container">
               <p>Sorry, it seems that there are no available payment methods for your state. Please contact us if you require assistance or wish to make alternate arrangements.</p>
             </div>
-            <div class="privacy-conset">
+            <div class="privacy-consent">
               <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.</p>
             </div>
-            <a href="/payNow"><button>Place order</button></a>
+            <a href="/payNow"><button class="payNow">Place Order</button></a>
           </div>
         </div>
       </div>
