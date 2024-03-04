@@ -93,7 +93,7 @@ app.get("/", async (req, res) => {
              2
            )}</div>
            <div class="product-status-container">
-               <a href="/addToCart/${
+               <a href="/addToCart/home/${
                  product.id
                }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
@@ -121,7 +121,7 @@ app.get("/", async (req, res) => {
              2
            )}</div>
            <div class="product-status-container">
-           <a href="/addToCart/${
+           <a href="/addToCart/home/${
              product.id
            }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
@@ -167,7 +167,7 @@ app.get("/home", async (req, res) => {
              2
            )}</div>
            <div class="product-status-container">
-           <a href="/addToCart/${
+           <a href="/addToCart/home/${
              product.id
            }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
@@ -195,7 +195,7 @@ app.get("/home", async (req, res) => {
              2
            )}</div>
            <div class="product-status-container">
-           <a href="/addToCart/${
+           <a href="/addToCart/home/${
              product.id
            }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
@@ -417,7 +417,7 @@ app.post("/verifyEmail", async (req, res) => {
   }
 });
 
-// anshika routes
+
 app.get("/products", async (req, res) => {
   try {
     const productsResult = await db.query("SELECT * FROM products");
@@ -438,7 +438,9 @@ app.get("/products", async (req, res) => {
            <div class="product-price">From £${(product.price / 100).toFixed(2)}
            </div>
            <div class="product-status-container">
-               <div class="product-status">ADD TO CART &gt;&gt; </div>
+           <a href="/addToCart/products/${
+            product.id
+          }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
       </div>
    </div>`;
@@ -565,13 +567,11 @@ app.post("/updateCart", async (req, res) => {
     }
   } else {
     res.redirect("/login");
-  }
-  
+  } 
 });
 
 // add to cart routes
-
-app.get("/addToCart/:productId", async (req, res) => {
+app.get("/addToCart/products/:productId", async (req, res) => {
   if (req.isAuthenticated()) {
     try {
       const ifExists = await db.query(
@@ -591,15 +591,36 @@ app.get("/addToCart/:productId", async (req, res) => {
           [req.user.user_id, req.params.productId]
         );
       }
+      res.redirect("/products");
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error adding to cart");
+    }
+  } else {
+    res.redirect("/login");
+  }
+});
 
-      // Fetch updated cart quantity
-      const cartQuantityResult = await db.query(
-        "SELECT SUM(quantity) AS total_quantity FROM cart WHERE user_id = $1",
-        [req.user.user_id]
+app.get("/addToCart/home/:productId", async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      const ifExists = await db.query(
+        "SELECT * FROM cart WHERE user_id = $1 AND product_id = $2",
+        [req.user.user_id, req.params.productId]
       );
-      const cartQuantity = cartQuantityResult.rows[0].total_quantity;
-
-      // Send response with updated cart quantity
+      if (ifExists.rows.length > 0) {
+        // updating the quantity
+        const result = await db.query(
+          "UPDATE cart SET quantity = quantity + 1 WHERE user_id = $1 AND product_id = $2",
+          [req.user.user_id, req.params.productId]
+        );
+      } else {
+        // fresh insert
+        const result = await db.query(
+          "INSERT INTO cart (user_id, product_id,quantity) VALUES ($1, $2,1)",
+          [req.user.user_id, req.params.productId]
+        );
+      }
       res.redirect("/home");
     } catch (err) {
       console.log(err);
