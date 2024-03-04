@@ -578,7 +578,22 @@ app.get("/contact", (req, res) => {
       cartCount: 0,
     });
   }
-});
+}); 
+
+// checkout page route
+
+app.get('/checkout', async(req, res)=>{
+  if(req.isAuthenticated()){
+    res.render('checkout.ejs', { 
+        auth: "auth",
+        wishlistCount: 0,
+        cartCount: req.cartQuantity,
+    })
+  }
+  else{
+    res.redirect('/login');
+  }
+})
 
 // update cart quantity  
 

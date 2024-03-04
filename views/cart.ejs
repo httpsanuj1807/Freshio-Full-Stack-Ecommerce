@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="cart.css" />
-    <title>Document</title>
+    <title>Cart - Freshio</title>
   </head>
   <body
     style="
@@ -117,12 +117,11 @@
             <div class="total-heading"><p>Total</p></div>
             <div class="total-price"><p>£<%= paymentPrice %></p></div>
           </div>
-          <button class="checkout-btn">Proceed to checkout</button>
+          <a href="/checkout"><button class="checkout-btn">Proceed to checkout</button></a>
         </div>
         <%}%> <% } %>
       </div>
     </main>
     <%- include('partials/footer.ejs'); -%>
-    <script type="module" src="scripts/checkout.js"></script>
   </body>
 </html>

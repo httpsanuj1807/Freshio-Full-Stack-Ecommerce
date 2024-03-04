@@ -1,0 +1,8 @@
+.main-box-container
+{
+    font-weight: 600;
+    margin: 50px 0;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+}
