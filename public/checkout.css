@@ -146,3 +146,19 @@ td{
     
 }
 
+
+@media (max-width: 1050px) {
+    .checkout-content-div{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .billing-form-container{
+        width: 80%;
+    }
+    .summary-container{
+        margin-top: 50px;
+        width: 80%;
+    }
+    
+}

@@ -628,7 +628,7 @@ app.get('/checkout', async (req, res) => {
         const subtotal = ((matchingItem.price * item.quantity) / 100);
         checkoutHTML += `
         <tr>
-            <td>${matchingItem.name}  x ${item.quantity}</td>
+            <td style="padding-right:20px;">${matchingItem.name}  x ${item.quantity}</td>
             <td class="dark">£${subtotal.toFixed(2)}</td>
         </tr>`;
       });
