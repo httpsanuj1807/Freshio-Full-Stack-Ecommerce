@@ -63,6 +63,8 @@ const calculateCartQuantityAndPaymentPrice = async (req, res, next) => {
       res.status(500).send("Error fetching data");
     }
   } else {
+    const payemntPrice = 0;
+    req.paymentPrice = payemntPrice.toFixed(2);
     next();
   }
 };
@@ -120,6 +122,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get("/", async (req, res) => {
+  console.log(req.paymentPrice);
   try {
     const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
     let htmlFeature = ``;
@@ -185,7 +188,7 @@ app.get("/", async (req, res) => {
         htmlFeature: htmlFeature,
         wishlistCount: 0,
         cartCount: 0,
-        paymentPrice: 0,
+        paymentPrice: req.paymentPrice,
       });
     }
   } catch (err) {
@@ -195,6 +198,7 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/home", async (req, res) => {
+  console.log(req.paymentPrice);
   try {
     const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
     let htmlFeature = ``;
@@ -286,7 +290,7 @@ app.get("/login", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
-    paymentPrice: 0,
+    paymentPrice: req.paymentPrice,
   });
 });
 
@@ -296,7 +300,7 @@ app.get("/notRegisteredRedirect", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
-    paymentPrice: 0,
+    paymentPrice: req.paymentPrice,
   });
 });
 app.get("/invalidUserPassRedirect", (req, res) => {
@@ -305,7 +309,7 @@ app.get("/invalidUserPassRedirect", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
-    paymentPrice: 0,
+    paymentPrice: req.paymentPrice,
   });
 });
 
@@ -317,7 +321,7 @@ app.get("/register", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
-    paymentPrice: 0,
+    paymentPrice: req.paymentPrice,
   });
 });
 
@@ -328,7 +332,7 @@ app.get("/alreadyRegisteredRedirect", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
-    paymentPrice: 0,
+    paymentPrice: req.paymentPrice,
   });
 });
 
@@ -394,7 +398,7 @@ app.post("/verifyRegisterUser", async (req, res) => {
       emailId: username,
       wishlistCount: 0,
       cartCount: 0,
-      paymentPrice: 0,
+      paymentPrice: req.paymentPrice,
     });
   }
 });
@@ -459,7 +463,7 @@ app.post("/verifyEmail", async (req, res) => {
               auth: "notAuth",
               wishlistCount: 0,
               cartCount: 0,
-              paymentPrice: 0,
+              paymentPrice: req.paymentPrice,
             });
           }
         });
@@ -517,7 +521,7 @@ app.get("/products", async (req, res) => {
         productHtml: html,
         wishlistCount: 0,
         cartCount: 0,
-        paymentPrice: 0,
+        paymentPrice: req.paymentPrice,
       });
     }
   } catch (err) {
@@ -576,7 +580,7 @@ app.get("/goToCart", async (req, res) => {
       auth: "notAuth",
       wishlistCount: 0,
       cartCount: 0,
-      paymentPrice: 0,
+      paymentPrice: req.paymentPrice,
     });
   }
 });
@@ -596,7 +600,7 @@ app.get("/contact", (req, res) => {
       activePage: "contact",
       wishlistCount: 0,
       cartCount: 0,
-      paymentPrice: 0,
+      paymentPrice: req.paymentPrice,
     });
   }
 }); 
