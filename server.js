@@ -582,18 +582,50 @@ app.get("/contact", (req, res) => {
 
 // checkout page route
 
-app.get('/checkout', async(req, res)=>{
-  if(req.isAuthenticated()){
-    res.render('checkout.ejs', { 
+app.get('/checkout', async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      const orderData = await db.query(
+        "SELECT * FROM cart WHERE user_id = $1",
+        [req.user.user_id]
+      );
+      const productsData = await db.query("SELECT * FROM products");
+      let checkoutHTML = ``;
+      let paymentPrice = 0;
+      const orderDataResult = orderData.rows;
+      const productsDataResult = productsData.rows;
+      orderDataResult.forEach((item) => {
+        let matchingItem;
+        productsDataResult.forEach((product) => {
+          if (item.product_id === product.id) {
+            matchingItem = product;
+          }
+        });
+        const subtotal = ((matchingItem.price * item.quantity) / 100);
+        paymentPrice += Number(subtotal);
+        checkoutHTML += `
+        <tr>
+            <td>${matchingItem.name}  x ${item.quantity}</td>
+            <td class="dark">£${subtotal.toFixed(2)}</td>
+        </tr>`;
+      });
+      paymentPrice = paymentPrice.toFixed(2);
+      res.render('checkout.ejs', {
         auth: "auth",
         wishlistCount: 0,
         cartCount: req.cartQuantity,
-    })
-  }
-  else{
+        checkoutHTML: checkoutHTML,
+        paymentPrice: paymentPrice,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error fetching data");
+    }
+  } else {
     res.redirect('/login');
   }
-})
+});
+
 
 // update cart quantity  
 

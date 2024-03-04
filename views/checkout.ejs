@@ -83,19 +83,16 @@
                 <tbody>
 
                   <!--dynamic content add here -->
-                  <tr>
-                    <td>Gorgeous Steel Wallet 1</td>
-                    <td class="dark">1000.00</td>
-                  </tr>
+                  <%- checkoutHTML %>
                 </tbody>
                 <tfoot>
                   <tr>
                     <td class="dark">Subtotal</td>
-                    <td class="dark">10000</td>
+                    <td class="dark">£<%= paymentPrice %></td>
                   </tr>
                   <tr >
                     <td style="border: none;" class="dark">Total</td>
-                    <td style="border: none;"  class="main-price">10000</td>
+                    <td style="border: none;"  class="main-price">£<%= paymentPrice %></td>
                   </tr>
                 </tfoot>
               </table>
