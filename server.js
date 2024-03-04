@@ -53,6 +53,38 @@ const calculateCartQuantity = async (req, res, next) => {
 };
 app.use(calculateCartQuantity);
 
+const addToCartMiddleware = async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    try {
+      const ifExists = await db.query(
+        "SELECT * FROM cart WHERE user_id = $1 AND product_id = $2",
+        [req.user.user_id, req.params.productId]
+      );
+      if (ifExists.rows.length > 0) {
+        // updating the quantity
+        const result = await db.query(
+          "UPDATE cart SET quantity = quantity + 1 WHERE user_id = $1 AND product_id = $2",
+          [req.user.user_id, req.params.productId]
+        );
+      } else {
+        // fresh insert
+        const result = await db.query(
+          "INSERT INTO cart (user_id, product_id,quantity) VALUES ($1, $2,1)",
+          [req.user.user_id, req.params.productId]
+        );
+      }
+      next();
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error adding to cart");
+    }
+  } else {
+    res.redirect("/login");
+  }
+}
+
+
+
 const db = new pg.Client({
   host: process.env.PG_HOST,
   user: process.env.PG_USER,
@@ -551,7 +583,6 @@ app.get("/contact", (req, res) => {
 // update cart quantity  
 
 app.post("/updateCart", async (req, res) => {
-  console.log(req.body);
   if (req.isAuthenticated()) {
     try {
       Object.keys(req.body).forEach(async (productId) => {
@@ -571,65 +602,15 @@ app.post("/updateCart", async (req, res) => {
 });
 
 // add to cart routes
-app.get("/addToCart/products/:productId", async (req, res) => {
-  if (req.isAuthenticated()) {
-    try {
-      const ifExists = await db.query(
-        "SELECT * FROM cart WHERE user_id = $1 AND product_id = $2",
-        [req.user.user_id, req.params.productId]
-      );
-      if (ifExists.rows.length > 0) {
-        // updating the quantity
-        const result = await db.query(
-          "UPDATE cart SET quantity = quantity + 1 WHERE user_id = $1 AND product_id = $2",
-          [req.user.user_id, req.params.productId]
-        );
-      } else {
-        // fresh insert
-        const result = await db.query(
-          "INSERT INTO cart (user_id, product_id,quantity) VALUES ($1, $2,1)",
-          [req.user.user_id, req.params.productId]
-        );
-      }
-      res.redirect("/products");
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Error adding to cart");
-    }
-  } else {
-    res.redirect("/login");
-  }
+
+app.get("/addToCart/products/:productId", addToCartMiddleware, (req, res) => {
+  res.redirect("/products");
 });
 
-app.get("/addToCart/home/:productId", async (req, res) => {
-  if (req.isAuthenticated()) {
-    try {
-      const ifExists = await db.query(
-        "SELECT * FROM cart WHERE user_id = $1 AND product_id = $2",
-        [req.user.user_id, req.params.productId]
-      );
-      if (ifExists.rows.length > 0) {
-        // updating the quantity
-        const result = await db.query(
-          "UPDATE cart SET quantity = quantity + 1 WHERE user_id = $1 AND product_id = $2",
-          [req.user.user_id, req.params.productId]
-        );
-      } else {
-        // fresh insert
-        const result = await db.query(
-          "INSERT INTO cart (user_id, product_id,quantity) VALUES ($1, $2,1)",
-          [req.user.user_id, req.params.productId]
-        );
-      }
-      res.redirect("/home");
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Error adding to cart");
-    }
-  } else {
-    res.redirect("/login");
-  }
+app.get("/addToCart/home/:productId", addToCartMiddleware, (req, res) => {
+  res.redirect("/home");
 });
+
 
 // delete from cart
 app.get("/deleteFromCart/:productId", async (req, res) => {
