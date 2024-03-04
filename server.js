@@ -50,9 +50,8 @@ const calculateCartQuantity = async (req, res, next) => {
   } else {
     next();
   }
-}
+};
 app.use(calculateCartQuantity);
-
 
 const db = new pg.Client({
   host: process.env.PG_HOST,
@@ -468,10 +467,13 @@ app.get("/products", async (req, res) => {
   }
 });
 
-app.get("/goToCart", async(req, res) => {
+app.get("/goToCart", async (req, res) => {
   if (req.isAuthenticated()) {
-    try{
-      const orderData = await db.query("SELECT * FROM cart WHERE user_id = $1", [req.user.user_id]);
+    try {
+      const orderData = await db.query(
+        "SELECT * FROM cart WHERE user_id = $1",
+        [req.user.user_id]
+      );
       const productsData = await db.query("SELECT * FROM products");
       let cartHTML = ``;
       let paymentPrice = 0;
@@ -484,7 +486,7 @@ app.get("/goToCart", async(req, res) => {
             matchingItem = product;
           }
         });
-        const subtotal = matchingItem.price * item.quantity / 100;
+        const subtotal = (matchingItem.price * item.quantity) / 100;
         paymentPrice += subtotal;
         cartHTML += `
         <tr class="cart-item">
@@ -494,8 +496,12 @@ app.get("/goToCart", async(req, res) => {
             <td class="table-img"><img src="${matchingItem.image}" alt=""></td>
             <td>${matchingItem.name}</td>
             <td>£${(matchingItem.price / 100).toFixed(2)}</td>
-            <td>${item.quantity}</td>
-            <td>£${(matchingItem.price * item.quantity / 100).toFixed(2)}</td>
+            <td>
+            <input class="input-item-quantity" type="number" placeholder="${
+                 item.quantity
+                 }" value="${item.quantity}" min="1" max="10">
+            </td>
+            <td>£${((matchingItem.price * item.quantity) / 100).toFixed(2)}</td>
         </tr>`;
       });
       paymentPrice = paymentPrice.toFixed(2);
@@ -504,10 +510,9 @@ app.get("/goToCart", async(req, res) => {
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         cartHTML: cartHTML,
-        paymentPrice : paymentPrice,
+        paymentPrice: paymentPrice,
       });
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
       res.status(500).send("Error fetching data");
     }
@@ -518,7 +523,7 @@ app.get("/goToCart", async(req, res) => {
       auth: "notAuth",
       wishlistCount: 0,
       cartCount: 0,
-      paymentPrice : paymentPrice,
+      paymentPrice: paymentPrice,
     });
   }
 });
@@ -540,6 +545,10 @@ app.get("/contact", (req, res) => {
     });
   }
 });
+
+// update cart quantity
+
+app.get("/updateCart", async (req, res) => {});
 
 // add to cart routes
 
@@ -573,7 +582,6 @@ app.get("/addToCart/:productId", async (req, res) => {
 
       // Send response with updated cart quantity
       res.redirect("/home");
-
     } catch (err) {
       console.log(err);
       res.status(500).send("Error adding to cart");
@@ -600,10 +608,6 @@ app.get("/deleteFromCart/:productId", async (req, res) => {
     res.redirect("/login");
   }
 });
-
-
-
-
 
 // google auth routes
 
@@ -664,7 +668,7 @@ passport.use(
     async (accessToken, refreshToken, profile, cb) => {
       try {
         const result = await db.query("SELECT * from users WHERE email = $1", [
-          profile.email,  
+          profile.email,
         ]);
         if (result.rows.length === 0) {
           const newUser = await db.query(
@@ -675,7 +679,7 @@ passport.use(
         } else {
           // user already exists
           cb(null, result.rows[0]);
-        } 
+        }
       } catch (err) {
         cb(err);
       }

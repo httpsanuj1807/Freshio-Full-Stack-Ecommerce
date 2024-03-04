@@ -26,14 +26,12 @@
           <div style="text-align: center">
             <div><img src="images/Homepage/emptyproject.png" alt="" /></div>
             <p style="padding: 30px 0">
-              Your cart is current empty. Login to shop
+              Your cart is currently empty. Login to shop
             </p>
             <button class="go-to-shop"><a href="/login">Login</a></button>
           </div>
 
-          <% } %>
-
-            <% if (locals.auth === "auth") { %> <% if (locals.paymentPrice
+          <% } %> <% if (locals.auth === "auth") { %> <% if (locals.paymentPrice
           > 0) { %>
           <table>
             <tr class="table-headings">
@@ -54,14 +52,15 @@
               <button class="coupon-btn">Apply coupon</button>
             </div>
             <div class="update-container">
-              <button class="update-btn">Update</button>
+              <a href="/updateCart"
+                ><button class="update-btn">Update</button></a>
             </div>
           </div>
 
           <% } else { %>
           <div style="text-align: center">
             <div><img src="images/Homepage/emptyproject.png" alt="" /></div>
-            <p style="padding: 30px 0">Your cart is current empty.</p>
+            <p style="padding: 30px 0">Your cart is currently empty.</p>
             <button class="go-to-shop">
               <a href="/products">Go to shop</a>
             </button>
@@ -85,9 +84,7 @@
             Proceed to checkout
           </button>
         </div>
-        <% } %> 
-
-        <% if (locals.auth === "auth") { %> <%if(locals.paymentPrice ==
+        <% } %> <% if (locals.auth === "auth") { %> <%if(locals.paymentPrice ==
         0){ %>
         <div class="payment-container">
           <div class="payment-heading"><p>CART TOTALS</p></div>
@@ -105,9 +102,8 @@
             Proceed to checkout
           </button>
         </div>
-        <%}%> <% } %>
-        <% if (locals.auth === "auth") { %> <%if(locals.paymentPrice >
-        0){ %>
+        <%}%> <% } %> <% if (locals.auth === "auth") { %>
+        <%if(locals.paymentPrice > 0){ %>
         <div class="payment-container">
           <div class="payment-heading"><p>CART TOTALS</p></div>
           <hr />
@@ -120,18 +116,12 @@
             <div class="total-heading"><p>Total</p></div>
             <div class="total-price"><p>£<%= paymentPrice %></p></div>
           </div>
-          <button  class="checkout-btn" >
-            Proceed to checkout
-          </button>
+          <button class="checkout-btn">Proceed to checkout</button>
         </div>
         <%}%> <% } %>
-
       </div>
     </main>
     <%- include('partials/footer.ejs'); -%>
     <script type="module" src="scripts/checkout.js"></script>
   </body>
 </html>
-
-
-
