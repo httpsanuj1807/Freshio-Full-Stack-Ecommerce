@@ -193,12 +193,14 @@ main{
     justify-content: end;
 }
 .icons-div{
-    width:210px;
+    width:220px;
     height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
+
 
 
 
@@ -272,7 +274,7 @@ main{
 }
 .icons-div span{
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 .profile{
     background-color:#e8f8f7 ;

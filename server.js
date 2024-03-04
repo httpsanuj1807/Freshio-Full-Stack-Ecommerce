@@ -33,15 +33,30 @@ app.use(passport.session());
 
 // calculate cartQuantity Middleware
 
-const calculateCartQuantity = async (req, res, next) => {
+const calculateCartQuantityAndPaymentPrice = async (req, res, next) => {
   if (req.isAuthenticated()) {
     try {
-      const cartQuantityResult = await db.query(
-        "SELECT SUM(quantity) AS total_quantity FROM cart WHERE user_id = $1",
+      const cartResult = await db.query(
+        "SELECT * FROM cart WHERE user_id = $1",
         [req.user.user_id]
       );
-      const cartQuantity = cartQuantityResult.rows[0].total_quantity || 0;
+      let cartQuantity = 0;
+      let paymentPrice = 0;
+      const productsResult = await db.query("SELECT * FROM products");
+      const cartResultData = cartResult.rows;
+      const productsResultData = productsResult.rows;
+      cartResultData.forEach((cartItem) => {
+        productsResultData.forEach((product) => {
+          if (cartItem.product_id === product.id) {
+            cartQuantity += cartItem.quantity;
+            paymentPrice += Number((product.price * cartItem.quantity) / 100);
+          }
+        });
+      }
+      );
+      
       req.cartQuantity = cartQuantity;
+      req.paymentPrice = paymentPrice.toFixed(2);
       next();
     } catch (err) {
       console.log(err);
@@ -51,7 +66,7 @@ const calculateCartQuantity = async (req, res, next) => {
     next();
   }
 };
-app.use(calculateCartQuantity);
+app.use(calculateCartQuantityAndPaymentPrice);
 
 const addToCartMiddleware = async (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -170,6 +185,7 @@ app.get("/", async (req, res) => {
         htmlFeature: htmlFeature,
         wishlistCount: 0,
         cartCount: 0,
+        paymentPrice: 0,
       });
     }
   } catch (err) {
@@ -243,6 +259,7 @@ app.get("/home", async (req, res) => {
         htmlBest: htmlBest,
         wishlistCount: 0,
         cartCount: req.cartQuantity,
+        paymentPrice: req.paymentPrice,
       });
     } else {
       res.redirect("/login");
@@ -252,7 +269,6 @@ app.get("/home", async (req, res) => {
     res.status(500).send("Error fetching data");
   }
 });
-
 app.get("/logout", (req, res) => {
   req.logout((err) => {
     if (err) {
@@ -270,6 +286,7 @@ app.get("/login", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
+    paymentPrice: 0,
   });
 });
 
@@ -279,6 +296,7 @@ app.get("/notRegisteredRedirect", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
+    paymentPrice: 0,
   });
 });
 app.get("/invalidUserPassRedirect", (req, res) => {
@@ -287,6 +305,7 @@ app.get("/invalidUserPassRedirect", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
+    paymentPrice: 0,
   });
 });
 
@@ -298,6 +317,7 @@ app.get("/register", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
+    paymentPrice: 0,
   });
 });
 
@@ -308,6 +328,7 @@ app.get("/alreadyRegisteredRedirect", (req, res) => {
     auth: "notAuth",
     wishlistCount: 0,
     cartCount: 0,
+    paymentPrice: 0,
   });
 });
 
@@ -373,6 +394,7 @@ app.post("/verifyRegisterUser", async (req, res) => {
       emailId: username,
       wishlistCount: 0,
       cartCount: 0,
+      paymentPrice: 0,
     });
   }
 });
@@ -437,6 +459,7 @@ app.post("/verifyEmail", async (req, res) => {
               auth: "notAuth",
               wishlistCount: 0,
               cartCount: 0,
+              paymentPrice: 0,
             });
           }
         });
@@ -485,6 +508,7 @@ app.get("/products", async (req, res) => {
         productHtml: html,
         wishlistCount: 0,
         cartCount: req.cartQuantity,
+        paymentPrice: req.paymentPrice,
       });
     } else {
       res.render("products.ejs", {
@@ -493,6 +517,7 @@ app.get("/products", async (req, res) => {
         productHtml: html,
         wishlistCount: 0,
         cartCount: 0,
+        paymentPrice: 0,
       });
     }
   } catch (err) {
@@ -510,7 +535,6 @@ app.get("/goToCart", async (req, res) => {
       );
       const productsData = await db.query("SELECT * FROM products");
       let cartHTML = ``;
-      let paymentPrice = 0;
       const orderDataResult = orderData.rows;
       const productsDataResult = productsData.rows;
       orderDataResult.forEach((item) => {
@@ -520,8 +544,6 @@ app.get("/goToCart", async (req, res) => {
             matchingItem = product;
           }
         });
-        const subtotal = (matchingItem.price * item.quantity) / 100;
-        paymentPrice += subtotal;
         cartHTML += `
         <tr class="cart-item">
             <td style="padding:0;"><a href="/deleteFromCart/${
@@ -538,26 +560,23 @@ app.get("/goToCart", async (req, res) => {
             <td>£${((matchingItem.price * item.quantity) / 100).toFixed(2)}</td>
         </tr>`;
       });
-      paymentPrice = paymentPrice.toFixed(2);
       res.render("cart.ejs", {
         auth: "auth",
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         cartHTML: cartHTML,
-        paymentPrice: paymentPrice,
+        paymentPrice: req.paymentPrice, 
       });
     } catch (err) {
       console.log(err);
       res.status(500).send("Error fetching data");
     }
   } else {
-    let paymentPrice = 0;
-    paymentPrice = paymentPrice.toFixed(2);
     res.render("cart.ejs", {
       auth: "notAuth",
       wishlistCount: 0,
       cartCount: 0,
-      paymentPrice: paymentPrice,
+      paymentPrice: 0,
     });
   }
 });
@@ -569,6 +588,7 @@ app.get("/contact", (req, res) => {
       activePage: "contact",
       wishlistCount: 0,
       cartCount: req.cartQuantity,
+      paymentPrice: req.paymentPrice,
     });
   } else {
     res.render("contact.ejs", {
@@ -576,6 +596,7 @@ app.get("/contact", (req, res) => {
       activePage: "contact",
       wishlistCount: 0,
       cartCount: 0,
+      paymentPrice: 0,
     });
   }
 }); 
@@ -591,7 +612,6 @@ app.get('/checkout', async (req, res) => {
       );
       const productsData = await db.query("SELECT * FROM products");
       let checkoutHTML = ``;
-      let paymentPrice = 0;
       const orderDataResult = orderData.rows;
       const productsDataResult = productsData.rows;
       orderDataResult.forEach((item) => {
@@ -602,20 +622,18 @@ app.get('/checkout', async (req, res) => {
           }
         });
         const subtotal = ((matchingItem.price * item.quantity) / 100);
-        paymentPrice += Number(subtotal);
         checkoutHTML += `
         <tr>
             <td>${matchingItem.name}  x ${item.quantity}</td>
             <td class="dark">£${subtotal.toFixed(2)}</td>
         </tr>`;
       });
-      paymentPrice = paymentPrice.toFixed(2);
       res.render('checkout.ejs', {
         auth: "auth",
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         checkoutHTML: checkoutHTML,
-        paymentPrice: paymentPrice,
+        paymentPrice: req.paymentPrice,
       });
     } catch (err) {
       console.log(err);
