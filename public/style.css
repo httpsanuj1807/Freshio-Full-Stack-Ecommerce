@@ -245,6 +245,7 @@ main{
 {
     border: 2px solid #e0e0e0;
     border-radius: 5px;
+    background-color: #fff;
     padding: 10px 6px;
     text-align: center;
 }
@@ -1698,12 +1699,12 @@ hr
 }
 
 @media (max-width:1200px){
-    .icons-div span{
-        display: none;
-    }
     .icons-div{
         width:160px ;
     } 
+    .paymentHome{
+        display: none;
+    }
     .right-content{
         display: none;
     }

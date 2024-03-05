@@ -8,6 +8,7 @@ import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
 import GoogleStrategy from "passport-google-oauth2";
+import { render } from "ejs";
 
 const app = express();
 const port = 3000;
@@ -122,7 +123,6 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get("/", async (req, res) => {
-  console.log(req.paymentPrice);
   try {
     const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
     let htmlFeature = ``;
@@ -180,7 +180,7 @@ app.get("/", async (req, res) => {
     });
     if (req.isAuthenticated()) {
       res.redirect("/home");
-    } else {
+    } else { 
       res.render("index.ejs", {
         auth: "notAuth",
         activePage: "home",
@@ -700,12 +700,11 @@ app.get("/deleteFromCart/:productId", async (req, res) => {
 
 
 app.post("/payNow", async(req,res)=>{
-  console.log(req.body);
   if(req.isAuthenticated()){
     try{
-      const orderId =Math.floor(Math.random() * 90000000) + 10000000;
+      const orderId = Math.floor(Math.random() * 90000000) + 10000000;
       const {fName, lName, companyName, countryName, streetAddress1, streetAddress2, town, postcode, Phone, orderNotes} = req.body;
-      await db.query("INSERT INTO order_details (order_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone, ordernotes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",[orderId, fName, lName, companyName, countryName, streetAddress1, streetAddress2, town, postcode, phone, orderNotes]);
+      await db.query("INSERT INTO order_details (order_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone, ordernotes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",[orderId, fName, lName, companyName, countryName, streetAddress1, streetAddress2, town, postcode, Phone, orderNotes]);
       const orderData = await db.query(
         "SELECT * FROM cart WHERE user_id = $1",
         [req.user.user_id]
@@ -713,6 +712,7 @@ app.post("/payNow", async(req,res)=>{
       const productsData = await db.query("SELECT * FROM products");
       const orderDataResult = orderData.rows;
       const productsDataResult = productsData.rows;
+      let orderPageHTML = ``;
       orderDataResult.forEach((item) => {
         let matchingItem;
         productsDataResult.forEach((product) => {
@@ -721,18 +721,42 @@ app.post("/payNow", async(req,res)=>{
           }
         });
         const subtotal = ((matchingItem.price * item.quantity) / 100).toFixed(2);
-        // create a random total 8 digit order id starting with # consisting of numbers and alphabets
-        
         try{
           const result = db.query("INSERT INTO orders (order_id,user_id, product_id, quantity, subtotal) VALUES ($1, $2, $3, $4, $5)",[orderId, req.user.user_id, matchingItem.id, item.quantity, subtotal]);
         }
         catch(errAddingCart){
           console.log("Error adding to orders",errAddingCart);  
         }
+        orderPageHTML +=`<div class="order-products-info">
+        <div class="order-cart-text-content">
+          <div><img src=${matchingItem.image} /></div>
+          <div style="display: flex; flex-direction:column; justify-content: center;">
+            <p>${matchingItem.name}</p>
+            <p>Qty: ${item.quantity}</p>
+          </div>
+        </div>  
+        <div  style="display: flex; flex-direction: column; justify-content: center; padding: 0 20px;"><span>£${subtotal}</span></div>
+      </div>`
         
       });
-      await db.query("DELETE FROM cart WHERE user_id = $1",[req.user.user_id]);
-      res.redirect('/home');
+      await db.query("DELETE FROM cart WHERE user_id = $1",[req.user.user_id]); 
+      let paymentPriceZero = 0;
+      let newTotal = Number(req.paymentPrice) + 3.14 + 14.12;
+      paymentPriceZero = paymentPriceZero.toFixed(2);
+      res.render('order.ejs',{
+        auth: "auth",
+        wishlistCount: 0,
+        cartCount: 0,
+        orderPageHTML: orderPageHTML,
+        paymentPrice: paymentPriceZero,
+        name : fName,
+        orderID : orderId,
+        orderDate : new Date().toLocaleDateString(),
+        houseNo : streetAddress1,
+        streetName : streetAddress2,
+        town : town,
+        total : newTotal.toFixed(2),
+      });
     } catch (err) {
       console.log(err);
       res.status(500).send("Error fetching data");
@@ -741,7 +765,6 @@ app.post("/payNow", async(req,res)=>{
     res.redirect('/login');
   }
 })
-
 
 
 // google auth routes

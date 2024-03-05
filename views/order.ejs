@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="order.css" />
+    <title>Thank You - Freshio</title>
+  </head>
+  <body
+    style="
+      height: 100%;
+      width: 100%;
+      background-image: none;
+      padding: 0;
+      font-family: MazzardH-Medium;
+    "
+  >
+    <main class="main-container">
+      <%- include('partials/header.ejs'); -%>
+      <main class="main-box-container">
+        <div class="wrapper">
+          <div class="thank-you-container">
+            <div class="gift-box">
+              <p>Yay! Order Confirmed</p>
+              <img src="images/Homepage/gift.png" />
+            </div>
+          </div>
+          <div class="order-details">
+            <p class="gray">Hey <%= name %>,</p>
+            <p style="text-align: justify; margin-bottom: 20px;" class="gray">
+              Thank you for placing your order with us. Below are the details of
+              your orders. If you have any queries feel free to get in touch
+              with us at <a style="text-decoration: none; color: #a8b324;" href="#">support@freshio.in</a>
+            </p>
+            <div  class="address-container gray">
+              <div style="display: flex;
+              flex-direction: column;">
+                <p>Order ID: #<%if(locals.orderID){%><%=orderID%><%}%></p>
+                <p>Order Date: <%if(locals.orderDate){%><%=orderDate%><%}%></p>
+              </div>
+              <div>
+                <p>Deliver to:</p>
+                <%if(locals.houseNo){%>
+                    <p><%= houseNo %>,</p>
+                <%}%>
+                <%if(locals.streetName){%>
+                    <p><%= streetName %>,</p>
+                <%}%>
+                <%if(locals.town){%>
+                    <p><%= town %>,</p>
+                <%}%>
+              </div>
+            </div>
+            <div class="order-cart-details">
+
+              <%- orderPageHTML %>
+
+              <div class="table-div-taxes">
+                <table>
+                    <tr>
+                        <td style="text-align: left;">Taxes</td>
+                        <td>£14.12</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">Shipping</td>
+                        <td>£3.14</td>
+                    </tr>
+                </table>
+              </div>
+              <div class="final-price">
+                <p style="padding: 5px 0px; font-size: 1.1rem;">TOTAL</p>
+                <p style="padding: 5px 20px; font-size: 1.1rem; color: #a8b324;">
+                    £<%= total %>
+                </p>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </main>
+    </main>
+    <%- include('partials/footer.ejs'); -%>
+  </body>
+</html>

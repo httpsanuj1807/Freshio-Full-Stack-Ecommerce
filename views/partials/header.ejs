@@ -35,7 +35,7 @@
                <div class="icons-div-container">
                 <div class="icons-div">
                     
-                    <div class="icon profile dropdown" <% if (locals.auth === 'auth') { %>style="background-color: #a8b324;"<% } %>>
+                    <div class="icon profile dropdown" <% if (locals.auth === 'auth') { %>style="background-color: #a8b324;"<% } %>> 
                         <img class="icon-img dropbtn" src="images/Homepage/profile.png">
                         <div class="dropdown-content"> 
                             <% if (locals.auth == 'notAuth') { %>
@@ -51,7 +51,7 @@
 
                     <a class="icon" href="/wishlist"><div class="icon heart"><img class="icon-img" src="images/Homepage/heart.png"></div><div class="wishlistCount"><%= wishlistCount %></div></a>
                     <a class="icon" href="/goToCart"><div class="icon basket"><img class="icon-img" src="images/Homepage/basket.png"></div><div class="cartCount"><%= cartCount %></div></a>
-                    <span >£<%= paymentPrice %></span>
+                    <span class="paymentHome">£<%= paymentPrice %></span>
                 </div>
                </div>
             </div>
