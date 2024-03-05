@@ -1,7 +1,7 @@
 .main-box-container
 {
     margin: 50px 0;
-    padding: 0 22%;
+    padding: 0 18%;
     
 }
 .wrapper{
@@ -87,4 +87,30 @@ table td{
     padding: 5px 20px;
     text-align: right;
 
+}
+
+@media (max-width: 1150px) {
+    .main-box-container
+    {
+        margin: 30px 0;
+        padding: 0 10%;
+        
+    }
+    table{
+        width: 45%;
+    }
+}
+@media (max-width: 650px) {
+    .main-box-container
+    {
+        margin: 30px 0;
+        padding: 0 5%;
+        
+    }
+    table{
+        width: 45%;
+    }
+    .wrapper{
+        padding: 1% 6%;
+    }
 }
