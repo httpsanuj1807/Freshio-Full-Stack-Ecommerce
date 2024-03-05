@@ -198,7 +198,6 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/home", async (req, res) => {
-  console.log(req.paymentPrice);
   try {
     const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
     let htmlFeature = ``;
@@ -698,6 +697,52 @@ app.get("/deleteFromCart/:productId", async (req, res) => {
     res.redirect("/login");
   }
 });
+
+
+app.post("/payNow", async(req,res)=>{
+  console.log(req.body);
+  if(req.isAuthenticated()){
+    try{
+      const orderId =Math.floor(Math.random() * 90000000) + 10000000;
+      const {fName, lName, companyName, countryName, streetAddress1, streetAddress2, town, postcode, Phone, orderNotes} = req.body;
+      await db.query("INSERT INTO order_details (order_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone, ordernotes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",[orderId, fName, lName, companyName, countryName, streetAddress1, streetAddress2, town, postcode, phone, orderNotes]);
+      const orderData = await db.query(
+        "SELECT * FROM cart WHERE user_id = $1",
+        [req.user.user_id]
+      );
+      const productsData = await db.query("SELECT * FROM products");
+      const orderDataResult = orderData.rows;
+      const productsDataResult = productsData.rows;
+      orderDataResult.forEach((item) => {
+        let matchingItem;
+        productsDataResult.forEach((product) => {
+          if (item.product_id === product.id) {
+            matchingItem = product;
+          }
+        });
+        const subtotal = ((matchingItem.price * item.quantity) / 100).toFixed(2);
+        // create a random total 8 digit order id starting with # consisting of numbers and alphabets
+        
+        try{
+          const result = db.query("INSERT INTO orders (order_id,user_id, product_id, quantity, subtotal) VALUES ($1, $2, $3, $4, $5)",[orderId, req.user.user_id, matchingItem.id, item.quantity, subtotal]);
+        }
+        catch(errAddingCart){
+          console.log("Error adding to orders",errAddingCart);  
+        }
+        
+      });
+      await db.query("DELETE FROM cart WHERE user_id = $1",[req.user.user_id]);
+      res.redirect('/home');
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error fetching data");
+    }
+  } else {
+    res.redirect('/login');
+  }
+})
+
+
 
 // google auth routes
 
