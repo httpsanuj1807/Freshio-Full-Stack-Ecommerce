@@ -699,7 +699,7 @@ app.get("/deleteFromCart/:productId", async (req, res) => {
 });
 
 
-app.post("/payNow", async(req,res)=>{
+app.post("/orderPlaced", async(req,res)=>{
   if(req.isAuthenticated()){
     try{
       const orderId = Math.floor(Math.random() * 90000000) + 10000000;
@@ -765,6 +765,15 @@ app.post("/payNow", async(req,res)=>{
     res.redirect('/login');
   }
 })
+
+app.get('/orderPlaced', (req, res) => {
+  if (req.isAuthenticated()) {
+   res.redirect('/products');
+  } else {
+    res.redirect('/login');
+  }
+}
+);
 
 
 // google auth routes
