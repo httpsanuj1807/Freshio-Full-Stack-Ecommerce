@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error 404</title>
+    <style>
+        .main-error-box-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: #f8eee3;
+            height: 110vh;
+            background-image: url('/images/Homepage/background_404.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .error-content-div{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 50%;
+            
+        }
+        
+        h1{
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        p{
+            padding: 5px;
+            font-size: 18px;
+        }
+        a{
+            text-decoration: none;
+            color:red;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-error-box-container{
+                height: 90vh;
+            }
+           .error-content-div
+              {
+                width:90%;
+              } 
+        }
+
+        @media (max-width: 550px) {
+            .main-error-box-container{
+                height: 40vh;
+            }
+           .error-content-div
+              {
+                width:100%;
+              } 
+
+              .error-content-div img{
+                width: 70%;
+              }
+              h1{
+                font-size: 30px;
+              }
+              p{
+                padding: 5px 0;
+                font-size: 12px;
+              }
+        }
+
+
+    </style>
+  </head>
+  <body
+    style="
+      height: 100%;
+      width: 100%;
+      background-image: none;
+      padding: 0;
+      font-family: MazzardH-Medium;
+    "
+  >
+    <div class="main-container-error">
+      <%- include('partials/header.ejs'); -%>
+      <div class="main-error-box-container">
+        <div class="error-content-div">
+            <img src="/images/Homepage/404.png">
+            <h1>Oop, that link is broken.</h1>
+            <p class="error-1">Page doesn’t exist or some other error occured. Go to our</p>
+            <p class="error-2"><span><a href="/">Previous page</a></span> or go back to <span><a href="/home">Home page</a></span>
+            </p>
+        </div>
+      </div>
+      
+      <%- include('partials/footer.ejs'); -%>
+    </div>
+    
+  </body>
+</html>

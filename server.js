@@ -1015,6 +1015,28 @@ app.post("/orderPlaced", async (req, res) => {
   }
 });
 
+
+app.get('/error', (req, res) => {
+  if(req.isAuthenticated()){
+    res.render('error404.ejs', {
+      auth: "auth",
+      wishlistCount: 0,
+      cartCount: req.cartQuantity,
+      paymentPrice: req.paymentPrice,
+    });
+  }
+  else{
+    res.render('error404.ejs', {
+      auth: "notAuth",
+      wishlistCount: 0,
+      cartCount: 0,
+      paymentPrice: req.paymentPrice,
+    });
+  }
+});
+
+
+
 app.get("/orderPlaced", (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect("/products");
