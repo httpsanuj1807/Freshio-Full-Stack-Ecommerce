@@ -686,6 +686,9 @@ app.get("/addToCart/products/:productId", addToCartMiddleware, (req, res) => {
 app.get("/addToCart/home/:productId", addToCartMiddleware, (req, res) => {
   res.redirect("/home");
 });
+app.get("/addToCart/products/filter/:topic/:productId", addToCartMiddleware, (req, res) => {
+  res.redirect(`/filter/topicToSearch/${req.params.topic}`);
+});
 
 
 app.get("/filter/topicToSearch/:keyword", async (req, res) => {
@@ -715,7 +718,7 @@ app.get("/filter/topicToSearch/:keyword", async (req, res) => {
              )}
              </div>
              <div class="product-status-container">
-             <a href="/addToCart/products/${
+             <a href="/addToCart/products/filter/${topic}/${
                product.id
              }" class="product-status">ADD TO CART &gt;&gt; </a>
              </div>
