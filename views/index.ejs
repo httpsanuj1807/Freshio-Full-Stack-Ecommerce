@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Freshio</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,100,0,0" />
     <link href="https://db.onlinewebfonts.com/c/875fffdfa62169a0f131e90f37f1faf4?family=MazzardH-Medium" rel="stylesheet" type="text/css"/>
 
@@ -12,9 +12,9 @@
 <body>
     <div class="small-navbar-container">
         <div class="small-navbar-div">
-            <div><img class="small-navbar-menu" src="images/Homepage/menu64.png"></div>
-            <div><img  class="small-navbar-logo" src="images/Homepage/logo.svg"></div>
-            <div><img class="icon-img-small-navbar" src="images/Homepage/basket.png"></div>
+            <div><img class="small-navbar-menu" src="/images/Homepage/menu64.png"></div>
+            <div><img  class="small-navbar-logo" src="/images/Homepage/logo.svg"></div>
+            <div><img class="icon-img-small-navbar" src="/images/Homepage/basket.png"></div>
         </div>
     </div>
     <nav class="navbar-container">
@@ -36,12 +36,12 @@
 
             <div class="upper-header">
                 <div class="upper-left">
-                        <img class="logo-img" src="images/Homepage/logo.svg">       
+                        <img class="logo-img" src="/images/Homepage/logo.svg">       
                 </div>
                 <div class="upper-right">
                     <div class="search-container">
                         <div class="search-icon-div">
-                            <img class="search-icon" src="images/Homepage/search.png">
+                            <img class="search-icon" src="/images/Homepage/search.png">
                         </div>
                         <input class="search-box" type="search" placeholder="Search products..">
                         <div class="search-text">
@@ -52,7 +52,7 @@
                     <div class="icons-div">
                         
                         <div class="icon profile dropdown" <% if (locals.auth === 'auth') { %>style="background-color: #a8b324;"<% } %>>
-                            <img class="icon-img dropbtn" src="images/Homepage/profile.png">
+                            <img class="icon-img dropbtn" src="/images/Homepage/profile.png">
                             <div class="dropdown-content"> 
                                 <% if (locals.auth == 'notAuth') { %>
                                     <h2>Welcome</h2>
@@ -65,8 +65,8 @@
                             </div>
                         </div>  
 
-                        <a class="icon" href="/wishlist"><div class="icon heart"><img class="icon-img" src="images/Homepage/heart.png"></div><div class="wishlistCount"><%= wishlistCount %></div></a>
-                        <a class="icon" href="/goToCart"><div class="icon basket"><img class="icon-img" src="images/Homepage/basket.png"></div><div class="cartCount"><%= cartCount %></div> </a>
+                        <a class="icon" href="/wishlist"><div class="icon heart"><img class="icon-img" src="/images/Homepage/heart.png"></div><div class="wishlistCount"><%= wishlistCount %></div></a>
+                        <a class="icon" href="/goToCart"><div class="icon basket"><img class="icon-img" src="/images/Homepage/basket.png"></div><div class="cartCount"><%= cartCount %></div> </a>
                         
 
                         <span class="paymentHome">£<%= paymentPrice %></span>
@@ -83,7 +83,7 @@
                     <div class="left-shop-dept">
                         <button class="shop-dept-button">
                             <div class="menu-icon-div">
-                                <img class="menu-icon" src="images/Homepage/menu64.png">
+                                <img class="menu-icon" src="/images/Homepage/menu64.png">
                             </div>
                             <p>Shop by Department</p>
                         </button>
@@ -91,16 +91,16 @@
                     <div style="border: 1px solid rgb(158, 156, 156); height: 60%;"></div>
                     <div class="left-nav">
                         <span class="left-nav-text"><a <% if (locals.activePage === 'home') { %>style="color: #a8b324;"<% } %> href="/">Home</a>
-                            <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                        <span class="left-nav-text"><a <% if (locals.activePage === 'products') { %>style="color: #a8b324;"<% } %>  href="/products">Shop</a> <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                        <span class="left-nav-text"><a href="/page">Page</a> <img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
-                        <span class="left-nav-text"><a href="/blog">Blog</a><img class="down-arrow" src="images/Homepage/down-arrow.png"></span>
+                            <img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
+                        <span class="left-nav-text"><a <% if (locals.activePage === 'products') { %>style="color: #a8b324;"<% } %>  href="/products">Shop</a> <img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
+                        <span class="left-nav-text"><a href="/page">Page</a> <img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
+                        <span class="left-nav-text"><a href="/blog">Blog</a><img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
                         <span class="left-nav-text contact-nav-text"><a <% if (locals.activePage === 'contact') { %>style="color: #a8b324;"<% } %>  href="/contact">Contact</a></span>
                     </div>
                 </div>
     
                 <div class="right-content">
-                    <img class="headphone" src="images/Homepage/headphones.png">
+                    <img class="headphone" src="/images/Homepage/headphones.png">
                     (1800)-88-66-991
                 </div>
             </div>
@@ -150,7 +150,7 @@
                 <div class="feature-item feature-item-1">
                     <div class="main-item">
                         <div class="item-img">
-                            <img src="images/Homepage/curated-products.jpg">
+                            <img src="/images/Homepage/curated-products.jpg">
                         </div>
                         <div class="item-text">
                             <div class="item-heading">Curated Products</div>
@@ -161,7 +161,7 @@
                 <div class="feature-item">
                     <div class="main-item">
                         <div class="item-img">
-                            <img src="images/Homepage/handmade.jpg">
+                            <img src="/images/Homepage/handmade.jpg">
                         </div>
                         <div class="item-text">
                             <div class="item-heading">Handmade</div>
@@ -174,7 +174,7 @@
                 <div class="feature-item">
                     <div class="main-item">
                         <div class="item-img">
-                            <img src="images/Homepage/natural.jpg">
+                            <img src="/images/Homepage/natural.jpg">
                         </div>
                         <div class="item-text">
                             <div class="item-heading">100% Natural</div>
@@ -185,7 +185,7 @@
                 <div class="feature-item">
                     <div class="main-item">
                         <div class="item-img">
-                            <img src="images/Homepage/shipping.jpg">
+                            <img src="/images/Homepage/shipping.jpg">
                         </div>
                         <div class="item-text">
                             <div class="item-heading">Shipping</div>
@@ -281,9 +281,9 @@
         <div class="testimonial-container">
             <div class="testimonial-div">
                 <div style="padding:0 20px;"  class="testimonial-img-div">
-                    <img src="images/Homepage/image3-h2.jpg">
+                    <img src="/images/Homepage/image3-h2.jpg">
                     <img style="position: absolute;
-                    height: 45%; width: 45%; object-fit: contain; left: 60%;top:55%; " class="live-a-natural" src="images/Homepage/live-a-natural.png">
+                    height: 45%; width: 45%; object-fit: contain; left: 60%;top:55%; " class="live-a-natural" src="/images/Homepage/live-a-natural.png">
                 </div>
                 <div class="testimonial-content-div">
                     <div class="testimonial-text-div">
@@ -307,8 +307,8 @@
                     </div>
                 </div>
                 <div style="padding:0 20px;"  class="testimonial-img-div">
-                    <img src="images/Homepage/image4-h2.jpg">
-                    <img style="position: absolute; object-fit: contain; height: 30%; width: 30%; top: 5%; left: 3%;" src="images/Homepage/qualityassured.png">
+                    <img src="/images/Homepage/image4-h2.jpg">
+                    <img style="position: absolute; object-fit: contain; height: 30%; width: 30%; top: 5%; left: 3%;" src="/images/Homepage/qualityassured.png">
                 </div>
             </div>
         </div>
@@ -364,7 +364,7 @@
             <div class="support-div">
                 <div class="contact-div">
                     <div class="contact-img">
-                        <img src="images/Homepage/headphonenew.jpg">
+                        <img src="/images/Homepage/headphonenew.jpg">
                     </div>
                     <div class="contact-text">
                         <p class="phone-support">Phone Support</p>
@@ -375,7 +375,7 @@
                 </div>
                 <div class="contact-div another-contact-div">
                     <div class="contact-img">
-                        <img src="images/Homepage/envelope.jpg">
+                        <img src="/images/Homepage/envelope.jpg">
                     </div>
                     <div class="contact-text">
                         <p class="phone-support">Daily Updates</p>
@@ -417,13 +417,13 @@
     
                 <div class="links-flex-item specific-padding">
                     <h5>ACCEPT PAYMENT</h5>
-                    <img src="images/Homepage/payment_2.png">
+                    <img src="/images/Homepage/payment_2.png">
                     <h5>Follow Us</h5>
                     <div class="social-div">
-                        <img class="link" src="images/Homepage/facebook.png">
-                        <img class="link" src="images/Homepage/youtube.png">
-                        <img class="link" src="images/Homepage/twitter.png">
-                        <img class="link" src="images/Homepage/instagram.png"> 
+                        <img class="link" src="/images/Homepage/facebook.png">
+                        <img class="link" src="/images/Homepage/youtube.png">
+                        <img class="link" src="/images/Homepage/twitter.png">
+                        <img class="link" src="/images/Homepage/instagram.png"> 
                     </div>
                 </div>
             </div>
@@ -436,6 +436,6 @@
         </div>
 
     </main>
-    <script type="module" src="scripts/index.js"></script>
+    <script type="module" src="/scripts/index.js"></script>
 </body>
 </html>

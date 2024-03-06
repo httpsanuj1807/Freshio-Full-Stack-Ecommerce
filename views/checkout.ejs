@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="checkout.css" />
+    <link rel="stylesheet" href="/checkout.css" />
     <title>Checkout - Freshio</title>
   </head>
   <body
@@ -18,7 +18,7 @@
     <main class="main-container">
       <%- include('partials/header.ejs'); -%>
       <div class="contact-snippet">
-        <img src="images/Homepage/checkout-page-snippet.jpg" />
+        <img src="/images/Homepage/checkout-page-snippet.jpg" />
       </div>
 
       <form method="post" action="/orderPlaced">
@@ -119,6 +119,6 @@
        
     </main>
     <%- include('partials/footer.ejs'); -%>
-    <script type="module" src="scripts/checkout.js"></script>
+    <script type="module" src="/scripts/checkout.js"></script>
   </body>
 </html>

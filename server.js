@@ -8,7 +8,13 @@ import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
 import GoogleStrategy from "passport-google-oauth2";
-import { render } from "ejs";
+// import { fileURLToPath } from 'url';
+// import path from 'path';
+
+
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
 
 const app = express();
 const port = 3000;
@@ -18,7 +24,9 @@ let otp = undefined;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.static("public"));
+
 
 app.use(
   session({
@@ -53,9 +61,8 @@ const calculateCartQuantityAndPaymentPrice = async (req, res, next) => {
             paymentPrice += Number((product.price * cartItem.quantity) / 100);
           }
         });
-      }
-      );
-      
+      });
+
       req.cartQuantity = cartQuantity;
       req.paymentPrice = paymentPrice.toFixed(2);
       next();
@@ -99,9 +106,7 @@ const addToCartMiddleware = async (req, res, next) => {
   } else {
     res.redirect("/login");
   }
-}
-
-
+};
 
 const db = new pg.Client({
   host: process.env.PG_HOST,
@@ -132,9 +137,9 @@ app.get("/", async (req, res) => {
       <div class="img-div">
        <img class="product-img" src=${product.image}>
        <div class="hidden-features">
-           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/eye.png"></p>
        </div>
       </div>
       <div class="product-text-div">
@@ -160,9 +165,9 @@ app.get("/", async (req, res) => {
       <div class="img-div">
        <img class="product-img" src=${product.image}>
        <div class="hidden-features">
-           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/eye.png"></p>
        </div>
       </div>
       <div class="product-text-div">
@@ -180,7 +185,7 @@ app.get("/", async (req, res) => {
     });
     if (req.isAuthenticated()) {
       res.redirect("/home");
-    } else { 
+    } else {
       res.render("index.ejs", {
         auth: "notAuth",
         activePage: "home",
@@ -207,9 +212,9 @@ app.get("/home", async (req, res) => {
       <div class="img-div">
        <img class="product-img" src=${product.image}>
        <div class="hidden-features">
-           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/eye.png"></p>
        </div>
       </div>
       <div class="product-text-div">
@@ -235,9 +240,9 @@ app.get("/home", async (req, res) => {
       <div class="img-div">
        <img class="product-img" src=${product.image}>
        <div class="hidden-features">
-           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/eye.png"></p>
        </div>
       </div>
       <div class="product-text-div">
@@ -475,7 +480,6 @@ app.post("/verifyEmail", async (req, res) => {
   }
 });
 
-
 app.get("/products", async (req, res) => {
   try {
     const productsResult = await db.query("SELECT * FROM products");
@@ -486,9 +490,9 @@ app.get("/products", async (req, res) => {
       <div class="img-div">
        <img class="product-img" src="${product.image}">
        <div class="hidden-features">
-           <p><img class="feature-icon" src="images/Homepage/filledheart.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/shuffle.png"></p>
-           <p><img class="feature-icon" src="images/Homepage/eye.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
+           <p><img class="feature-icon" src="/images/Homepage/eye.png"></p>
        </div>
       </div>
       <div class="product-text-div">
@@ -497,8 +501,8 @@ app.get("/products", async (req, res) => {
            </div>
            <div class="product-status-container">
            <a href="/addToCart/products/${
-            product.id
-          }" class="product-status">ADD TO CART &gt;&gt; </a>
+             product.id
+           }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
       </div>
    </div>`;
@@ -551,14 +555,16 @@ app.get("/goToCart", async (req, res) => {
         <tr class="cart-item">
             <td style="padding:0;"><a href="/deleteFromCart/${
               item.product_id
-            }"><div class="delete-btn"><img src="images/Homepage/bin.png"></div></a></td>
+            }"><div class="delete-btn"><img src="/images/Homepage/bin.png"></div></a></td>
             <td class="table-img"><img src="${matchingItem.image}" alt=""></td>
             <td>${matchingItem.name}</td>
             <td>£${(matchingItem.price / 100).toFixed(2)}</td>
             <td>
-            <input class="input-item-quantity" name=${item.product_id} type="number" placeholder="${
-                 item.quantity
-                 }" value="${item.quantity}" min="1" max="10">
+            <input class="input-item-quantity" name=${
+              item.product_id
+            } type="number" placeholder="${item.quantity}" value="${
+          item.quantity
+        }" min="1" max="10">
             </td>
             <td>£${((matchingItem.price * item.quantity) / 100).toFixed(2)}</td>
         </tr>`;
@@ -568,7 +574,7 @@ app.get("/goToCart", async (req, res) => {
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         cartHTML: cartHTML,
-        paymentPrice: req.paymentPrice, 
+        paymentPrice: req.paymentPrice,
       });
     } catch (err) {
       console.log(err);
@@ -602,11 +608,11 @@ app.get("/contact", (req, res) => {
       paymentPrice: req.paymentPrice,
     });
   }
-}); 
+});
 
 // checkout page route
 
-app.get('/checkout', async (req, res) => {
+app.get("/checkout", async (req, res) => {
   if (req.isAuthenticated()) {
     try {
       const orderData = await db.query(
@@ -624,14 +630,16 @@ app.get('/checkout', async (req, res) => {
             matchingItem = product;
           }
         });
-        const subtotal = ((matchingItem.price * item.quantity) / 100);
+        const subtotal = (matchingItem.price * item.quantity) / 100;
         checkoutHTML += `
         <tr>
-            <td style="padding-right:20px;">${matchingItem.name}  x ${item.quantity}</td>
+            <td style="padding-right:20px;">${matchingItem.name}  x ${
+          item.quantity
+        }</td>
             <td class="dark">£${subtotal.toFixed(2)}</td>
         </tr>`;
       });
-      res.render('checkout.ejs', {
+      res.render("checkout.ejs", {
         auth: "auth",
         wishlistCount: 0,
         cartCount: req.cartQuantity,
@@ -643,12 +651,11 @@ app.get('/checkout', async (req, res) => {
       res.status(500).send("Error fetching data");
     }
   } else {
-    res.redirect('/login');
+    res.redirect("/login");
   }
 });
 
-
-// update cart quantity  
+// update cart quantity
 
 app.post("/updateCart", async (req, res) => {
   if (req.isAuthenticated()) {
@@ -666,11 +673,12 @@ app.post("/updateCart", async (req, res) => {
     }
   } else {
     res.redirect("/login");
-  } 
+  }
 });
 
 // add to cart routes
 
+// using url parameter type
 app.get("/addToCart/products/:productId", addToCartMiddleware, (req, res) => {
   res.redirect("/products");
 });
@@ -679,6 +687,68 @@ app.get("/addToCart/home/:productId", addToCartMiddleware, (req, res) => {
   res.redirect("/home");
 });
 
+
+app.get("/filter/topicToSearch/:keyword", async (req, res) => {
+  const topic = req.params.keyword;
+  try {
+    const productsResult = await db.query(
+      "SELECT * from products WHERE keyword1 = $1 OR keyword2 = $1 OR keyword3 = $1 OR keyword4 = $1",
+      [topic]
+    );
+    let html = ``;
+    const products = productsResult.rows;
+    console.log(products);
+    products.forEach((product) => {
+      html += `<div class="div-item">
+        <div class="img-div">
+         <img class="product-img" src="/${product.image}">
+         <div class="hidden-features">
+             <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
+             <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
+             <p><img class="feature-icon" src="/images/Homepage/eye.png"></p>
+         </div>
+        </div>
+        <div class="product-text-div">
+             <div class="product-name">${product.name}</div>
+             <div class="product-price">From £${(product.price / 100).toFixed(
+               2
+             )}
+             </div>
+             <div class="product-status-container">
+             <a href="/addToCart/products/${
+               product.id
+             }" class="product-status">ADD TO CART &gt;&gt; </a>
+             </div>
+        </div>
+     </div>`;
+    });
+    console.log(html);
+    if (req.isAuthenticated()) {
+      res.render("products.ejs", {
+        auth: "auth",
+        activePage: "products",
+        productHtml: html,
+        wishlistCount: 0,
+        activeTopic: topic,
+        cartCount: req.cartQuantity,
+        paymentPrice: req.paymentPrice,
+      });
+    } else {
+      res.render("products.ejs", {
+        auth: "notAuth",
+        activePage: "products",
+        productHtml: html,
+        wishlistCount: 0,
+        cartCount: 0,
+        activeTopic: topic,
+        paymentPrice: req.paymentPrice,
+      });
+    }
+  } catch (err) {
+    console.log("Error fetching data", err);
+    res.status(500).send("Error fetching data");
+  }
+});
 
 // delete from cart
 app.get("/deleteFromCart/:productId", async (req, res) => {
@@ -698,13 +768,38 @@ app.get("/deleteFromCart/:productId", async (req, res) => {
   }
 });
 
-
-app.post("/orderPlaced", async(req,res)=>{
-  if(req.isAuthenticated()){
-    try{
+app.post("/orderPlaced", async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
       const orderId = Math.floor(Math.random() * 90000000) + 10000000;
-      const {fName, lName, companyName, countryName, streetAddress1, streetAddress2, town, postcode, Phone, orderNotes} = req.body;
-      await db.query("INSERT INTO order_details (order_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone, ordernotes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",[orderId, fName, lName, companyName, countryName, streetAddress1, streetAddress2, town, postcode, Phone, orderNotes]);
+      const {
+        fName,
+        lName,
+        companyName,
+        countryName,
+        streetAddress1,
+        streetAddress2,
+        town,
+        postcode,
+        Phone,
+        orderNotes,
+      } = req.body;
+      await db.query(
+        "INSERT INTO order_details (order_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone, ordernotes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+        [
+          orderId,
+          fName,
+          lName,
+          companyName,
+          countryName,
+          streetAddress1,
+          streetAddress2,
+          town,
+          postcode,
+          Phone,
+          orderNotes,
+        ]
+      );
       const orderData = await db.query(
         "SELECT * FROM cart WHERE user_id = $1",
         [req.user.user_id]
@@ -720,14 +815,24 @@ app.post("/orderPlaced", async(req,res)=>{
             matchingItem = product;
           }
         });
-        const subtotal = ((matchingItem.price * item.quantity) / 100).toFixed(2);
-        try{
-          const result = db.query("INSERT INTO orders (order_id,user_id, product_id, quantity, subtotal) VALUES ($1, $2, $3, $4, $5)",[orderId, req.user.user_id, matchingItem.id, item.quantity, subtotal]);
+        const subtotal = ((matchingItem.price * item.quantity) / 100).toFixed(
+          2
+        );
+        try {
+          const result = db.query(
+            "INSERT INTO orders (order_id,user_id, product_id, quantity, subtotal) VALUES ($1, $2, $3, $4, $5)",
+            [
+              orderId,
+              req.user.user_id,
+              matchingItem.id,
+              item.quantity,
+              subtotal,
+            ]
+          );
+        } catch (errAddingCart) {
+          console.log("Error adding to orders", errAddingCart);
         }
-        catch(errAddingCart){
-          console.log("Error adding to orders",errAddingCart);  
-        }
-        orderPageHTML +=`<div class="order-products-info">
+        orderPageHTML += `<div class="order-products-info">
         <div class="order-cart-text-content">
           <div><img src=${matchingItem.image} /></div>
           <div style="display: flex; flex-direction:column; justify-content: center;">
@@ -736,45 +841,42 @@ app.post("/orderPlaced", async(req,res)=>{
           </div>
         </div>  
         <div  style="display: flex; flex-direction: column; justify-content: center; padding: 0 20px;"><span>£${subtotal}</span></div>
-      </div>`
-        
+      </div>`;
       });
-      await db.query("DELETE FROM cart WHERE user_id = $1",[req.user.user_id]); 
+      await db.query("DELETE FROM cart WHERE user_id = $1", [req.user.user_id]);
       let paymentPriceZero = 0;
       let newTotal = Number(req.paymentPrice) + 3.14 + 14.12;
       paymentPriceZero = paymentPriceZero.toFixed(2);
-      res.render('order.ejs',{
+      res.render("order.ejs", {
         auth: "auth",
         wishlistCount: 0,
         cartCount: 0,
         orderPageHTML: orderPageHTML,
         paymentPrice: paymentPriceZero,
-        name : fName,
-        orderID : orderId,
-        orderDate : new Date().toLocaleDateString(),
-        houseNo : streetAddress1,
-        streetName : streetAddress2,
-        town : town,
-        total : newTotal.toFixed(2),
+        name: fName,
+        orderID: orderId,
+        orderDate: new Date().toLocaleDateString(),
+        houseNo: streetAddress1,
+        streetName: streetAddress2,
+        town: town,
+        total: newTotal.toFixed(2),
       });
     } catch (err) {
       console.log(err);
       res.status(500).send("Error fetching data");
     }
   } else {
-    res.redirect('/login');
+    res.redirect("/login");
   }
-})
+});
 
-app.get('/orderPlaced', (req, res) => {
+app.get("/orderPlaced", (req, res) => {
   if (req.isAuthenticated()) {
-   res.redirect('/products');
+    res.redirect("/products");
   } else {
-    res.redirect('/login');
+    res.redirect("/login");
   }
-}
-);
-
+});
 
 // google auth routes
 
