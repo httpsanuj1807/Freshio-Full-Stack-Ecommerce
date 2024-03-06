@@ -3,77 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <title>Error 404</title>
     <style>
-        .main-error-box-container{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            background-color: #f8eee3;
-            height: 110vh;
-            background-image: url('/images/Homepage/background_404.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+      .main-error-box-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        background-color: #f8eee3;
+        height: 110vh;
+        background-image: url("/images/Homepage/background_404.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .error-content-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+      }
+
+      .links-container {
+        margin-top: 0;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 60px;
+        margin-bottom: 20px;
+      }
+      p {
+        padding: 5px;
+        font-size: 18px;
+      }
+      a {
+        text-decoration: none;
+        color: red;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .main-error-box-container {
+          height: 90vh;
+        }
+        .error-content-div {
+          width: 90%;
+        }
+      }
+
+      @media (max-width: 550px) {
+        .main-error-box-container {
+          height: 40vh;
+        }
+        .error-content-div {
+          width: 100%;
         }
 
-        .error-content-div{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 70%;
-            
+        .error-content-div img {
+          width: 70%;
         }
-        
-        h1{
-            text-align: center;
-            font-size: 60px;
-            margin-bottom: 20px;
+        h1 {
+          font-size: 30px;
         }
-        p{
-            padding: 5px;
-            font-size: 18px;
+        p {
+          padding: 5px 0;
+          font-size: 12px;
         }
-        a{
-            text-decoration: none;
-            color:red;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .main-error-box-container{
-                height: 90vh;
-            }
-           .error-content-div
-              {
-                width:90%;
-              } 
-        }
-
-        @media (max-width: 550px) {
-            .main-error-box-container{
-                height: 40vh;
-            }
-           .error-content-div
-              {
-                width:100%;
-              } 
-
-              .error-content-div img{
-                width: 70%;
-              }
-              h1{
-                font-size: 30px;
-              }
-              p{
-                padding: 5px 0;
-                font-size: 12px;
-              }
-        }
-
-
+      }
     </style>
   </head>
   <body
@@ -89,16 +89,68 @@
       <%- include('partials/header.ejs'); -%>
       <div class="main-error-box-container">
         <div class="error-content-div">
-            <img src="/images/Homepage/404.png">
-            <h1>Oop, that link is broken.</h1>
-            <p class="error-1">Page doesn’t exist or some other error occured. Go to our</p>
-            <p class="error-2"><span><a href="/">Previous page</a></span> or go back to <span><a href="/home">Home page</a></span>
-            </p>
+          <img src="/images/Homepage/404.png" />
+          <h1>Oop, that link is broken.</h1>
+          <p class="error-1">
+            Page doesn’t exist or some other error occured. Go to our
+          </p>
+          <p class="error-2">
+            <span><a href="/">Previous page</a></span> or go back to
+            <span><a href="/home">Home page</a></span>
+          </p>
         </div>
       </div>
-      
-      <%- include('partials/footer.ejs'); -%>
     </div>
-    
+    <div
+      style="background-color: #0a472e; margin-top: 0; border: none"
+      class="links-container"
+    >
+      <div class="links-div">
+        <div class="links-flex-item">
+          <h5>STORE LOCATION</h5>
+          <p>9006 Green Lake Drive C hevy Chase, MD 20815</p>
+          <p>Monday - Saturday</p>
+          <h3>8:00 am - 4:00 pm</h3>
+          <p>Sunday</p>
+          <h3>9:00 am - 5:00 pm</h3>
+        </div>
+        <div class="links-flex-item specific-padding">
+          <h5>INFORMATION</h5>
+          <p class="link">About us</p>
+          <p class="link">Blog</p>
+          <p class="link">Check out</p>
+          <p class="link">Contact</p>
+          <p class="link">Service</p>
+        </div>
+        <div class="links-flex-item">
+          <h5>CATEGORIES</h5>
+          <p class="link">Fruits & Vegetables</p>
+          <p class="link">Dairy Products</p>
+          <p class="link">Package Foods</p>
+          <p class="link">Beverages</p>
+          <p class="link">Health & Wellness</p>
+        </div>
+
+        <div class="links-flex-item specific-padding">
+          <h5>ACCEPT PAYMENT</h5>
+          <img src="/images/Homepage/payment_2.png" />
+          <h5>Follow Us</h5>
+          <div class="social-div">
+            <img class="link" src="/images/Homepage/facebook.png" />
+            <img class="link" src="/images/Homepage/youtube.png" />
+            <img class="link" src="/images/Homepage/twitter.png" />
+            <img class="link" src="/images/Homepage/instagram.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background-color: #0a472e" class="footer-container">
+      <div class="footer-div">
+        <div>
+          Copyright © 2024 <a href="#">Freshio.</a> All Rights Reserved.
+        </div>
+      </div>
+    </div>
   </body>
 </html>

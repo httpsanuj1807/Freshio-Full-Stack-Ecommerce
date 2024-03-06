@@ -1016,7 +1016,7 @@ app.post("/orderPlaced", async (req, res) => {
 });
 
 
-app.get('/error', (req, res) => {
+app.get('/error404', (req, res) => {
   if(req.isAuthenticated()){
     res.render('error404.ejs', {
       auth: "auth",
