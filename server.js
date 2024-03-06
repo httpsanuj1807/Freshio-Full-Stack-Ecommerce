@@ -693,6 +693,9 @@ app.get("/addToCart/products/filter/:topic/:productId", addToCartMiddleware, (re
 
 app.get("/filter/topicToSearch/:keyword", async (req, res) => {
   const topic = req.params.keyword;
+  if(topic === "all"){
+    res.redirect("/products");
+  }
   try {
     const productsResult = await db.query(
       "SELECT * from products WHERE keyword1 = $1 OR keyword2 = $1 OR keyword3 = $1 OR keyword4 = $1",
