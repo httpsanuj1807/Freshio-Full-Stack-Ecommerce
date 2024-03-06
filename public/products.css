@@ -39,10 +39,15 @@ hr
 {
     color: gray;
 }
-.filter-text:hover
+.filter-text p:hover
 {
     color: #a8b324;
     cursor: pointer;
+    /* background-color: red; */
+}
+
+.filter-text a{
+    text-decoration: none; color: black;
 }
 .tag-text
 {
