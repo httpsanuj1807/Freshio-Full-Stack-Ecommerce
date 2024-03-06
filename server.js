@@ -690,6 +690,11 @@ app.get("/addToCart/products/filter/:topic/:productId", addToCartMiddleware, (re
   res.redirect(`/filter/topicToSearch/${req.params.topic}`);
 });
 
+app.post('/search/product', async (req, res) =>{
+  let keyword = req.body.searchProductText;
+  keyword = keyword.toLowerCase().trim();
+  res.redirect(`/filter/topicToSearch/${keyword}`);
+});
 
 app.get("/filter/topicToSearch/:keyword", async (req, res) => {
   const topic = req.params.keyword;

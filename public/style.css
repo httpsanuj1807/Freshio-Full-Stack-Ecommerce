@@ -143,6 +143,8 @@ main{
     flex: 1;
     background: #f4f4f4;
     border: none;
+    color: rgb(70, 68, 68);
+    letter-spacing: 0.8px;
     outline: none;
     font-size: 0.95rem;
 }
@@ -167,8 +169,8 @@ main{
     font-size: 0.95rem;
     color: rgb(178, 169, 169);
 }
-.search-text{
-    padding: 0 20px;
+.search-text {
+    /* padding: 0 20px; */
     height: 100%;
     display: flex;
     justify-content: center;
@@ -179,7 +181,20 @@ main{
     font-weight: 700;
     font-size: 0.95rem;
 }
-.search-text span:hover{
+.search-text button
+{
+    padding: 0 20px;
+    height: 100%;
+    width: 100%;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color:#f4f4f4;
+    border: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-family: "MazzardH-Medium";
+}
+.search-text button:hover{
     cursor: pointer;
     color:#a8b324
 }

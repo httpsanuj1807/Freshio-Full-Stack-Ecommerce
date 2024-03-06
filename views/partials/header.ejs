@@ -16,46 +16,48 @@
             <div><img class="icon-img-small-navbar" src="/images/Homepage/basket.png"></div>
         </div>
     </div>
-    <div class="upper-header-contai//ner">
+    <div class="upper-header-container">
 
-        <div class="upper-header">
-            <div class="upper-left">
-                    <img class="logo-img" src="/images/Homepage/logo.svg">       
-            </div>
-            <div class="upper-right">
-                <div class="search-container">
-                    <div class="search-icon-div">
-                        <img class="search-icon" src="/images/Homepage/search.png">
-                    </div>
-                    <input class="search-box" type="search" placeholder="Search products..">
-                    <div class="search-text">
-                       <span> Search</span>
-                    </div>
+        <form action="/search/product" method="post">
+            <div class="upper-header">
+                <div class="upper-left">
+                        <img class="logo-img" src="/images/Homepage/logo.svg">       
                 </div>
-               <div class="icons-div-container">
-                <div class="icons-div">
-                    
-                    <div class="icon profile dropdown" <% if (locals.auth === 'auth') { %>style="background-color: #a8b324;"<% } %>> 
-                        <img class="icon-img dropbtn" src="/images/Homepage/profile.png">
-                        <div class="dropdown-content"> 
-                            <% if (locals.auth == 'notAuth') { %>
-                                <h2>Welcome</h2>
-                                <p>To access account and manage orders</p>
-                                <a href="/login"><div class="login"><span >LOGIN / SIGNUP</span></div></a>
-                            <% } else { %>
-                                <h2>Welcome</h2>
-                                <a href="/logout"><div class="login"><span >LOGOUT</span></div></a>
-                            <% } %>
+                <div class="upper-right">
+                    <div class="search-container">
+                        <div class="search-icon-div">
+                            <img class="search-icon" src="/images/Homepage/search.png">
                         </div>
-                    </div> 
-
-                    <a class="icon" href="/wishlist"><div class="icon heart"><img class="icon-img" src="/images/Homepage/heart.png"></div><div class="wishlistCount"><%= wishlistCount %></div></a>
-                    <a class="icon" href="/goToCart"><div class="icon basket"><img class="icon-img" src="/images/Homepage/basket.png"></div><div class="cartCount"><%= cartCount %></div></a>
-                    <span class="paymentHome">£<%= paymentPrice %></span>
+                        <input name="searchProductText" class="search-box" type="search" placeholder="Search products..">
+                        <div class="search-text">
+                           <button ype="submit"> Search</button>
+                        </div>
+                    </div>
+                   <div class="icons-div-container">
+                    <div class="icons-div">
+                        
+                        <div class="icon profile dropdown" <% if (locals.auth === 'auth') { %>style="background-color: #a8b324;"<% } %>> 
+                            <img class="icon-img dropbtn" src="/images/Homepage/profile.png">
+                            <div class="dropdown-content"> 
+                                <% if (locals.auth == 'notAuth') { %>
+                                    <h2>Welcome</h2>
+                                    <p>To access account and manage orders</p>
+                                    <a href="/login"><div class="login"><span >LOGIN / SIGNUP</span></div></a>
+                                <% } else { %>
+                                    <h2>Welcome</h2>
+                                    <a href="/logout"><div class="login"><span >LOGOUT</span></div></a>
+                                <% } %>
+                            </div>
+                        </div> 
+    
+                        <a class="icon" href="/wishlist"><div class="icon heart"><img class="icon-img" src="/images/Homepage/heart.png"></div><div class="wishlistCount"><%= wishlistCount %></div></a>
+                        <a class="icon" href="/goToCart"><div class="icon basket"><img class="icon-img" src="/images/Homepage/basket.png"></div><div class="cartCount"><%= cartCount %></div></a>
+                        <span class="paymentHome">£<%= paymentPrice %></span>
+                    </div>
+                   </div>
                 </div>
-               </div>
             </div>
-        </div>
+        </form>
 
     </div>
 

@@ -33,7 +33,7 @@
     <main class="main-container">
 
         <div class="upper-header-container">
-
+           <form method="post" action="/search/product">
             <div class="upper-header">
                 <div class="upper-left">
                         <img class="logo-img" src="/images/Homepage/logo.svg">       
@@ -41,11 +41,11 @@
                 <div class="upper-right">
                     <div class="search-container">
                         <div class="search-icon-div">
-                            <img class="search-icon" src="/images/Homepage/search.png">
+                            <img class="search-icon" src="/images/Homepage/search.png"> 
                         </div>
-                        <input class="search-box" type="search" placeholder="Search products..">
+                        <input class="search-box" type="search" name="searchProductText" placeholder="Search products..">
                         <div class="search-text">
-                           <span> Search</span>
+                           <button type="submit"> Search</button>
                         </div>
                     </div>
                    <div class="icons-div-container">
@@ -74,6 +74,7 @@
                    </div>
                 </div>
             </div>
+           </form>
     
         </div>
     
