@@ -98,9 +98,18 @@
             </div>
         </div>
         <div class="products-page-container">
-            <div class="products2-grid">
-               <%- productHtml %>
-            </div>
+                <%if(locals.productHtml == `No products found.`){%>
+                    
+                        <p style="text-align: center; padding-top: 80px;"><img src="/images/Homepage/sorry.png">
+                        </p>
+                        <p style="text-align: center; padding-top: 20px;">Regrets! No products found for this search. We will try adding.</p>
+                        
+                    <%}else{%>
+                        <div class="products2-grid">
+                            <%- productHtml %>
+                        </div>
+                        
+                    <%}%>
         </div>
     </div>
 

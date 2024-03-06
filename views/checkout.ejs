@@ -25,53 +25,9 @@
         <div class="main-box-container">
           <div class="checkout-content-div">
             <div class="billing-form-container">
-              <h2>Billing Details</h2>
-              <div class="user-name">
-                <div style="width:48%;" class="flex-down">
-                  <label for="fName" class="required">First name</label>
-                  <input autocomplete="on" required maxlength="8" type="text" name="fName" id="fName">
-                </div>
-                <div style="width:48%;" class="flex-down">
-                  <label for="lName" class="required">Last name</label>
-                  <input autocomplete="on" max="10" required type="text" name="lName" id="lName">
-                </div>
-              </div>
-              <div class="flex-down">
-                <label for="company-name">Company Name (optional)</label>
-                <input autocomplete="on" type="text" name="companyName" id="company-name">
-              </div>
-              <div class="flex-down">
-                <label for="country-name" class="required">Country / Region</label>
-                <select required id="country-name" name="countryName">
-                  <option value="India">India</option>
-                  <option value="UAE">United Arab Emirates</option>
-                  <option value="UK">United Kingdom (UK)</option>
-                  <option value="France">France</option>
-                </select>
-              </div>
-              <div class="flex-down">
-                <label for="street-address1">Street Address</label>
-                <input autocomplete="on" type="text" placeholder="House number and street name" name="streetAddress1" id="street-address">
-                <input autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" name="streetAddress2" id="street-address2">
-              </div>
-              <div class="flex-down">
-                <label for="town" class="required">Town / City</label>
-                <input autocomplete="on" required type="text" name="town" id="town">
-              </div>
-              <div class="flex-down">
-                <label for="postcode" class="required">Postcode</label>
-                <input autocomplete="on" required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
-              </div>
-              <div class="flex-down">
-                <label for="Phone" class="required">Phone</label>
-                <input autocomplete="on" required type="text" maxlength="10" name="Phone" id="Phone">
-              </div>
-              <h2 style="padding-top: 15px;">Additional information</h2>
-              <div class="flex-down">
-                <label for="order-notes">Order notes (optional)</label>
-                <textarea style="resize: none;" placeholder="Notes about your order, e.g. special notes for delivery" name="orderNotes" id="order-notes" rows="3" ></textarea>
-              </div>
+              <%- formHTML %>
             </div>
+            
   
             <div class="summary-container">
               <h2>Your order</h2>

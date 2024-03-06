@@ -8,6 +8,7 @@ import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
 import GoogleStrategy from "passport-google-oauth2";
+
 // import { fileURLToPath } from 'url';
 // import path from 'path';
 
@@ -619,8 +620,115 @@ app.get("/checkout", async (req, res) => {
         "SELECT * FROM cart WHERE user_id = $1",
         [req.user.user_id]
       );
+      
       const productsData = await db.query("SELECT * FROM products");
       let checkoutHTML = ``;
+      let formHTML = ``;
+      const formData = await db.query(
+        "SELECT * FROM user_info WHERE user_id = $1",
+        [req.user.user_id]
+      );
+      if (formData.rows.length > 0) {
+        const formDetails = formData.rows[0];
+        formHTML = `
+        <h2>Billing Details</h2>
+        <div class="user-name">
+          <div style="width:48%;" class="flex-down">
+            <label for="fName" class="required">First name</label>
+            <input autocomplete="on" required maxlength="8" type="text" value=${formDetails.fname} name="fName" id="fName">
+          </div>
+          <div style="width:48%;" class="flex-down">
+            <label for="lName" class="required">Last name</label>
+            <input autocomplete="on" max="10" required type="text" value=${formDetails.lname} name="lName" id="lName">
+          </div>
+        </div>
+        <div class="flex-down">
+          <label for="company-name">Company Name (optional)</label>
+          <input autocomplete="on" type="text" name="companyName" id="company-name">
+        </div>
+        <div class="flex-down">
+          <label for="country-name" class="required">Country / Region</label>
+          <select required id="country-name" value=${formDetails.countryname} name="countryName">
+            <option value="India">India</option>
+            <option value="UAE">United Arab Emirates</option>
+            <option value="UK">United Kingdom (UK)</option>
+            <option value="France">France</option>
+          </select>
+        </div>
+        <div class="flex-down">
+          <label class="required" for="street-address1">Street Address</label>
+          <input required autocomplete="on" type="text" placeholder="House number and street name" value=${formDetails.streetaddress1} name="streetAddress1" id="street-address">
+          <input required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" value=${formDetails.streetaddress2} name="streetAddress2" id="street-address2">
+        </div>
+        <div class="flex-down">
+          <label for="town" class="required">Town / City</label>
+          <input autocomplete="on" required value=${formDetails.town} type="text" name="town" id="town">
+        </div>
+        <div class="flex-down">
+          <label for="postcode" class="required">Postcode</label>
+          <input autocomplete="on" value=${formDetails.postcode} required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
+        </div>
+        <div class="flex-down">
+          <label for="Phone" class="required">Phone</label>
+          <input autocomplete="on" value=${formDetails.phone} required type="text" maxlength="10" name="Phone" id="Phone">
+        </div>
+        <h2 style="padding-top: 15px;">Additional information</h2>
+        <div class="flex-down">
+          <label for="order-notes">Order notes (optional)</label>
+          <textarea style="resize: none;" placeholder="Notes about your order, e.g. special notes for delivery" name="orderNotes" id="order-notes" rows="3" ></textarea>
+        </div>
+      `
+      }else{
+        formHTML = `
+              <h2>Billing Details</h2>
+              <div class="user-name">
+                <div style="width:48%;" class="flex-down">
+                  <label for="fName" class="required">First name</label>
+                  <input autocomplete="on" required maxlength="8" type="text" name="fName" id="fName">
+                </div>
+                <div style="width:48%;" class="flex-down">
+                  <label for="lName" class="required">Last name</label>
+                  <input autocomplete="on" max="10" required type="text" name="lName" id="lName">
+                </div>
+              </div>
+              <div class="flex-down">
+                <label for="company-name">Company Name (optional)</label>
+                <input autocomplete="on" type="text" name="companyName" id="company-name">
+              </div>
+              <div class="flex-down">
+                <label for="country-name" class="required">Country / Region</label>
+                <select required id="country-name" name="countryName">
+                  <option value="India">India</option>
+                  <option value="UAE">United Arab Emirates</option>
+                  <option value="UK">United Kingdom (UK)</option>
+                  <option value="France">France</option>
+                </select>
+              </div>
+              <div class="flex-down">
+                <label class="required for="street-address1">Street Address</label>
+                <input required autocomplete="on" type="text" placeholder="House number and street name" name="streetAddress1" id="street-address">
+                <input required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" name="streetAddress2" id="street-address2">
+              </div>
+              <div class="flex-down">
+                <label for="town" class="required">Town / City</label>
+                <input autocomplete="on" required type="text" name="town" id="town">
+              </div>
+              <div class="flex-down">
+                <label for="postcode" class="required">Postcode</label>
+                <input autocomplete="on" required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
+              </div>
+              <div class="flex-down">
+                <label for="Phone" class="required">Phone</label>
+                <input autocomplete="on" required type="text" maxlength="10" name="Phone" id="Phone">
+              </div>
+              <h2 style="padding-top: 15px;">Additional information</h2>
+              <div class="flex-down">
+                <label for="order-notes">Order notes (optional)</label>
+                <textarea style="resize: none;" placeholder="Notes about your order, e.g. special notes for delivery" name="orderNotes" id="order-notes" rows="3" ></textarea>
+              </div>
+        `
+      }
+
       const orderDataResult = orderData.rows;
       const productsDataResult = productsData.rows;
       orderDataResult.forEach((item) => {
@@ -644,6 +752,7 @@ app.get("/checkout", async (req, res) => {
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         checkoutHTML: checkoutHTML,
+        formHTML: formHTML,
         paymentPrice: req.paymentPrice,
       });
     } catch (err) {
@@ -708,32 +817,37 @@ app.get("/filter/topicToSearch/:keyword", async (req, res) => {
     );
     let html = ``;
     const products = productsResult.rows;
-    console.log(products);
-    products.forEach((product) => {
-      html += `<div class="div-item">
-        <div class="img-div">
-         <img class="product-img" src="/${product.image}">
-         <div class="hidden-features">
-             <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
-             <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
-             <p><img class="feature-icon" src="/images/Homepage/eye.png"></p>
-         </div>
-        </div>
-        <div class="product-text-div">
-             <div class="product-name">${product.name}</div>
-             <div class="product-price">From £${(product.price / 100).toFixed(
-               2
-             )}
-             </div>
-             <div class="product-status-container">
-             <a href="/addToCart/products/filter/${topic}/${
-               product.id
-             }" class="product-status">ADD TO CART &gt;&gt; </a>
-             </div>
-        </div>
-     </div>`;
-    });
-    console.log(html);
+    if(products.length === 0){
+      html = `No products found.`;
+    }
+    else{
+      products.forEach((product) => {
+        html += `<div class="div-item">
+          <div class="img-div">
+           <img class="product-img" src="/${product.image}">
+           <div class="hidden-features">
+               <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
+               <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
+               <p><img class="feature-icon" src="/images/Homepage/eye.png"></p>
+           </div>
+          </div>
+          <div class="product-text-div">
+               <div class="product-name">${product.name}</div>
+               <div class="product-price">From £${(product.price / 100).toFixed(
+                 2
+               )}
+               </div>
+               <div class="product-status-container">
+               <a href="/addToCart/products/filter/${topic}/${
+                 product.id
+               }" class="product-status">ADD TO CART &gt;&gt; </a>
+               </div>
+          </div>
+       </div>`;
+      });
+    }
+    
+    
     if (req.isAuthenticated()) {
       res.render("products.ejs", {
         auth: "auth",
@@ -793,24 +907,44 @@ app.post("/orderPlaced", async (req, res) => {
         town,
         postcode,
         Phone,
-        orderNotes,
       } = req.body;
-      await db.query(
-        "INSERT INTO order_details (order_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone, ordernotes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
-        [
-          orderId,
-          fName,
-          lName,
-          companyName,
-          countryName,
-          streetAddress1,
-          streetAddress2,
-          town,
-          postcode,
-          Phone,
-          orderNotes,
-        ]
+      const isUserAlready = await db.query(
+        "SELECT * FROM user_info WHERE user_id = $1",
+        [req.user.user_id]
       );
+      if (isUserAlready.rows.length === 0) {
+        const result = await db.query(
+          "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+          [
+            req.user.user_id,
+            fName,
+            lName,
+            companyName,
+            countryName,
+            streetAddress1,
+            streetAddress2,
+            town,
+            postcode,
+            Phone,
+          ]
+        );
+      }else{
+        const result = await db.query(
+          "UPDATE user_info SET fname = $1, lname = $2, companyname = $3, countryname = $4, streetaddress1 = $5, streetaddress2 = $6, town = $7, postcode = $8, phone = $9 WHERE user_id = $10",
+          [
+            fName,
+            lName,
+            companyName,
+            countryName,
+            streetAddress1,
+            streetAddress2,
+            town,
+            postcode,
+            Phone,
+            req.user.user_id
+          ]
+        );
+      }
       const orderData = await db.query(
         "SELECT * FROM cart WHERE user_id = $1",
         [req.user.user_id]
