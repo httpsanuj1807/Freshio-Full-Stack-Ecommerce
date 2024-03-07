@@ -389,7 +389,8 @@ app.post("/verifyRegisterUser", async (req, res) => {
           if (err) {
             console.log(err);
           }
-          res.redirect("/home");
+          req.user.newUser = true;
+          res.redirect("/fillProfile");
         });
       });
     } catch (err) {
@@ -407,6 +408,51 @@ app.post("/verifyRegisterUser", async (req, res) => {
     });
   }
 });
+
+app.post('/acceptUserDetails', async(req,res)=>{
+  
+    const {
+      fName,
+      lName,
+      companyName,
+      countryName,
+      streetAddress1,
+      streetAddress2,
+      town,
+      postcode,
+      Phone,
+    } = req.body;
+    if(req.isAuthenticated()){
+      try{
+        const result = await db.query(
+          "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+          [
+            req.user.user_id,
+            fName,
+            lName,
+            companyName,
+            countryName,
+            streetAddress1,
+            streetAddress2,
+            town,
+            postcode,
+            Phone,
+          ]
+        );
+        res.redirect('/home');
+      }
+      catch(err){
+        console.log("Error storing data", err);
+      }
+    }
+    else{
+      res.redirect('/login');
+    }
+
+
+})
+
+
 app.post("/verifyEmail", async (req, res) => {
   // verify email is already registered or not
   try {
@@ -657,7 +703,7 @@ app.get("/checkout", async (req, res) => {
         </div>
         <div class="flex-down">
           <label class="required" for="street-address1">Street Address</label>
-          <input required autocomplete="on" type="text" placeholder="House number and street name" value=${formDetails.streetaddress1} name="streetAddress1" id="street-address">
+          <input required autocomplete="on" type="text" placeholder="House number and street name" value="${formDetails.streetaddress1}" name="streetAddress1" id="street-address">
           <input required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" value=${formDetails.streetaddress2} name="streetAddress2" id="street-address2">
         </div>
         <div class="flex-down">
@@ -705,7 +751,7 @@ app.get("/checkout", async (req, res) => {
                 </select>
               </div>
               <div class="flex-down">
-                <label class="required for="street-address1">Street Address</label>
+                <label class="required" for="street-address1">Street Address</label>
                 <input required autocomplete="on" type="text" placeholder="House number and street name" name="streetAddress1" id="street-address">
                 <input required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" name="streetAddress2" id="street-address2">
               </div>
@@ -895,56 +941,13 @@ app.get("/deleteFromCart/:productId", async (req, res) => {
 
 app.post("/orderPlaced", async (req, res) => {
   if (req.isAuthenticated()) {
-    try {
-      const orderId = Math.floor(Math.random() * 90000000) + 10000000;
-      const {
-        fName,
-        lName,
-        companyName,
-        countryName,
-        streetAddress1,
-        streetAddress2,
-        town,
-        postcode,
-        Phone,
-      } = req.body;
-      const isUserAlready = await db.query(
-        "SELECT * FROM user_info WHERE user_id = $1",
-        [req.user.user_id]
-      );
-      if (isUserAlready.rows.length === 0) {
-        const result = await db.query(
-          "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-          [
-            req.user.user_id,
-            fName,
-            lName,
-            companyName,
-            countryName,
-            streetAddress1,
-            streetAddress2,
-            town,
-            postcode,
-            Phone,
-          ]
-        );
-      }else{
-        const result = await db.query(
-          "UPDATE user_info SET fname = $1, lname = $2, companyname = $3, countryname = $4, streetaddress1 = $5, streetaddress2 = $6, town = $7, postcode = $8, phone = $9 WHERE user_id = $10",
-          [
-            fName,
-            lName,
-            companyName,
-            countryName,
-            streetAddress1,
-            streetAddress2,
-            town,
-            postcode,
-            Phone,
-            req.user.user_id
-          ]
-        );
-      }
+    const {
+      fName,
+      streetAddress1,
+      streetAddress2,
+      town,
+    } = req.body;
+      let orderId = Math.floor(Math.random() * 90000000) + 10000000;;
       const orderData = await db.query(
         "SELECT * FROM cart WHERE user_id = $1",
         [req.user.user_id]
@@ -1006,15 +1009,30 @@ app.post("/orderPlaced", async (req, res) => {
         town: town,
         total: newTotal.toFixed(2),
       });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Error fetching data");
-    }
   } else {
     res.redirect("/login");
   }
 });
 
+app.get('/fillProfile', (req, res)=>{
+  if(req.isAuthenticated()){
+   if(req.user.isNewUser){
+    res.render('profileForm.ejs', {
+      auth: "auth",
+      wishlistCount: 0,
+      cartCount: 0,
+      paymentPrice: req.paymentPrice,
+      newUser : true,
+    }); 
+   }
+   else{
+    res.redirect('/home');
+   }
+  }
+  else{
+    res.redirect('/login');
+  }
+})
 
 app.get('/error404', (req, res) => {
   if(req.isAuthenticated()){
@@ -1054,12 +1072,20 @@ app.get(
   })
 );
 
+
 app.get(
   "/auth/google/home",
   passport.authenticate("google", {
-    successRedirect: "/home",
     failureRedirect: "/login",
-  })
+  }),
+  (req, res) => {
+    if(req.user.isNewUser){
+      res.redirect('/fillProfile');
+    }
+    else{
+      res.redirect("/home");
+    }
+  }
 );
 
 // local strategy for passport
@@ -1111,24 +1137,23 @@ passport.use(
             "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
             [profile.email, "googleUser"]
           );
-          cb(null, newUser.rows[0]); // null is that no error
+          cb(null, { ...newUser.rows[0], isNewUser: true }); // null is that no error
         } else {
           // user already exists
-          cb(null, result.rows[0]);
+          cb(null, { ...result.rows[0], isNewUser: false });
         }
       } catch (err) {
         cb(err);
       }
     }
   )
-);
+); 
 
 passport.serializeUser((user, cb) => {
-  cb(null, user); // Serialize using the user's email
+  cb(null, user); // Serialize using the users
 });
 
 passport.deserializeUser((user, cb) => {
-  // Deserialize using the email
   cb(null, user);
 });
 

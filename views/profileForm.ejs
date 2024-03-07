@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/checkout.css" />
+    <title>Let introduce - Freshio</title>
+    <style>
+        
+        .main-box-container{
+            margin: 50px 0;
+            padding: 0 6%;
+            display: flex;
+            justify-content: center;
+        }
+        .profile-page-sidebar{
+          width: 20%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .img-div-profile-page{
+          background-color: #0a472e15;
+          padding: 40px;
+          border-radius: 50%;
+          margin-bottom: 8px;
+        }
+        .updateInfoButton{
+          padding: 12px;
+          background-color: #a8b324;
+          border: none;
+          color: #fff;
+          font-weight: 600;
+          font-family: MazzardH-Medium;
+          letter-spacing: 0.7px;
+        }
+        .updateInfoButton:hover{
+          background-color: rgb(128,137,27);
+          cursor: pointer;
+        }
+        @media(max-width: 1100px){
+          .main-box-container{
+            flex-direction: column;
+            align-items: center;
+
+          }
+          .profile-page-sidebar{
+          width: 20%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .img-div-profile-page img{
+          height: 90px;
+        }
+        .billing-form-container{
+          padding-top: 50px;
+          
+        }
+      }
+        @media(max-width: 650px){
+        .img-div-profile-page img{
+          height: 60px;
+        }
+        .img-div-profile h2{
+          font-size: 1rem;
+        }
+        .profile-page-sidebar{
+          width: 50%;
+        }
+      }
+       
+    </style>
+  </head>
+  <body
+    style="
+      height: 100%;
+      width: 100%;
+      background-image: none;
+      padding: 0;
+      font-family: MazzardH-Medium;
+    "
+  >
+    <main class="main-container">
+      <%- include('partials/header.ejs'); -%>
+     <form action="/acceptUserDetails" method="post">
+      <main class="main-box-container">
+        <div class="profile-page-sidebar">
+            <div class="img-div-profile-page">
+              <img src="/images/Homepage/user.png">
+            </div>
+            <p>Profile</p>
+            <h2 style="padding-top: 8px;"><%if(locals.newUser == true){%>
+            New User
+            <%}%></h2>
+        </div>
+        <div class="billing-form-container">
+            <h2>Personal Information</h2>
+            <div class="user-name">
+              <div style="width:48%;" class="flex-down">
+                <label for="fName" class="required">First name</label>
+                <input autocomplete="on" required maxlength="8" type="text" name="fName" id="fName">
+              </div>
+              <div style="width:48%;" class="flex-down">
+                <label for="lName" class="required">Last name</label>
+                <input autocomplete="on" max="10" required type="text" name="lName" id="lName">
+              </div>
+            </div>
+            <div class="flex-down">
+              <label for="company-name">Company Name (optional)</label>
+              <input autocomplete="on" type="text" name="companyName" id="company-name">
+            </div>
+            <div class="flex-down">
+              <label for="country-name" class="required">Country / Region</label>
+              <select required id="country-name" name="countryName">
+                <option value="India">India</option>
+                <option value="UAE">United Arab Emirates</option>
+                <option value="UK">United Kingdom (UK)</option>
+                <option value="France">France</option>
+              </select>
+            </div>
+            <div class="flex-down">
+              <label class="required" for="street-address1">Street Address</label>
+              <input required autocomplete="on" type="text" placeholder="House number and street name" name="streetAddress1" id="street-address">
+              <input required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" name="streetAddress2" id="street-address2">
+            </div>
+            <div class="flex-down">
+              <label for="town" class="required">Town / City</label>
+              <input autocomplete="on" required type="text" name="town" id="town">
+            </div>
+            <div class="flex-down">
+              <label for="postcode" class="required">Postcode</label>
+              <input autocomplete="on" required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
+            </div>
+            <div class="flex-down">
+              <label for="Phone" class="required">Phone</label>
+              <input autocomplete="on" required type="text" maxlength="10" name="Phone" id="Phone">
+            </div>
+            <button class="updateInfoButton" type="submmit">Update and Continue</button>
+          </div>
+      </main>
+     </form>
+    </main>
+    <%- include('partials/footer.ejs'); -%>
+  </body>
+</html>
