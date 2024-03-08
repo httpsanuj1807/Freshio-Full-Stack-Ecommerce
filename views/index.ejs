@@ -11,10 +11,42 @@
 </head>
 <body>
     <div class="small-navbar-container">
-        <div class="small-navbar-div">
-            <div><img class="small-navbar-menu" src="/images/Homepage/menu64.png"></div>
+        <div class="sidebar" id="sidebar">
+            <div class="home-sidebar">
+                <div class="cross-sidebar">
+                    <div  onclick="closeSidebar()"><img  src="images/Homepage/close.png"></div>
+                </div>
+                <div class="content-sidebar">
+                    <div class="sidebar-item">
+                        <a href="/"><span>Home</span></a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="/products"><span>Shop</span></a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="/services"><span>Services</span></a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="/blog"><span>Blog</span></a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="/contact"><span>Contact</span></a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="/profile"><span>Profile</span></a>
+                    </div>
+                    <div style="border: none;"  class="sidebar-item">
+                        <a href="/myOrders"><span>My Orders</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+        <div  class="small-navbar-div">
+            <div><img class="small-navbar-menu" src="/images/Homepage/menu64.png" onclick="toggleSidebar()"></div>
             <div><img  class="small-navbar-logo" src="/images/Homepage/logo.svg"></div>
-            <div><img class="icon-img-small-navbar" src="/images/Homepage/basket.png"></div>
+            <a href="/goToCart"><div style="position: relative;"><img  class="icon-img-small-navbar" src="/images/Homepage/basket.png"><div class="smallCartCount"><%= cartCount %></div></div></a>
+            
         </div>
     </div>
     <nav class="navbar-container">
@@ -60,7 +92,8 @@
                                     <a href="/login"><div class="login"><span >LOGIN / SIGNUP</span></div></a>
                                 <% } else { %>
                                     <h2>Welcome, <%= userName %></h2>
-                                    <a href="/profile">Profile</a>
+                                    <a href="/profile" style="padding: 4px; font-size: 1.1rem; color: #a0a0a0;">Profile</a>
+                                    <a href="/myOrders" style="padding: 4px; font-size: 1.1rem; margin-bottom: 8px; color: #a0a0a0;"    >My Orders</a>
                                     <a href="/logout"><div class="login"><span >LOGOUT</span></div></a>
                                 <% } %>
                             </div>
@@ -95,7 +128,7 @@
                         <span class="left-nav-text"><a <% if (locals.activePage === 'home') { %>style="color: #a8b324;"<% } %> href="/">Home</a>
                             <img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
                         <span class="left-nav-text"><a <% if (locals.activePage === 'products') { %>style="color: #a8b324;"<% } %>  href="/products">Shop</a> <img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
-                        <span class="left-nav-text"><a href="/page">Page</a> <img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
+                        <span class="left-nav-text"><a href="/services">Services</a> <img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
                         <span class="left-nav-text"><a href="/blog">Blog</a><img class="down-arrow" src="/images/Homepage/down-arrow.png"></span>
                         <span class="left-nav-text contact-nav-text"><a <% if (locals.activePage === 'contact') { %>style="color: #a8b324;"<% } %>  href="/contact">Contact</a></span>
                     </div>
@@ -439,5 +472,22 @@
 
     </main>
     <script type="module" src="/scripts/index.js"></script>
+    <script>
+        
+        function toggleSidebar() {
+            console.log("toggleSidebar");
+            var sidebar = document.getElementById("sidebar");
+            var overlay = document.querySelector(".overlay");
+            sidebar.classList.toggle("open");
+            overlay.classList.toggle("active");
+            
+        }
+        function closeSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var overlay = document.querySelector(".overlay");
+            sidebar.classList.remove("open");
+            overlay.classList.remove("active");
+        }
+    </script>
 </body>
 </html>

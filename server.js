@@ -137,7 +137,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.get("/", async (req, res) => {
+app.get("/", async (req, res) => { 
   try {
     const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
     let htmlFeature = ``;
@@ -420,7 +420,6 @@ app.post("/verifyRegisterUser", async (req, res) => {
 });
 
 app.post('/acceptUserDetails', async(req,res)=>{
-  
     const {
       fName,
       lName,
@@ -434,22 +433,43 @@ app.post('/acceptUserDetails', async(req,res)=>{
     } = req.body;
     if(req.isAuthenticated()){
       try{
-        const result = await db.query(
-          "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-          [
-            req.user.user_id,
-            fName,
-            lName,
-            companyName,
-            countryName,
-            streetAddress1,
-            streetAddress2,
-            town,
-            postcode,
-            Phone,
-          ]
-        );
-        res.redirect('/home');
+        if(req.user.isNewUser){
+          const result = await db.query(
+            "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+            [
+              req.user.user_id,
+              fName,
+              lName,
+              companyName,
+              countryName,
+              streetAddress1,
+              streetAddress2,
+              town,
+              postcode,
+              Phone,
+            ]
+          );
+          res.redirect('/home');
+        }
+        else{
+          console.log("Old user");
+          const result = await db.query(
+            "UPDATE user_info SET fname = $1, lname = $2, companyname = $3, countryname = $4, streetaddress1 = $5, streetaddress2 = $6, town = $7, postcode = $8, phone = $9 WHERE user_id = $10",
+            [
+              fName,
+              lName,
+              companyName,
+              countryName,
+              streetAddress1,
+              streetAddress2,
+              town,
+              postcode,
+              Phone,
+              req.user.user_id
+            ]
+          );
+          res.redirect('/home');
+        }
       }
       catch(err){
         console.log("Error storing data", err);
@@ -1030,13 +1050,14 @@ app.post("/orderPlaced", async (req, res) => {
   }
 });
 
+
 app.get('/fillProfile', (req, res)=>{
   if(req.isAuthenticated()){
+    console.log("From fill profile",req.user.isNewUser);
    if(req.user.isNewUser){
     res.render('profileForm.ejs', {
       auth: "auth",
-      userName : "New User",
-      wishlistCount: 0,
+      wishlistCount: 0, 
       cartCount: 0,
       paymentPrice: req.paymentPrice,
       newUser : true,
@@ -1070,6 +1091,43 @@ app.get('/error404', (req, res) => {
     });
   }
 });
+
+
+app.get('/profile', async(req, res)=>{
+ if(req.isAuthenticated()){
+  const userProfile = await db.query("SELECT * from user_info WHERE user_id = $1",[req.user.user_id]);
+  const {
+    fname,
+    lname,
+    companyname,
+    countryname,
+    streetaddress1,
+    streetaddress2,
+    town,
+    postcode,
+    phone,
+  } = userProfile.rows[0];
+  res.render('profileForm.ejs', { 
+       auth: "auth",
+       userName : req.userName,
+       wishlistCount: 0,
+       cartCount: req.cartQuantity,
+       paymentPrice: req.paymentPrice,
+       fname : fname,
+       lname : lname,
+       companyname : companyname,
+       countryname : countryname,
+       streetaddress1 : streetaddress1,
+       streetaddress2 : streetaddress2,
+       town : town,
+       postcode : postcode,
+       phone : phone,
+  });
+ }
+ else{
+  res.redirect('/login');
+ }
+})
 
 
 

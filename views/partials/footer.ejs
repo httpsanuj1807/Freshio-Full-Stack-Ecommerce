@@ -54,5 +54,21 @@
         </div>
     </div>
     <script type="module" src="/scripts/index.js"></script>
+    <script>
+        function toggleSidebar() {
+            console.log("toggleSidebar");
+            var sidebar = document.getElementById("sidebar");
+            var overlay = document.querySelector(".overlay");
+            sidebar.classList.toggle("open");
+            overlay.classList.toggle("active");
+            
+        }
+        function closeSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var overlay = document.querySelector(".overlay");
+            sidebar.classList.remove("open");
+            overlay.classList.remove("active");
+        }
+    </script>
 </body>
 </html>

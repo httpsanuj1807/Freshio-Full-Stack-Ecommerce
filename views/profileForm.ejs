@@ -92,6 +92,8 @@
             <p>Profile</p>
             <h2 style="padding-top: 8px;"><%if(locals.newUser == true){%>
             New User
+            <%}else{%>
+            <%=locals.userName%>
             <%}%></h2>
         </div>
         <div class="billing-form-container">
@@ -99,20 +101,30 @@
             <div class="user-name">
               <div style="width:48%;" class="flex-down">
                 <label for="fName" class="required">First name</label>
-                <input autocomplete="on" required maxlength="8" type="text" name="fName" id="fName">
+                <input autocomplete="on" required maxlength="8" type="text" 
+                <%if(locals.fname){%>
+                value="<%=locals.fname%>"
+                <%}%>
+                name="fName" id="fName">
               </div>
               <div style="width:48%;" class="flex-down">
                 <label for="lName" class="required">Last name</label>
-                <input autocomplete="on" max="10" required type="text" name="lName" id="lName">
+                <input autocomplete="on" max="10" <%if(locals.lname){%>
+                  value="<%=locals.lname%>"
+                  <%}%> required type="text" name="lName" id="lName">
               </div>
             </div>
             <div class="flex-down">
               <label for="company-name">Company Name (optional)</label>
-              <input autocomplete="on" type="text" name="companyName" id="company-name">
+              <input <%if(locals.comapanyname){%>
+                value="<%=locals.comapanyame%>"
+                <%}%> autocomplete="on" type="text" name="companyName" id="company-name">
             </div>
             <div class="flex-down">
               <label for="country-name" class="required">Country / Region</label>
-              <select required id="country-name" name="countryName">
+              <select  <%if(locals.countryname){%>
+                value="<%=locals.countryname%>"
+                <%}%>  required id="country-name" name="countryName">
                 <option value="India">India</option>
                 <option value="UAE">United Arab Emirates</option>
                 <option value="UK">United Kingdom (UK)</option>
@@ -121,20 +133,30 @@
             </div>
             <div class="flex-down">
               <label class="required" for="street-address1">Street Address</label>
-              <input required autocomplete="on" type="text" placeholder="House number and street name" name="streetAddress1" id="street-address">
-              <input required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" name="streetAddress2" id="street-address2">
+              <input <%if(locals.streetaddress1){%>
+                value="<%=locals.streetaddress1%>"
+                <%}%> required autocomplete="on" type="text" placeholder="House number and street name" name="streetAddress1" id="street-address">
+              <input <%if(locals.streetaddress2){%>
+                value="<%=locals.streetaddress2%>"
+                <%}%> required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" name="streetAddress2" id="street-address2">
             </div>
             <div class="flex-down">
               <label for="town" class="required">Town / City</label>
-              <input autocomplete="on" required type="text" name="town" id="town">
+              <input <%if(locals.town){%>
+                value="<%=locals.town%>"
+                <%}%> autocomplete="on" required type="text" name="town" id="town">
             </div>
             <div class="flex-down">
               <label for="postcode" class="required">Postcode</label>
-              <input autocomplete="on" required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
+              <input <%if(locals.postcode){%>
+                value="<%=locals.postcode%>"
+                <%}%> autocomplete="on" required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
             </div>
             <div class="flex-down">
               <label for="Phone" class="required">Phone</label>
-              <input autocomplete="on" required type="text" maxlength="10" name="Phone" id="Phone">
+              <input <%if(locals.phone){%>
+                value="<%=locals.phone%>"
+                <%}%> autocomplete="on" required type="text" maxlength="10" name="Phone" id="Phone">
             </div>
             <button class="updateInfoButton" type="submmit">Update and Continue</button>
           </div>

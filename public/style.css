@@ -32,6 +32,67 @@ body{
 }
 
 
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background-color: #000000;
+    color: white;
+    transition: left 0.3s ease;
+    z-index: 2;
+    padding: 15px;
+}
+.cross-sidebar
+{
+    text-align: right;
+    padding: 10px;
+}
+.cross-sidebar div img
+{
+    height: 12px;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1; 
+    display: none; 
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.open {
+   left: 0;
+}
+
+.overlay.active {
+    display: block; 
+    opacity: 1; 
+}
+.sidebar-item
+{
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #242424;
+}
+.sidebar-item a
+{
+    text-decoration: none;
+    color: white;
+}
+.sidebar-item a:hover
+{
+    color: #a8b324;
+}
+
+
+
 
 /* 
 Utility classes
@@ -317,6 +378,21 @@ main{
 }
 
 .wishlistCount, .cartCount{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 18px;
+    width: 18px;
+    font-size: 0.75rem;
+    color: #fff;
+    border-radius: 10px;
+    background-color: #dfb178;
+    bottom: 65%;
+    left: 65%;
+}
+
+.smallCartCount{
     position: absolute;
     display: flex;
     justify-content: center;
@@ -1358,7 +1434,7 @@ align-items: center;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1;
     background-color: #fff;
 }
 .small-navbar-div{
