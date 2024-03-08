@@ -116,6 +116,23 @@ hr
     overflow: auto;
 }
 
+
+.overlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); 
+    z-index: 1; 
+    display: none; 
+    transition: opacity 0.3s ease;
+}
+.overlay2.active2 {
+    display: block; 
+    opacity: 1; 
+}
+
 @media (max-width: 1100px) {
     .toggle {
         margin-top: 10px;

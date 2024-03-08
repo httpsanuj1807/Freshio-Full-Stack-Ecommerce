@@ -97,6 +97,7 @@
                 
             </div>
         </div>
+        <div class="overlay2" id="overlay2"></div>
         <div class="products-page-container">
                 <%if(locals.productHtml == `No products found.`){%>
                     
@@ -120,31 +121,33 @@
     const toggleButton = document.querySelector('.toggle');
     const filterContainer = document.querySelector('.filter-container');
     const closeButton = document.querySelector('.close-btn');
+    const overlay2 = document.querySelector('.overlay2');
 
     toggleButton.addEventListener('click', function() {
         filterContainer.classList.toggle('show');
         toggleButton.classList.toggle('show-filter');
+        overlay2.classList.toggle('active2');
     });
 
     closeButton.addEventListener('click', function() {
         filterContainer.classList.remove('show');
         toggleButton.classList.remove('show-filter');
+        overlay2.classList.remove('active2');
     });
 
-    // Show the toggle button at 1100px width
     function handleResize() {
         if (window.innerWidth <= 1100) {
             toggleButton.style.display = 'block';
         } else {
             toggleButton.style.display = 'none';
-            // Close filter if open when resizing
+            overlay2.classList.remove('active2');
             filterContainer.classList.remove('show');
             toggleButton.classList.remove('show-filter');
         }
     }
 
     window.addEventListener('resize', handleResize);
-    handleResize(); // Call initially to set the initial state
+    handleResize();
 });
 
     </script>
