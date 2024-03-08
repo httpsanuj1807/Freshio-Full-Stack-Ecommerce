@@ -52,6 +52,15 @@ const calculateCartQuantityAndPaymentPrice = async (req, res, next) => {
       );
       let cartQuantity = 0;
       let paymentPrice = 0;
+      let userName;
+      const userProfile = await db.query("SELECT fname, lname from user_info WHERE user_id = $1",[req.user.user_id]);
+      if(userProfile.rows.length == 0){
+        userName = "New User"
+      }
+      else{
+        userName = userProfile.rows[0].fname + ' ' + 
+        userProfile.rows[0].lname;
+      }
       const productsResult = await db.query("SELECT * FROM products");
       const cartResultData = cartResult.rows;
       const productsResultData = productsResult.rows;
@@ -63,7 +72,7 @@ const calculateCartQuantityAndPaymentPrice = async (req, res, next) => {
           }
         });
       });
-
+      req.userName = userName;
       req.cartQuantity = cartQuantity;
       req.paymentPrice = paymentPrice.toFixed(2);
       next();
@@ -263,6 +272,7 @@ app.get("/home", async (req, res) => {
     if (req.isAuthenticated()) {
       res.render("index.ejs", {
         auth: "auth",
+        userName : req.userName,
         activePage: "home",
         htmlFeature: htmlFeature,
         htmlBest: htmlBest,
@@ -558,6 +568,7 @@ app.get("/products", async (req, res) => {
     if (req.isAuthenticated()) {
       res.render("products.ejs", {
         auth: "auth",
+        userName : req.userName,
         activePage: "products",
         productHtml: html,
         wishlistCount: 0,
@@ -618,6 +629,7 @@ app.get("/goToCart", async (req, res) => {
       });
       res.render("cart.ejs", {
         auth: "auth",
+        userName : req.userName,
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         cartHTML: cartHTML,
@@ -641,6 +653,7 @@ app.get("/contact", (req, res) => {
   if (req.isAuthenticated()) {
     res.render("contact.ejs", {
       auth: "auth",
+      userName : req.userName,
       activePage: "contact",
       wishlistCount: 0,
       cartCount: req.cartQuantity,
@@ -795,6 +808,7 @@ app.get("/checkout", async (req, res) => {
       });
       res.render("checkout.ejs", {
         auth: "auth",
+        userName : req.userName,
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         checkoutHTML: checkoutHTML,
@@ -897,6 +911,7 @@ app.get("/filter/topicToSearch/:keyword", async (req, res) => {
     if (req.isAuthenticated()) {
       res.render("products.ejs", {
         auth: "auth",
+        userName : req.userName,
         activePage: "products",
         productHtml: html,
         wishlistCount: 0,
@@ -997,6 +1012,7 @@ app.post("/orderPlaced", async (req, res) => {
       paymentPriceZero = paymentPriceZero.toFixed(2);
       res.render("order.ejs", {
         auth: "auth",
+        userName : req.userName,
         wishlistCount: 0,
         cartCount: 0,
         orderPageHTML: orderPageHTML,
@@ -1019,6 +1035,7 @@ app.get('/fillProfile', (req, res)=>{
    if(req.user.isNewUser){
     res.render('profileForm.ejs', {
       auth: "auth",
+      userName : "New User",
       wishlistCount: 0,
       cartCount: 0,
       paymentPrice: req.paymentPrice,
@@ -1038,6 +1055,7 @@ app.get('/error404', (req, res) => {
   if(req.isAuthenticated()){
     res.render('error404.ejs', {
       auth: "auth",
+      userName : req.userName,
       wishlistCount: 0,
       cartCount: req.cartQuantity,
       paymentPrice: req.paymentPrice,

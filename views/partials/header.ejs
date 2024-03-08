@@ -44,7 +44,8 @@
                                     <p>To access account and manage orders</p>
                                     <a href="/login"><div class="login"><span >LOGIN / SIGNUP</span></div></a>
                                 <% } else { %>
-                                    <h2>Welcome</h2>
+                                    <h2>Welcome, <%= userName %></h2>
+                                    <a href="/profile">Profile</a>
                                     <a href="/logout"><div class="login"><span >LOGOUT</span></div></a>
                                 <% } %>
                             </div>
