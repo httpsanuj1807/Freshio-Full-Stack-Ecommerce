@@ -452,7 +452,6 @@ app.post('/acceptUserDetails', async(req,res)=>{
           res.redirect('/home');
         }
         else{
-          console.log("Old user");
           const result = await db.query(
             "UPDATE user_info SET fname = $1, lname = $2, companyname = $3, countryname = $4, streetaddress1 = $5, streetaddress2 = $6, town = $7, postcode = $8, phone = $9 WHERE user_id = $10",
             [
@@ -1091,6 +1090,16 @@ app.get('/error404', (req, res) => {
     });
   }
 });
+
+
+app.get('/services', (Req,res)=>{
+  res.redirect('/error404');
+})
+app.get('/blog', (req,res)=>{
+  res.redirect('/error404');
+})
+
+
 
 
 app.get('/profile', async(req, res)=>{
