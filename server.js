@@ -12,10 +12,8 @@ import GoogleStrategy from "passport-google-oauth2";
 // import { fileURLToPath } from 'url';
 // import path from 'path';
 
-
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
-
 
 const app = express();
 const port = 3000;
@@ -27,7 +25,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.static("public"));
-
 
 app.use(
   session({
@@ -53,13 +50,14 @@ const calculateCartQuantityAndPaymentPrice = async (req, res, next) => {
       let cartQuantity = 0;
       let paymentPrice = 0;
       let userName;
-      const userProfile = await db.query("SELECT fname, lname from user_info WHERE user_id = $1",[req.user.user_id]);
-      if(userProfile.rows.length == 0){
-        userName = "New User"
-      }
-      else{
-        userName = userProfile.rows[0].fname + ' ' + 
-        userProfile.rows[0].lname;
+      const userProfile = await db.query(
+        "SELECT fname, lname from user_info WHERE user_id = $1",
+        [req.user.user_id]
+      );
+      if (userProfile.rows.length == 0) {
+        userName = "New User";
+      } else {
+        userName = userProfile.rows[0].fname + " " + userProfile.rows[0].lname;
       }
       const productsResult = await db.query("SELECT * FROM products");
       const cartResultData = cartResult.rows;
@@ -137,7 +135,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.get("/", async (req, res) => { 
+app.get("/", async (req, res) => {
   try {
     const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
     let htmlFeature = ``;
@@ -272,7 +270,7 @@ app.get("/home", async (req, res) => {
     if (req.isAuthenticated()) {
       res.render("index.ejs", {
         auth: "auth",
-        userName : req.userName,
+        userName: req.userName,
         activePage: "home",
         htmlFeature: htmlFeature,
         htmlBest: htmlBest,
@@ -419,68 +417,64 @@ app.post("/verifyRegisterUser", async (req, res) => {
   }
 });
 
-app.post('/acceptUserDetails', async(req,res)=>{
-    const {
-      fName,
-      lName,
-      companyName,
-      countryName,
-      streetAddress1,
-      streetAddress2,
-      town,
-      postcode,
-      Phone,
-    } = req.body;
-    if(req.isAuthenticated()){
-      try{
-        if(req.user.isNewUser){
-          const result = await db.query(
-            "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
-            [
-              req.user.user_id,
-              fName,
-              lName,
-              companyName,
-              countryName,
-              streetAddress1,
-              streetAddress2,
-              town,
-              postcode,
-              Phone,
-            ]
-          );
-          res.redirect('/home');
-        }
-        else{
-          const result = await db.query(
-            "UPDATE user_info SET fname = $1, lname = $2, companyname = $3, countryname = $4, streetaddress1 = $5, streetaddress2 = $6, town = $7, postcode = $8, phone = $9 WHERE user_id = $10",
-            [
-              fName,
-              lName,
-              companyName,
-              countryName,
-              streetAddress1,
-              streetAddress2,
-              town,
-              postcode,
-              Phone,
-              req.user.user_id
-            ]
-          );
-          res.redirect('/home');
-        }
+app.post("/acceptUserDetails", async (req, res) => {
+  const {
+    fName,
+    lName,
+    companyName,
+    countryName,
+    streetAddress1,
+    streetAddress2,
+    town,
+    postcode,
+    Phone,
+  } = req.body;
+  
+  if (req.isAuthenticated()) {
+    try {
+      const profile = await db.query("SELECT * from user_info WHERE user_id = $1" , [req.user.user_id]);
+      if (req.user.isNewUser || profile.rows.length === 0) {
+        const result = await db.query(
+          "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+          [
+            req.user.user_id,
+            fName,
+            lName,
+            companyName,
+            countryName,
+            streetAddress1,
+            streetAddress2,
+            town,
+            postcode,
+            Phone,
+          ]
+        );
+        res.redirect("/home");
+      } else {
+        const result = await db.query(
+          "UPDATE user_info SET fname = $1, lname = $2, companyname = $3, countryname = $4, streetaddress1 = $5, streetaddress2 = $6, town = $7, postcode = $8, phone = $9 WHERE user_id = $10",
+          [
+            fName,
+            lName,
+            companyName,
+            countryName,
+            streetAddress1,
+            streetAddress2,
+            town,
+            postcode,
+            Phone,
+            req.user.user_id,
+          ]
+        );
+        res.redirect("/home");
       }
-      catch(err){
-        console.log("Error storing data", err);
-      }
+    } catch (err) {
+      console.log("Error storing data", err);
     }
-    else{
-      res.redirect('/login');
-    }
-
-
-})
-
+  } else {
+    res.redirect("/login");
+  }
+});
 
 app.post("/verifyEmail", async (req, res) => {
   // verify email is already registered or not
@@ -587,7 +581,7 @@ app.get("/products", async (req, res) => {
     if (req.isAuthenticated()) {
       res.render("products.ejs", {
         auth: "auth",
-        userName : req.userName,
+        userName: req.userName,
         activePage: "products",
         productHtml: html,
         wishlistCount: 0,
@@ -648,7 +642,7 @@ app.get("/goToCart", async (req, res) => {
       });
       res.render("cart.ejs", {
         auth: "auth",
-        userName : req.userName,
+        userName: req.userName,
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         cartHTML: cartHTML,
@@ -672,7 +666,7 @@ app.get("/contact", (req, res) => {
   if (req.isAuthenticated()) {
     res.render("contact.ejs", {
       auth: "auth",
-      userName : req.userName,
+      userName: req.userName,
       activePage: "contact",
       wishlistCount: 0,
       cartCount: req.cartQuantity,
@@ -698,7 +692,7 @@ app.get("/checkout", async (req, res) => {
         "SELECT * FROM cart WHERE user_id = $1",
         [req.user.user_id]
       );
-      
+
       const productsData = await db.query("SELECT * FROM products");
       let checkoutHTML = ``;
       let formHTML = ``;
@@ -755,8 +749,8 @@ app.get("/checkout", async (req, res) => {
           <label for="order-notes">Order notes (optional)</label>
           <textarea style="resize: none;" placeholder="Notes about your order, e.g. special notes for delivery" name="orderNotes" id="order-notes" rows="3" ></textarea>
         </div>
-      `
-      }else{
+      `;
+      } else {
         formHTML = `
               <h2>Billing Details</h2>
               <div class="user-name">
@@ -804,7 +798,7 @@ app.get("/checkout", async (req, res) => {
                 <label for="order-notes">Order notes (optional)</label>
                 <textarea style="resize: none;" placeholder="Notes about your order, e.g. special notes for delivery" name="orderNotes" id="order-notes" rows="3" ></textarea>
               </div>
-        `
+        `;
       }
 
       const orderDataResult = orderData.rows;
@@ -827,7 +821,7 @@ app.get("/checkout", async (req, res) => {
       });
       res.render("checkout.ejs", {
         auth: "auth",
-        userName : req.userName,
+        userName: req.userName,
         wishlistCount: 0,
         cartCount: req.cartQuantity,
         checkoutHTML: checkoutHTML,
@@ -874,11 +868,15 @@ app.get("/addToCart/products/:productId", addToCartMiddleware, (req, res) => {
 app.get("/addToCart/home/:productId", addToCartMiddleware, (req, res) => {
   res.redirect("/home");
 });
-app.get("/addToCart/products/filter/:topic/:productId", addToCartMiddleware, (req, res) => {
-  res.redirect(`/filter/topicToSearch/${req.params.topic}`);
-});
+app.get(
+  "/addToCart/products/filter/:topic/:productId",
+  addToCartMiddleware,
+  (req, res) => {
+    res.redirect(`/filter/topicToSearch/${req.params.topic}`);
+  }
+);
 
-app.post('/search/product', async (req, res) =>{
+app.post("/search/product", async (req, res) => {
   let keyword = req.body.searchProductText;
   keyword = keyword.toLowerCase().trim();
   res.redirect(`/filter/topicToSearch/${keyword}`);
@@ -886,7 +884,7 @@ app.post('/search/product', async (req, res) =>{
 
 app.get("/filter/topicToSearch/:keyword", async (req, res) => {
   const topic = req.params.keyword;
-  if(topic === "all"){
+  if (topic === "all") {
     res.redirect("/products");
   }
   try {
@@ -896,10 +894,9 @@ app.get("/filter/topicToSearch/:keyword", async (req, res) => {
     );
     let html = ``;
     const products = productsResult.rows;
-    if(products.length === 0){
+    if (products.length === 0) {
       html = `No products found.`;
-    }
-    else{
+    } else {
       products.forEach((product) => {
         html += `<div class="div-item">
           <div class="img-div">
@@ -918,19 +915,18 @@ app.get("/filter/topicToSearch/:keyword", async (req, res) => {
                </div>
                <div class="product-status-container">
                <a href="/addToCart/products/filter/${topic}/${
-                 product.id
-               }" class="product-status">ADD TO CART &gt;&gt; </a>
+          product.id
+        }" class="product-status">ADD TO CART &gt;&gt; </a>
                </div>
           </div>
        </div>`;
       });
     }
-    
-    
+
     if (req.isAuthenticated()) {
       res.render("products.ejs", {
         auth: "auth",
-        userName : req.userName,
+        userName: req.userName,
         activePage: "products",
         productHtml: html,
         wishlistCount: 0,
@@ -975,46 +971,32 @@ app.get("/deleteFromCart/:productId", async (req, res) => {
 
 app.post("/orderPlaced", async (req, res) => {
   if (req.isAuthenticated()) {
-    const {
-      fName,
-      streetAddress1,
-      streetAddress2,
-      town,
-    } = req.body;
-      let orderId = Math.floor(Math.random() * 90000000) + 10000000;;
-      const orderData = await db.query(
-        "SELECT * FROM cart WHERE user_id = $1",
-        [req.user.user_id]
-      );
-      const productsData = await db.query("SELECT * FROM products");
-      const orderDataResult = orderData.rows;
-      const productsDataResult = productsData.rows;
-      let orderPageHTML = ``;
-      orderDataResult.forEach((item) => {
-        let matchingItem;
-        productsDataResult.forEach((product) => {
-          if (item.product_id === product.id) {
-            matchingItem = product;
-          }
-        });
-        const subtotal = ((matchingItem.price * item.quantity) / 100).toFixed(
-          2
-        );
-        try {
-          const result = db.query(
-            "INSERT INTO orders (order_id,user_id, product_id, quantity, subtotal) VALUES ($1, $2, $3, $4, $5)",
-            [
-              orderId,
-              req.user.user_id,
-              matchingItem.id,
-              item.quantity,
-              subtotal,
-            ]
-          );
-        } catch (errAddingCart) {
-          console.log("Error adding to orders", errAddingCart);
+    const { fName, streetAddress1, streetAddress2, town } = req.body;
+    let orderId = Math.floor(Math.random() * 90000000) + 10000000;
+    const orderData = await db.query("SELECT * FROM cart WHERE user_id = $1", [
+      req.user.user_id,
+    ]);
+    const productsData = await db.query("SELECT * FROM products");
+    const orderDataResult = orderData.rows;
+    const productsDataResult = productsData.rows;
+    let orderPageHTML = ``;
+    orderDataResult.forEach((item) => {
+      let matchingItem;
+      productsDataResult.forEach((product) => {
+        if (item.product_id === product.id) {
+          matchingItem = product;
         }
-        orderPageHTML += `<div class="order-products-info">
+      });
+      const subtotal = ((matchingItem.price * item.quantity) / 100).toFixed(2);
+      try {
+        const result = db.query(
+          "INSERT INTO orders (order_id,user_id, product_id, quantity, subtotal) VALUES ($1, $2, $3, $4, $5)",
+          [orderId, req.user.user_id, matchingItem.id, item.quantity, subtotal]
+        );
+      } catch (errAddingCart) {
+        console.log("Error adding to orders", errAddingCart);
+      }
+      orderPageHTML += `<div class="order-products-info">
         <div class="order-cart-text-content">
           <div><img src=${matchingItem.image} /></div>
           <div style="display: flex; flex-direction:column; justify-content: center;">
@@ -1024,65 +1006,62 @@ app.post("/orderPlaced", async (req, res) => {
         </div>  
         <div  style="display: flex; flex-direction: column; justify-content: center; padding: 0 20px;"><span>£${subtotal}</span></div>
       </div>`;
-      });
-      await db.query("DELETE FROM cart WHERE user_id = $1", [req.user.user_id]);
-      let paymentPriceZero = 0;
-      let newTotal = Number(req.paymentPrice) + 3.14 + 14.12;
-      paymentPriceZero = paymentPriceZero.toFixed(2);
-      res.render("order.ejs", {
-        auth: "auth",
-        userName : req.userName,
-        wishlistCount: 0,
-        cartCount: 0,
-        orderPageHTML: orderPageHTML,
-        paymentPrice: paymentPriceZero,
-        name: fName,
-        orderID: orderId,
-        orderDate: new Date().toLocaleDateString(),
-        houseNo: streetAddress1,
-        streetName: streetAddress2,
-        town: town,
-        total: newTotal.toFixed(2),
-      });
+    });
+    await db.query("DELETE FROM cart WHERE user_id = $1", [req.user.user_id]);
+    let paymentPriceZero = 0;
+    let newTotal = Number(req.paymentPrice) + 3.14 + 14.12;
+    paymentPriceZero = paymentPriceZero.toFixed(2);
+    res.render("order.ejs", {
+      auth: "auth",
+      userName: req.userName,
+      wishlistCount: 0,
+      cartCount: 0,
+      orderPageHTML: orderPageHTML,
+      paymentPrice: paymentPriceZero,
+      name: fName,
+      orderID: orderId,
+      orderDate: new Date().toLocaleDateString(),
+      houseNo: streetAddress1,
+      streetName: streetAddress2,
+      town: town,
+      total: newTotal.toFixed(2),
+    });
   } else {
     res.redirect("/login");
   }
 });
 
-
-app.get('/fillProfile', (req, res)=>{
-  if(req.isAuthenticated()){
-    console.log("From fill profile",req.user.isNewUser);
-   if(req.user.isNewUser){
-    res.render('profileForm.ejs', {
-      auth: "auth",
-      wishlistCount: 0, 
-      cartCount: 0,
-      paymentPrice: req.paymentPrice,
-      newUser : true,
-    }); 
-   }
-   else{
-    res.redirect('/home');
-   }
+app.get("/fillProfile", async(req, res) => {
+  if (req.isAuthenticated()) {
+    const profile = await db.query("SELECT * from user_info WHERE user_id = $1", [req.user.user_id]);
+    if (req.user.isNewUser || profile.rows.length == 0) {
+      res.render("profileForm.ejs", {
+        auth: "auth",
+        wishlistCount: 0,
+        userName: req.userName,
+        cartCount: 0,
+        paymentPrice: req.paymentPrice,
+        newUser: true,
+      });
+    } else {
+      res.redirect("/home");
+    }
+  } else {
+    res.redirect("/login");
   }
-  else{
-    res.redirect('/login');
-  }
-})
+});
 
-app.get('/error404', (req, res) => {
-  if(req.isAuthenticated()){
-    res.render('error404.ejs', {
+app.get("/error404", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render("error404.ejs", {
       auth: "auth",
-      userName : req.userName,
+      userName: req.userName,
       wishlistCount: 0,
       cartCount: req.cartQuantity,
       paymentPrice: req.paymentPrice,
     });
-  }
-  else{
-    res.render('error404.ejs', {
+  } else {
+    res.render("error404.ejs", {
       auth: "notAuth",
       wishlistCount: 0,
       cartCount: 0,
@@ -1091,54 +1070,54 @@ app.get('/error404', (req, res) => {
   }
 });
 
+app.get("/services", (Req, res) => {
+  res.redirect("/error404");
+});
+app.get("/blog", (req, res) => {
+  res.redirect("/error404");
+});
 
-app.get('/services', (Req,res)=>{
-  res.redirect('/error404');
-})
-app.get('/blog', (req,res)=>{
-  res.redirect('/error404');
-})
-
-
-
-
-app.get('/profile', async(req, res)=>{
- if(req.isAuthenticated()){
-  const userProfile = await db.query("SELECT * from user_info WHERE user_id = $1",[req.user.user_id]);
-  const {
-    fname,
-    lname,
-    companyname,
-    countryname,
-    streetaddress1,
-    streetaddress2,
-    town,
-    postcode,
-    phone,
-  } = userProfile.rows[0];
-  res.render('profileForm.ejs', { 
-       auth: "auth",
-       userName : req.userName,
-       wishlistCount: 0,
-       cartCount: req.cartQuantity,
-       paymentPrice: req.paymentPrice,
-       fname : fname,
-       lname : lname,
-       companyname : companyname,
-       countryname : countryname,
-       streetaddress1 : streetaddress1,
-       streetaddress2 : streetaddress2,
-       town : town,
-       postcode : postcode,
-       phone : phone,
-  });
- }
- else{
-  res.redirect('/login');
- }
-})
-
-
+app.get("/profile", async (req, res) => {
+  if (req.isAuthenticated()) {
+    const userProfile = await db.query(
+      "SELECT * from user_info WHERE user_id = $1",
+      [req.user.user_id]
+    );
+    if (userProfile.rows.length == 0) {
+      res.redirect("/fillProfile");
+    } else {
+      const {
+        fname,
+        lname,
+        companyname,
+        countryname,
+        streetaddress1,
+        streetaddress2,
+        town,
+        postcode,
+        phone,
+      } = userProfile.rows[0];
+      res.render('profileForm.ejs', { 
+           auth: "auth",
+           userName : req.userName,
+           wishlistCount: 0,
+           cartCount: req.cartQuantity,
+           paymentPrice: req.paymentPrice,
+           fname : fname,
+           lname : lname,
+           companyname : companyname,
+           countryname : countryname,
+           streetaddress1 : streetaddress1,
+           streetaddress2 : streetaddress2,
+           town : town,
+           postcode : postcode,
+           phone : phone,
+      });
+    }
+  } else {
+    res.redirect("/login");
+  }
+});
 
 app.get("/orderPlaced", (req, res) => {
   if (req.isAuthenticated()) {
@@ -1157,17 +1136,15 @@ app.get(
   })
 );
 
-
 app.get(
   "/auth/google/home",
   passport.authenticate("google", {
     failureRedirect: "/login",
   }),
   (req, res) => {
-    if(req.user.isNewUser){
-      res.redirect('/fillProfile');
-    }
-    else{
+    if (req.user.isNewUser) {
+      res.redirect("/fillProfile");
+    } else {
       res.redirect("/home");
     }
   }
@@ -1232,7 +1209,7 @@ passport.use(
       }
     }
   )
-); 
+);
 
 passport.serializeUser((user, cb) => {
   cb(null, user); // Serialize using the users
