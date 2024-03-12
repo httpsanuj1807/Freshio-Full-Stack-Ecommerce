@@ -296,6 +296,10 @@ app.get("/logout", (req, res) => {
   });
 });
 
+app.get('/myOrders', async(req,res)=>{
+  res.redirect('/error404');
+})
+
 //route for login.ejs
 app.get("/login", (req, res) => {
   res.render("login.ejs", {

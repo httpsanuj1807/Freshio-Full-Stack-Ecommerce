@@ -16,27 +16,51 @@
                     <div  onclick="closeSidebar()"><img  src="/images/Homepage/close.png"></div>
                 </div>
                 <div class="content-sidebar">
-                    <div class="sidebar-item">
-                        <a href="/"><span>Home</span></a>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="/products"><span>Shop</span></a>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="/services"><span>Services</span></a>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="/blog"><span>Blog</span></a>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="/contact"><span>Contact</span></a>
-                    </div>
-                    <div class="sidebar-item">
-                        <a href="/profile"><span>Profile</span></a>
-                    </div>
-                    <div style="border: none;"  class="sidebar-item">
-                        <a href="/myOrders"><span>My Orders</span></a>
-                    </div>
+                    <% if(locals.auth == "auth"){%>
+                        <div class="sidebar-item">
+                            <a href="/"><span>Home</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/products"><span>Shop</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/services"><span>Services</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/blog"><span>Blog</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/contact"><span>Contact</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/profile"><span>Profile</span></a>
+                        </div>
+                        <div style="border: none;"  class="sidebar-item">
+                            <a href="/myOrders"><span>My Orders</span></a>
+                        </div>
+                        <div style="border: none;"  class="sidebar-item">
+                            <a href="/logout"><span>Logout</span></a>
+                        </div>
+                    <%}else{%>
+                        <div class="sidebar-item">
+                            <a href="/login"><span>Login/Signup</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/"><span>Home</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/products"><span>Shop</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/services"><span>Services</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/blog"><span>Blog</span></a>
+                        </div>
+                        <div class="sidebar-item">
+                            <a href="/contact"><span>Contact</span></a>
+                        </div>
+                        <%}%>
                 </div>
             </div>
         </div>
