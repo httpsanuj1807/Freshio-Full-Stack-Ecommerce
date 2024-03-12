@@ -229,8 +229,10 @@ app.get('/description/:productId', async(req,res)=>{
       productName: productName,
       price: price,
       categories : categories,
+      sku : productId.substring(1,7),
       tag : product.keyword3,
       wishlistCount: 0,
+      productId : productId,
       cartCount: req.cartQuantity,
       paymentPrice: req.paymentPrice,
       image : product.image
@@ -242,7 +244,9 @@ app.get('/description/:productId', async(req,res)=>{
       userName: req.userName,
       productName: productName,
       price: price,
+      sku : productId.substring(1,7),
       categories : categories,
+      productId : productId,
       tag : product.keyword3,
       wishlistCount: 0,
       cartCount: 0,
@@ -921,6 +925,11 @@ app.get("/addToCart/products/:productId", addToCartMiddleware, (req, res) => {
 app.get("/addToCart/home/:productId", addToCartMiddleware, (req, res) => {
   res.redirect("/home");
 });
+
+app.get("/addToCart/description/:productId", addToCartMiddleware, (req,res)=>{
+  const productId = req.params.productId;
+  res.redirect(`/description/${productId}`);
+})
 app.get(
   "/addToCart/products/filter/:topic/:productId",
   addToCartMiddleware,
