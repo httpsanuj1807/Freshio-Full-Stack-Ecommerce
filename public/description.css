@@ -1,0 +1,174 @@
+
+        .productNameDiv{
+            height: 70px;
+            background-color: #f8eee3;
+            display: flex;
+            align-items: center;
+            padding-left: 10%;
+            color: #857f7f;
+            font-size: 0.85rem;
+        }
+        .main-description-container{
+           
+            padding:30px 6%;
+            width: 100%;
+        }
+        .description-wrapper{
+            display: flex;
+            padding: 0 15px;
+            /* border: 1px solid black; */
+            width: 100%;
+        }
+        .description-image-container{
+            border: 1px solid rgb(225, 225, 225);
+            padding: 6%;
+            width: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .description-icon{
+            position: absolute;
+            right: 40px;
+            top: 40px;
+            height: 20px;
+            width: 20px;
+            cursor: pointer;
+        }
+        .description-image-container img{
+            width: 110%;
+        }
+        .description-content-container{
+            width: 50%;
+            /* border: 1px solid green; */
+            padding-left: 5%;
+        }
+        .status-div
+        {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        .stock
+        {
+            font-size: 10px;
+            padding: 5px 10px;
+            background-color: #defaf2;
+        }
+        .prev-next
+        {
+            font-size: 12px;
+        }
+        .name-des
+        {
+            font-size: 30px;
+            font-weight: 600;
+            color: #0a472e;
+            margin-bottom: 18px;
+        }
+        .price-des
+        {
+            font-size: 24px;
+            color: #a8b324;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+        .description
+        {
+            font-size: 14px;
+            margin-bottom: 40px;
+            color: #555555;
+            line-height: 1.5;
+        }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button
+        {
+            opacity: 1;
+        }
+        .add-to-cart-div input
+        {
+            width: 115px;
+            height: 45px; 
+            padding: 5px 12px;   
+            border-radius: 22px;   
+            border: 1px solid rgb(209, 209, 209);   
+            margin-right: 5px;  
+            color: #0a472e;
+            outline: none;
+            font-weight: 600;
+            font-family: "MazzardH-Medium";
+        }
+        
+        .add-to-cart-div button
+        {
+            font-size: 12px;
+            padding: 17px 60px;
+            background-color: #a8b324;
+            border-radius: 25px;
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+        .add-to-cart-div button:hover
+        {
+            background-color: #80891b;
+            cursor: pointer;
+        }
+        .wishlist-div
+        {
+            display: flex;
+            padding: 25px 0;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgb(216, 216, 216);
+            transition: all 0.4s ease;
+        }
+        .compare-des
+        {
+            display: flex;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+        .compare-des:hover
+        {
+            cursor: pointer;
+            color: #a8b324;
+        }
+        .lower-div-des p
+        {
+            color: #999999;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        @media(max-width:880px)
+        {
+            .description-wrapper
+            {
+                flex-direction: column;
+            }
+            .description-image-container,.description-content-container
+            {
+                width: 100%;
+            }
+            .description-image-container img
+            {
+                width: 80%;
+            }
+            .description-image-container
+            {
+                margin-bottom: 50px;
+            }
+            .add-to-cart-div button
+            {
+                padding: 17px 35px;
+            }
+            .name-des
+            {
+                font-size: 25px;
+            }
+            .price-des
+            {
+                font-size: 20px;
+            }
+        }

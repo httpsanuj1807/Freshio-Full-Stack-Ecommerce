@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/description.css">
+    <title><%= productName %></title>
+</head>
+<body style="height: 100%; width: 100%; background-image: none; padding: 0; font-family: MazzardH-Medium">
+    
+    <main class="main-container">
+
+    <%- include('partials/header') %>
+        <div class="productNameDiv">
+            <p>Description &gt; <%= productName %></p>
+        </div>
+        <div class="main-description-container">
+            <div class="description-wrapper">
+                <div class="description-image-container">
+                    <div class="description-icon">
+                        <img src="/images/Homepage/expand.png">
+                    </div>
+                    <img src="/<%= image %>">
+                </div>
+                <div class="description-content-container">
+                    <div class="status-div">
+                        <div class="stock">
+                            IN STOCK
+                        </div>
+                        <div style="cursor: pointer;" class="prev-next">
+                            PREV &#183; NEXT
+                        </div>
+                    </div>
+                    <div class="name-des">
+                        <p> <%= productName %></p>
+                    </div>
+                    <div class="price-des">
+                        <p> £<%= price %></p>
+                    </div>
+                    <div class="description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam ducimus id nihil ipsam, quod iste quaerat! Dicta odio reprehenderit accusamus alias natus saepe voluptates necessitatibus. Sapiente, pariatur? Sint, ab nulla.</p>
+                    </div>
+                    <div class="add-to-cart-div">
+                        <input value="1" type="number" >
+                        <a href="/"><button>ADD TO CART</button></a>
+                    </div>
+                    <div class="wishlist-div">
+                        <div class="compare-des">
+                            <div class="img-div-des"><img src="/images/Homepage/shuffle.png" style="height: 14px; width: 14px; margin-right: 7px;"></div>
+                            <div class="compare-text">
+                                Compare
+                            </div>
+                        </div>
+                        <div class="compare-des">
+                            <div class="img-div-des"><img src="/images/Homepage/filledheart.png" style="height: 14px; width: 14px; margin-right: 7px;"></div>
+                            <div class="compare-text">
+                                Wishlist
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lower-div-des">
+                        <p><span style="color: black;">SKU: </span> <%= productName %></p>
+                        <p><span style="color: black;">Categories: </span><%= categories %></p>
+                        <p><span style="color: black;">Tag: </span><%= tag %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <%- include('partials/footer') %>
+</main>
+</body>
+</html>

@@ -79,8 +79,8 @@ const calculateCartQuantityAndPaymentPrice = async (req, res, next) => {
       res.status(500).send("Error fetching data");
     }
   } else {
-    const payemntPrice = 0;
-    req.paymentPrice = payemntPrice.toFixed(2);
+    const paymentPrice = 0;
+    req.paymentPrice = paymentPrice.toFixed(2);
     next();
   }
 };
@@ -141,9 +141,10 @@ app.get("/", async (req, res) => {
     let htmlFeature = ``;
     const featureProductResult = featureProducts.rows;
     featureProductResult.forEach((product) => {
-      htmlFeature += ` <div class="div-item">
+      htmlFeature += `
+      <div class="div-item">
       <div class="img-div">
-       <img class="product-img" src=${product.image}>
+       <a href='/description/${product.id}'><img class="product-img" src=${product.image}></a>
        <div class="hidden-features">
            <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
            <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
@@ -151,7 +152,7 @@ app.get("/", async (req, res) => {
        </div>
       </div>
       <div class="product-text-div">
-           <div class="product-name">${product.name}</div>
+           <a href="/description/${product.id}" style='text-decoration:none; color:black;'><div class="product-name">${product.name}</div></a>
            <div class="product-price">From £${(product.price / 100).toFixed(
              2
            )}</div>
@@ -161,7 +162,8 @@ app.get("/", async (req, res) => {
                }" class="product-status">ADD TO CART &gt;&gt; </a>
            </div>
       </div>
-   </div>`;
+   </div>
+      `;
     });
     const bestProducts = await db.query(
       "SELECT * FROM products ORDER BY rating_stars DESC, rating_count DESC LIMIT 4"
@@ -171,7 +173,7 @@ app.get("/", async (req, res) => {
     bestProductResult.forEach((product) => {
       htmlBest += ` <div class="div-item">
       <div class="img-div">
-       <img class="product-img" src=${product.image}>
+       <a href='/description/${product.id}'><img class="product-img" src=${product.image}></a>
        <div class="hidden-features">
            <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
            <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
@@ -179,7 +181,7 @@ app.get("/", async (req, res) => {
        </div>
       </div>
       <div class="product-text-div">
-           <div class="product-name">${product.name}</div>
+          <a href='/description/${product.id}' style='text-decoration:none; color:black;'><div class="product-name">${product.name}</div></a>
            <div class="product-price">From £${(product.price / 100).toFixed(
              2
            )}</div>
@@ -210,6 +212,50 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get('/description/:productId', async(req,res)=>{
+  const productId = req.params.productId;
+  try{
+    const productDetails = await db.query("SELECT * FROM products WHERE id = $1", [productId]);
+    const product = productDetails.rows[0];
+    const productName = product.name;
+    const price = (product.price / 100).toFixed(2);
+    const keyword1 = product.keyword1;
+    const keyword2 = product.keyword2;
+    const categories = keyword1 + ', ' + keyword2;
+    if(req.isAuthenticated()){
+      res.render('description.ejs',{
+      auth: "auth",
+      userName: req.userName,
+      productName: productName,
+      price: price,
+      categories : categories,
+      tag : product.keyword3,
+      wishlistCount: 0,
+      cartCount: req.cartQuantity,
+      paymentPrice: req.paymentPrice,
+      image : product.image
+      });
+    }
+    else{
+      res.render('description.ejs',{
+      auth: "notAuth",
+      userName: req.userName,
+      productName: productName,
+      price: price,
+      categories : categories,
+      tag : product.keyword3,
+      wishlistCount: 0,
+      cartCount: 0,
+      paymentPrice: req.paymentPrice,
+      image : product.image
+      });
+    }
+  }
+  catch(err){
+    console.log("Error fetching data", err);
+  }
+})
+
 app.get("/home", async (req, res) => {
   try {
     const featureProducts = await db.query("SELECT * FROM products LIMIT 4");
@@ -218,7 +264,7 @@ app.get("/home", async (req, res) => {
     featureProductResult.forEach((product) => {
       htmlFeature += ` <div class="div-item">
       <div class="img-div">
-       <img class="product-img" src=${product.image}>
+      <a href='/description/${product.id}'><img class="product-img" src=${product.image}></a>
        <div class="hidden-features">
            <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
            <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
@@ -226,7 +272,7 @@ app.get("/home", async (req, res) => {
        </div>
       </div>
       <div class="product-text-div">
-           <div class="product-name">${product.name}</div>
+      <a href='/description/${product.id}' style='text-decoration:none; color:black;'><div class="product-name">${product.name}</div></a>
            <div class="product-price">From £${(product.price / 100).toFixed(
              2
            )}</div>
@@ -246,7 +292,7 @@ app.get("/home", async (req, res) => {
     bestProductResult.forEach((product) => {
       htmlBest += ` <div class="div-item">
       <div class="img-div">
-       <img class="product-img" src=${product.image}>
+      <a href='/description/${product.id}'><img class="product-img" src=${product.image}></a>
        <div class="hidden-features">
            <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
            <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
@@ -254,7 +300,7 @@ app.get("/home", async (req, res) => {
        </div>
       </div>
       <div class="product-text-div">
-           <div class="product-name">${product.name}</div>
+      <a href='/description/${product.id}' style='text-decoration:none; color:black;'><div class="product-name">${product.name}</div></a>
            <div class="product-price">From £${(product.price / 100).toFixed(
              2
            )}</div>
@@ -296,9 +342,9 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.get('/myOrders', async(req,res)=>{
-  res.redirect('/error404');
-})
+app.get("/myOrders", async (req, res) => {
+  res.redirect("/error404");
+});
 
 //route for login.ejs
 app.get("/login", (req, res) => {
@@ -433,10 +479,13 @@ app.post("/acceptUserDetails", async (req, res) => {
     postcode,
     Phone,
   } = req.body;
-  
+
   if (req.isAuthenticated()) {
     try {
-      const profile = await db.query("SELECT * from user_info WHERE user_id = $1" , [req.user.user_id]);
+      const profile = await db.query(
+        "SELECT * from user_info WHERE user_id = $1",
+        [req.user.user_id]
+      );
       if (req.user.isNewUser || profile.rows.length === 0) {
         const result = await db.query(
           "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
@@ -562,7 +611,7 @@ app.get("/products", async (req, res) => {
     products.forEach((product) => {
       html += `<div class="div-item">
       <div class="img-div">
-       <img class="product-img" src="${product.image}">
+       <a href='/description/${product.id}'> <img class="product-img" src="${product.image}"> </a>
        <div class="hidden-features">
            <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
            <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
@@ -570,7 +619,7 @@ app.get("/products", async (req, res) => {
        </div>
       </div>
       <div class="product-text-div">
-           <div class="product-name">${product.name}</div>
+           <a href='/description/${product.id}' style='text-decoration:none; color:black;'> <div class="product-name">${product.name}</div> </a>
            <div class="product-price">From £${(product.price / 100).toFixed(2)}
            </div>
            <div class="product-status-container">
@@ -904,7 +953,7 @@ app.get("/filter/topicToSearch/:keyword", async (req, res) => {
       products.forEach((product) => {
         html += `<div class="div-item">
           <div class="img-div">
-           <img class="product-img" src="/${product.image}">
+           <a href='/description/${product.id}'><img class="product-img" src="/${product.image}"></a>
            <div class="hidden-features">
                <p><img class="feature-icon" src="/images/Homepage/filledheart.png"></p>
                <p><img class="feature-icon" src="/images/Homepage/shuffle.png"></p>
@@ -912,7 +961,7 @@ app.get("/filter/topicToSearch/:keyword", async (req, res) => {
            </div>
           </div>
           <div class="product-text-div">
-               <div class="product-name">${product.name}</div>
+              <a href='/description/${product.id}' style='text-decoration:none; color:black;'> <div class="product-name">${product.name}</div> </a>
                <div class="product-price">From £${(product.price / 100).toFixed(
                  2
                )}
@@ -1035,9 +1084,12 @@ app.post("/orderPlaced", async (req, res) => {
   }
 });
 
-app.get("/fillProfile", async(req, res) => {
+app.get("/fillProfile", async (req, res) => {
   if (req.isAuthenticated()) {
-    const profile = await db.query("SELECT * from user_info WHERE user_id = $1", [req.user.user_id]);
+    const profile = await db.query(
+      "SELECT * from user_info WHERE user_id = $1",
+      [req.user.user_id]
+    );
     if (req.user.isNewUser || profile.rows.length == 0) {
       res.render("profileForm.ejs", {
         auth: "auth",
@@ -1101,21 +1153,21 @@ app.get("/profile", async (req, res) => {
         postcode,
         phone,
       } = userProfile.rows[0];
-      res.render('profileForm.ejs', { 
-           auth: "auth",
-           userName : req.userName,
-           wishlistCount: 0,
-           cartCount: req.cartQuantity,
-           paymentPrice: req.paymentPrice,
-           fname : fname,
-           lname : lname,
-           companyname : companyname,
-           countryname : countryname,
-           streetaddress1 : streetaddress1,
-           streetaddress2 : streetaddress2,
-           town : town,
-           postcode : postcode,
-           phone : phone,
+      res.render("profileForm.ejs", {
+        auth: "auth",
+        userName: req.userName,
+        wishlistCount: 0,
+        cartCount: req.cartQuantity,
+        paymentPrice: req.paymentPrice,
+        fname: fname,
+        lname: lname,
+        companyname: companyname,
+        countryname: countryname,
+        streetaddress1: streetaddress1,
+        streetaddress2: streetaddress2,
+        town: town,
+        postcode: postcode,
+        phone: phone,
       });
     }
   } else {
