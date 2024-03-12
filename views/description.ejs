@@ -41,8 +41,8 @@
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam ducimus id nihil ipsam, quod iste quaerat! Dicta odio reprehenderit accusamus alias natus saepe voluptates necessitatibus. Sapiente, pariatur? Sint, ab nulla.</p>
                     </div>
                     <div class="add-to-cart-div">
-                        <input value="1" type="number" >
-                        <a href="/addToCart/description/<%= productId %>"><button>ADD TO CART</button></a>
+                        <input min="1" max="10" onchange="onChangeQuantity()" id="inputBox" value="1" type="number" >
+                        <a id="addToCartLink" href="/addToCart/description/<%= productId %>/1"><button>ADD TO CART</button></a>
                     </div>
                     <div class="wishlist-div">
                         <div class="compare-des">
@@ -68,5 +68,20 @@
         </div>
     <%- include('partials/footer') %>
 </main>
+<script>
+    function onChangeQuantity() {
+    const inputBox = document.getElementById("inputBox");
+    const quantity = inputBox.value;
+    const addToCartLink = document.getElementById("addToCartLink");
+    const href = addToCartLink.getAttribute("href");
+    var parts = href.split("/");
+    // console.log(parts); [array]
+    var productId = parts[parts.length - 2];
+    // console.log(productId);
+    addToCartLink.setAttribute("href", "/addToCart/description/" + productId + "/" + quantity);
+    // console.log(addToCartLink.getAttribute("href"));
+  }
+</script>
 </body>
 </html>
+

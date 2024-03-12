@@ -229,7 +229,7 @@ app.get('/description/:productId', async(req,res)=>{
       productName: productName,
       price: price,
       categories : categories,
-      sku : productId.substring(1,7),
+      sku : productId.substring(0,8),
       tag : product.keyword3,
       wishlistCount: 0,
       productId : productId,
@@ -244,7 +244,7 @@ app.get('/description/:productId', async(req,res)=>{
       userName: req.userName,
       productName: productName,
       price: price,
-      sku : productId.substring(1,7),
+      sku : productId.substring(0,8),
       categories : categories,
       productId : productId,
       tag : product.keyword3,
@@ -926,10 +926,38 @@ app.get("/addToCart/home/:productId", addToCartMiddleware, (req, res) => {
   res.redirect("/home");
 });
 
-app.get("/addToCart/description/:productId", addToCartMiddleware, (req,res)=>{
-  const productId = req.params.productId;
-  res.redirect(`/description/${productId}`);
+
+app.get('/addToCart/description/:productId/:quantity', async(req,res)=>{
+  if (req.isAuthenticated()) {
+    try {
+      const ifExists = await db.query(
+        "SELECT * FROM cart WHERE user_id = $1 AND product_id = $2",
+        [req.user.user_id, req.params.productId]
+      );
+      if (ifExists.rows.length > 0) {
+        // updating the quantity
+        const result = await db.query(
+          "UPDATE cart SET quantity = quantity + $3 WHERE user_id = $1 AND product_id = $2",
+          [req.user.user_id, req.params.productId, req.params.quantity]
+        );
+      } else {
+        // fresh insert
+        const result = await db.query(
+          "INSERT INTO cart (user_id, product_id,quantity) VALUES ($1, $2,$3)",
+          [req.user.user_id, req.params.productId, req.params.quantity]
+        );
+      }
+      res.redirect(`/description/${req.params.productId}`);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error adding to cart");
+    }
+  } else {
+    res.redirect("/login");
+  }
 })
+
+
 app.get(
   "/addToCart/products/filter/:topic/:productId",
   addToCartMiddleware,
