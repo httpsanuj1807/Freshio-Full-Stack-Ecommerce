@@ -130,8 +130,8 @@ db.connect();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "anuj2002kumar@gmail.com",
-    pass: "mcxgkrajpnpivfwu",
+    user: process.env.GOOGLE_ID,
+    pass: process.env.GOOGLE_ACCOUNT_PASSWORD,
   },
 });
 
@@ -437,8 +437,6 @@ app.post("/verifyRegisterUser", async (req, res) => {
   } = req.body;
 
   const otpEntered = firstDigit + secondDigit + thirdDigit + fourthDigit;
-  console.log("Otp entered", otpEntered);
-  console.log("Otp sended", otp);
   if (otpEntered === otp) {
     try {
       bcrypt.hash(password, saltRounds, async (err, hash) => {
@@ -490,7 +488,7 @@ app.post("/acceptUserDetails", async (req, res) => {
         "SELECT * from user_info WHERE user_id = $1",
         [req.user.user_id]
       );
-      if (req.user.isNewUser || profile.rows.length === 0) {
+      if (profile.rows.length === 0) {
         const result = await db.query(
           "INSERT INTO user_info (user_id, fname, lname, companyname, countryname, streetaddress1, streetaddress2, town, postcode, phone) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
           [
@@ -543,7 +541,7 @@ app.post("/verifyEmail", async (req, res) => {
       res.redirect("/alreadyRegisteredRedirect");
     } else {
       otp = Math.random().toString(36).substring(2, 6).toLowerCase();
-      console.log(otp);
+      
       // sending otp using nodemailer
       try {
         const mailOptions = {
@@ -1255,7 +1253,7 @@ passport.use(
       if (result.rows.length > 0) {
         bcrypt.compare(password, result.rows[0].password, (err, response) => {
           if (response) {
-            return done(null, result.rows[0]); // correct password
+            return done(null,{ user_id : result.rows[0].email}); // correct password
           } else {
             return done(null, false, {
               message: "Invalid email or password. Try again",
@@ -1292,10 +1290,10 @@ passport.use(
             "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
             [profile.email, "googleUser"]
           );
-          cb(null, { ...newUser.rows[0], isNewUser: true }); // null is that no error
+          cb(null, { user_id: newUser.rows[0].email, isNewUser: true }); // null is that no error
         } else {
           // user already exists
-          cb(null, { ...result.rows[0], isNewUser: false });
+          cb(null, { user_id : result.rows[0].email, isNewUser: false });
         }
       } catch (err) {
         cb(err);
@@ -1305,10 +1303,12 @@ passport.use(
 );
 
 passport.serializeUser((user, cb) => {
+  console.log("Serialize", user);
   cb(null, user); // Serialize using the users
 });
 
 passport.deserializeUser((user, cb) => {
+  console.log("Deserialize", user);
   cb(null, user);
 });
 
