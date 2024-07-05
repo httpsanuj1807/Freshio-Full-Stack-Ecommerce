@@ -122,6 +122,10 @@ const db = new pg.Client({
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DATABASE,
   port: process.env.PG_PORT,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+
 });
 
 db.connect();
@@ -1303,12 +1307,10 @@ passport.use(
 );
 
 passport.serializeUser((user, cb) => {
-  console.log("Serialize", user);
   cb(null, user); // Serialize using the users
 });
 
 passport.deserializeUser((user, cb) => {
-  console.log("Deserialize", user);
   cb(null, user);
 });
 
