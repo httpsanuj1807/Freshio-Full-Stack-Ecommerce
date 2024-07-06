@@ -8,12 +8,11 @@ import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
 import GoogleStrategy from "passport-google-oauth2";
+import { fileURLToPath } from 'url';
+import path from 'path';
 
-// import { fileURLToPath } from 'url';
-// import path from 'path';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = 3000;
@@ -25,6 +24,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.static("public"));
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Adjust path if necessary
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({
@@ -122,9 +125,9 @@ const db = new pg.Client({
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DATABASE,
   port: process.env.PG_PORT,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl : {
+    rejectUnauthorized : false
+  }
 
 });
 
