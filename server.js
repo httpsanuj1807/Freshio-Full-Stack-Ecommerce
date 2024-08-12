@@ -125,9 +125,9 @@ const db = new pg.Client({
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DATABASE,
   port: process.env.PG_PORT,
-  ssl : {
-    rejectUnauthorized : false
-  }
+  // ssl : {
+  //   rejectUnauthorized : false
+  // }
 
 });
 
@@ -354,6 +354,10 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/myOrders", async (req, res) => {
+  res.redirect("/error404");
+});
+
+app.get("/wishlist", async (req, res) => {
   res.redirect("/error404");
 });
 

@@ -3,6 +3,8 @@
     padding: 0 20px;
     margin: 50px 0;
     display: flex;
+    /* background-color: red; */
+
 }
 hr
 {
@@ -79,6 +81,7 @@ hr
 .products2-grid{
     display: grid;
     width: 100%;
+    
     grid-template-columns:  1fr 1fr 1fr;
 }
 .toggle

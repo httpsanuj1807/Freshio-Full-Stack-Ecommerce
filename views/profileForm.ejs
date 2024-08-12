@@ -34,6 +34,12 @@
           font-family: MazzardH-Medium;
           letter-spacing: 0.7px;
         }
+        .button-wrapper{
+          margin-top: 10px;
+        }
+        .links-container{
+          margin-top: 0 !important;
+        }
         .updateInfoButton:hover{
           background-color: rgb(128,137,27);
           cursor: pointer;
@@ -67,6 +73,10 @@
         }
         .profile-page-sidebar{
           width: 50%;
+        }
+        .button-wrapper{
+          display: flex; 
+          justify-content: center;
         }
       }
        
@@ -138,7 +148,7 @@
                 <%}%> required autocomplete="on" type="text" placeholder="House number and street name" name="streetAddress1" id="street-address">
               <input <%if(locals.streetaddress2){%>
                 value="<%=locals.streetaddress2%>"
-                <%}%> required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" name="streetAddress2" id="street-address2">
+                <%}%> autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" name="streetAddress2" id="street-address2">
             </div>
             <div class="flex-down">
               <label for="town" class="required">Town / City</label>
@@ -158,7 +168,7 @@
                 value="<%=locals.phone%>"
                 <%}%> autocomplete="on" required type="text" maxlength="10" name="Phone" id="Phone">
             </div>
-            <button class="updateInfoButton" type="submmit">Update and Continue</button>
+            <div class="button-wrapper"><button class="updateInfoButton" type="submmit">Update and Continue</button></div>
           </div>
       </main>
      </form>
