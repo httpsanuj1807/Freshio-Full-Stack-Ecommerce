@@ -53,12 +53,8 @@ app.use(
     }),
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours
-      sameSite: 'lax', // Adjust as needed
-    },
+    saveUninitialized: false,
+    session : 1000 * 60 * 60 * 24
   })
 );
 
