@@ -19,7 +19,7 @@ const app = express();
 const port = 3000;
 const saltRounds = 10;
 env.config();
-let otp = undefined;
+// let otp = undefined;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -456,7 +456,7 @@ app.post("/verifyRegisterUser", async (req, res) => {
   } = req.body;
 
   const otpEntered = firstDigit + secondDigit + thirdDigit + fourthDigit;
-  if (otpEntered === otp) {
+  if (otpEntered === req.session.otp) {
     try {
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         const result = await db.query(
@@ -562,7 +562,7 @@ app.post("/verifyEmail", async (req, res) => {
     if (result.rows.length > 0) {
       res.redirect("/alreadyRegisteredRedirect");
     } else {
-      otp = Math.random().toString(36).substring(2, 6).toLowerCase();
+      req.session.otp = Math.random().toString(36).substring(2, 6).toLowerCase();
       
       // sending otp using nodemailer
       try {
@@ -570,7 +570,7 @@ app.post("/verifyEmail", async (req, res) => {
           from: '"Team Freshio" <anuj2002kumar@gmail.com>',
           to: req.body.username,
           subject: "Verify your Freshio OTP",
-          text: `Your OTP is ${otp}.`,
+          text: `Your OTP is ${req.session.otp}.`,
           html: `
           <!DOCTYPE html>
           <html lang="en">
@@ -587,7 +587,7 @@ app.post("/verifyEmail", async (req, res) => {
               <!-- Content -->
               <section style="padding: 20px;  color: #0a472e;">
                   <p style="margin-bottom: 10px;">Dear User,</p>
-                  <p style="margin-bottom: 10px;">Your OTP for verification is: <strong>${otp}</strong></p>
+                  <p style="margin-bottom: 10px;">Your OTP for verification is: <strong>${req.session.otp}</strong></p>
                   <p>Please use this OTP to complete your registration process.</p>
               </section>
               <!-- Footer -->
