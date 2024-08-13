@@ -10,13 +10,11 @@ import { Strategy } from "passport-local";
 import GoogleStrategy from "passport-google-oauth2";
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { toUSVString } from "util";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.set('trust proxy', 1); 
 const port = 3000;
 const saltRounds = 10;
 env.config();
@@ -34,11 +32,8 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    cookie : {
-      secure : true,
-      maxAge : 1000 * 60 * 60 * 24
-    }
+    saveUninitialized: true,
+    session: { maxAge: 1000 * 60 * 60 * 24 },
   })
 );
 
