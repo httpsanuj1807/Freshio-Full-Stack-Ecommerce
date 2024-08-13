@@ -22,11 +22,10 @@ let otp = undefined;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.static("public"));
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views')); // Adjust path if necessary
+app.set('views', path.join(__dirname, 'views')); 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
@@ -125,9 +124,9 @@ const db = new pg.Client({
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DATABASE,
   port: process.env.PG_PORT,
-  // ssl : {
-  //   rejectUnauthorized : false
-  // }
+  ssl : {
+    rejectUnauthorized : false
+  }
 
 });
 
@@ -455,7 +454,10 @@ app.post("/verifyRegisterUser", async (req, res) => {
           "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
           [username, hash]
         );
-        const user = result.rows[0];
+        const user = {
+          user_id : result.rows[0].email
+        }
+
         req.login(user, (err) => {
           if (err) {
             console.log(err);
