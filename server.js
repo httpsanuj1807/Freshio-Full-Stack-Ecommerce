@@ -784,20 +784,20 @@ app.get("/checkout", async (req, res) => {
         <div class="user-name">
           <div style="width:48%;" class="flex-down">
             <label for="fName" class="required">First name</label>
-            <input autocomplete="on" required maxlength="8" type="text" value=${formDetails.fname} name="fName" id="fName">
+            <input autocomplete="on" required maxlength="8" type="text" value="${formDetails.fname}" name="fName" id="fName">
           </div>
           <div style="width:48%;" class="flex-down">
             <label for="lName" class="required">Last name</label>
-            <input autocomplete="on" max="10" required type="text" value=${formDetails.lname} name="lName" id="lName">
+            <input autocomplete="on" max="10" required type="text" value="${formDetails.lname}" name="lName" id="lName">
           </div>
         </div>
         <div class="flex-down">
           <label for="company-name">Company Name (optional)</label>
-          <input autocomplete="on" type="text" name="companyName" id="company-name">
+          <input autocomplete="on" type="text" value="${formDetails.companyname}" name="companyName" id="company-name">
         </div>
         <div class="flex-down">
           <label for="country-name" class="required">Country / Region</label>
-          <select required id="country-name" value=${formDetails.countryname} name="countryName">
+          <select required id="country-name" value="${formDetails.countryname}" name="countryName">
             <option value="India">India</option>
             <option value="UAE">United Arab Emirates</option>
             <option value="UK">United Kingdom (UK)</option>
@@ -807,19 +807,19 @@ app.get("/checkout", async (req, res) => {
         <div class="flex-down">
           <label class="required" for="street-address1">Street Address</label>
           <input required autocomplete="on" type="text" placeholder="House number and street name" value="${formDetails.streetaddress1}" name="streetAddress1" id="street-address">
-          <input required autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" value=${formDetails.streetaddress2} name="streetAddress2" id="street-address2">
+          <input autocomplete="on" type="text" placeholder="Apartment, suite, unit, etc (optional)" value="${formDetails.streetaddress2}"  name="streetAddress2" id="street-address2">
         </div>
         <div class="flex-down">
           <label for="town" class="required">Town / City</label>
-          <input autocomplete="on" required value=${formDetails.town} type="text" name="town" id="town">
+          <input autocomplete="on" required value="${formDetails.town}" type="text" name="town" id="town">
         </div>
         <div class="flex-down">
           <label for="postcode" class="required">Postcode</label>
-          <input autocomplete="on" value=${formDetails.postcode} required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
+          <input autocomplete="on" value="${formDetails.postcode}" required type="text" minlength="6" maxlength="6" name="postcode" id="postcode">
         </div>
         <div class="flex-down">
           <label for="Phone" class="required">Phone</label>
-          <input autocomplete="on" value=${formDetails.phone} required type="text" maxlength="10" name="Phone" id="Phone">
+          <input autocomplete="on" value="${formDetails.phone}" required type="text" maxlength="10" name="Phone" id="Phone">
         </div>
         <h2 style="padding-top: 15px;">Additional information</h2>
         <div class="flex-down">
@@ -896,6 +896,7 @@ app.get("/checkout", async (req, res) => {
             <td class="dark">£${subtotal.toFixed(2)}</td>
         </tr>`;
       });
+      console.log(formHTML);
       res.render("checkout.ejs", {
         auth: "auth",
         userName: req.userName,
