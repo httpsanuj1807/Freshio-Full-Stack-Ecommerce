@@ -896,7 +896,6 @@ app.get("/checkout", async (req, res) => {
             <td class="dark">£${subtotal.toFixed(2)}</td>
         </tr>`;
       });
-      console.log(formHTML);
       res.render("checkout.ejs", {
         auth: "auth",
         userName: req.userName,

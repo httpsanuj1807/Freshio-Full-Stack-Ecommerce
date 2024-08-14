@@ -1,4 +1,4 @@
-/* @font-face {
+@font-face {
     font-family: "Greatest Richmond";
     src: url("https://db.onlinewebfonts.com/t/a936aab4eb7204d4704bf80fd0235618.eot");
     src: url("https://db.onlinewebfonts.com/t/a936aab4eb7204d4704bf80fd0235618.eot?#iefix")format("embedded-opentype"),
@@ -6,7 +6,8 @@
     url("https://db.onlinewebfonts.com/t/a936aab4eb7204d4704bf80fd0235618.woff")format("woff"),
     url("https://db.onlinewebfonts.com/t/a936aab4eb7204d4704bf80fd0235618.ttf")format("truetype"),
     url("https://db.onlinewebfonts.com/t/a936aab4eb7204d4704bf80fd0235618.svg#Greatest Richmond")format("svg");
-} */
+}
+
 input:-webkit-autofill {
     
     -webkit-box-shadow: 0 0 0 50px #f4f4f4 inset;

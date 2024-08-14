@@ -8,9 +8,11 @@
     padding: 4% 10%;
     background-color: #a7b32437;
     border-radius: 6px;
-    
-    
 }
+
+.links-container{
+    margin-top: 0 !important;
+  }
 .thank-you-container{
     width: 100%;
 }
@@ -20,12 +22,12 @@
 
 .gift-box p{
     font-family: "Greatest Richmond";
-    font-size: 2.4rem;
-    
+    font-size: 2.4rem;   
 }
 .gift-box img{
     height: 50px;
-    margin-bottom: 30px;
+    margin-top: 8px;
+    margin-bottom: 20px;
 }
 .address-container{
     display: flex;
@@ -50,6 +52,7 @@
     border: 2px solid #a8b324;
     border-radius: 4px;
     margin-bottom: 10px;
+    font-size: 0.85rem;
 }
 .order-products-info img{
     height: 100px;
@@ -60,6 +63,7 @@
 
 .final-price{
     display: flex;
+    font-size: 0.85rem;
     justify-content: space-between;
 }
 
@@ -72,6 +76,7 @@
 
 .order-cart-details{
     color: #363535;
+    font-size: 0.85rem;
 }
 
 table{
@@ -111,6 +116,19 @@ table td{
         width: 45%;
     }
     .wrapper{
-        padding: 1% 6%;
+        padding: 4% 4%;
+    }
+    .gift-box p{
+        font-family: "Greatest Richmond";
+        font-size: 1.8rem;   
+    }
+    
+}
+
+@media (max-width: 450px) {
+    .order-products-info img{
+        height: 60px;
+        padding: 0 10px;
+        mix-blend-mode: multiply;
     }
 }
